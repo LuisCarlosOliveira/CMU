@@ -1,10 +1,14 @@
 package com.example.mysmarthome.ui.screens
 
+import android.R
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -20,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun NewAccountScreen(/*navController: NavController*/){
+fun NewAccountScreen(/*navController: NavController*/) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -94,10 +98,17 @@ fun NewAccountScreen(/*navController: NavController*/){
                         fontWeight = FontWeight.Bold,
                         text = "Nome"
                     )
-                    TextField(modifier = Modifier
-                        .padding(start = 20.dp, top = 20.dp, end = 20.dp)
-                        .fillMaxWidth(),
-                        value = nome, onValueChange = { nome = it },
+                    TextField(colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Blue,
+                        disabledIndicatorColor = Color.Blue
+                    ),
+                        modifier = Modifier
+                            .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+                            .fillMaxWidth(),
+                        value = nome,
+                        shape = RoundedCornerShape(7.dp),
+                        onValueChange = { nome = it },
                         placeholder = { Text(text = "Insira o Nome") },
                         label = { Text(text = "Nome") })
 
@@ -106,10 +117,17 @@ fun NewAccountScreen(/*navController: NavController*/){
                         fontWeight = FontWeight.Bold,
                         text = "Email"
                     )
-                    TextField(modifier = Modifier
-                        .padding(start = 20.dp, top = 20.dp, end = 20.dp)
-                        .fillMaxWidth(),
+
+                    TextField(colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Blue,
+                        disabledIndicatorColor = Color.Blue
+                    ),
+                        modifier = Modifier
+                            .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+                            .fillMaxWidth(),
                         value = email,
+                        shape = RoundedCornerShape(7.dp),
                         onValueChange = { email = it },
                         placeholder = { Text(text = "Insira o Email") },
                         label = { Text(text = "Email") })
@@ -121,16 +139,22 @@ fun NewAccountScreen(/*navController: NavController*/){
                     )
 
                     val icon = if (passwordVisibility)
-                        painterResource(id = android.R.drawable.ic_partial_secure)
+                        painterResource(id = R.drawable.ic_partial_secure)
                     else
-                        painterResource(id = android.R.drawable.ic_secure)
+                        painterResource(id = R.drawable.ic_secure)
 
                     TextField(
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Blue,
+                            disabledIndicatorColor = Color.Blue
+                        ),
                         modifier = Modifier
                             .padding(start = 20.dp, top = 20.dp, end = 20.dp)
                             .fillMaxWidth(),
                         value = password,
                         onValueChange = { password = it },
+                        shape = RoundedCornerShape(7.dp),
                         placeholder = { Text(text = "Password") },
                         label = { Text(text = "Nova Password") },
                         trailingIcon = {
@@ -149,16 +173,22 @@ fun NewAccountScreen(/*navController: NavController*/){
                     )
 
                     val icon2 = if (passwordVisibility2)
-                        painterResource(id = android.R.drawable.ic_partial_secure)
+                        painterResource(id = R.drawable.ic_partial_secure)
                     else
-                        painterResource(id = android.R.drawable.ic_secure)
+                        painterResource(id = R.drawable.ic_secure)
 
                     TextField(
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Blue,
+                            disabledIndicatorColor = Color.Blue
+                        ),
                         modifier = Modifier
                             .padding(start = 20.dp, top = 20.dp, end = 20.dp)
                             .fillMaxWidth(),
                         value = password2,
                         onValueChange = { password2 = it },
+                        shape = RoundedCornerShape(7.dp),
                         placeholder = { Text(text = "Repetir Nova Password") },
                         label = { Text(text = "Repetir Password") },
                         trailingIcon = {
@@ -172,10 +202,16 @@ fun NewAccountScreen(/*navController: NavController*/){
 
                     Button(
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+                        border = BorderStroke(1.dp, Color.Blue),
                         modifier = Modifier
-                            .padding(start = 150.dp, top = 20.dp),
+                            .padding(start = 130.dp, top = 20.dp, bottom = 20.dp),
+                        shape = RoundedCornerShape(20.dp),
                         onClick = {}) {
-                        Text(text = "Continuar")
+                        Text(fontWeight = FontWeight.Medium, text = "Continuar")
+                        Icon(
+                            Icons.Rounded.ArrowForward, "",
+                            tint = Color.Black,
+                        )
                     }
                 }
             }
