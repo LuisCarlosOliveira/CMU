@@ -42,6 +42,10 @@ class MainActivity : ComponentActivity() {
     fun imgConsume(): Int {
         return R.drawable.ic_baseline_timeline_24
     }
+
+    fun imgQRCode(): Int {
+        return R.drawable.ic_baseline_qr_code_2_24
+    }
 }
 
 @Preview(showBackground = true)
