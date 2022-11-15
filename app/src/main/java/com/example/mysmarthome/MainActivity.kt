@@ -14,6 +14,7 @@ import com.example.mysmarthome.ui.components.Navigation
 import com.example.mysmarthome.ui.theme.MySmartHomeTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,6 +33,18 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    fun imgDevices(): Int {
+        return R.drawable.ic_baseline_devices_24
+    }
+
+    fun imgConsume(): Int {
+        return R.drawable.ic_baseline_timeline_24
+    }
+
+    fun imgQRCode(): Int {
+        return R.drawable.ic_baseline_qr_code_2_24
     }
 }
 
