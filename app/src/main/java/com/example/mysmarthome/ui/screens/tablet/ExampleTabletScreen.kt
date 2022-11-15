@@ -1,4 +1,4 @@
-package com.example.mysmarthome.ui.screens
+package com.example.mysmarthome.ui.screens.tablet
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.mysmarthome.ui.components.Greeting
 
 @Composable
-fun WelcomeScreen(/*navController: NavController*/){
+fun ExampleTabletScreen(){
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -21,8 +21,7 @@ fun WelcomeScreen(/*navController: NavController*/){
             Button(onClick = {
                 //navController.navigate("QuestionsScreen")
             }) {
-                Text("Next")
-
+                Text("Hello")
             }
         }
 

@@ -1,8 +1,9 @@
 package com.example.mysmarthome.models.dao
 
 import androidx.room.*
-import com.example.mysmarthome.models.entities.Example
+//import com.example.mysmarthome.models.entities.Example
 
+/*
 @Dao
 interface ExampleDao{
     @Query("select * from Example")
@@ -18,3 +19,4 @@ interface ExampleDao{
     fun deleteExample(example: Example):Unit
 
 }
+*/

@@ -1,4 +1,4 @@
-package com.example.mysmarthome.ui.screens
+package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package com.example.mysmarthome.ui.screens
+package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,11 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomePageScreen(mainActivity: MainActivity /*,navController: NavController*/) {
+fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background

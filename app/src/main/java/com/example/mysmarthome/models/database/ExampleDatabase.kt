@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.mysmarthome.models.dao.ExampleDao
-import com.example.mysmarthome.models.entities.Example
+//import com.example.mysmarthome.models.dao.ExampleDao
+//import com.example.mysmarthome.models.entities.Example
 
-
+/*
 @Database(entities = [Example::class], version = 1, exportSchema = false)
 abstract class ExampleDatabase : RoomDatabase() {
 
@@ -30,3 +30,4 @@ abstract class ExampleDatabase : RoomDatabase() {
         }
     }
 }
+*/

@@ -1,4 +1,4 @@
-package com.example.mysmarthome.ui.screens
+package com.example.mysmarthome.ui.screens.phone
 
 import android.R
 import androidx.compose.foundation.BorderStroke
