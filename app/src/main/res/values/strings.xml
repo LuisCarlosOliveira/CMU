@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">MySmartHome</string>
+    <string name="newHomeTitle">Nova Casa</string>
+    <string name="definitionsTitle">Definições</string>
+    <string name="locationTitle">Localização</string>
+
+    <string name="googleMapsKey">AIzaSyDlrrTOTHLR0nvFTB-4uTIMW6kUHavWjY4</string>
+    <string name="adesaoPedidos"> - Pedidos de Adesão</string>
+    <string name="memberType">Tipo Membro</string>
+    <string name="select"> Select</string>
+    <string name="personalConfigs"> Configurações Pessoais</string>
+
+    <string name="inviteMemberTitle">Convidar Membro</string>
+    <string name="welcome">Bem-Vindo</string>
+
+
+    <string-array name="membersType">
+        <item>Administrador</item>
+        <item>Residente Adulto</item>
+        <item>Residente Infantil</item>
+        <item>Convidado</item>
+        <item>Não Aceite</item>
+    </string-array>
+
+    <string-array name="memberLocation">
+        <item>Joãozinho</item>
+        <item>Mariana</item>
+        <item>Vitória</item>
+    </string-array>
+
+    <string-array name="definitions">
+        <item>Assistente Pessoal</item>
+        <item>Criar Nova Casa</item>
+        <item>Modo Noturno</item>
+        <item>Modo Poupar Energia</item>
+        <item>Ajuda</item>
+        <item>Sobre</item>
+    </string-array>
 </resources>
