@@ -1,4 +1,4 @@
-package com.example.mysmarthome.ui.screens.phone
+package com.example.mysmarthome.ui.screens.tablet
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -83,19 +83,22 @@ fun LocationScreen() {
             Column(
                 Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp)
-            ) {
+                    .padding(top = 50.dp, start = 20.dp, end = 20.dp)) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 50.dp)
                 ) {
-                    dropDownMenuLocation()
+                    dropDownMenuLocationTablet()
                 }
 
                 Column(
-                    Modifier
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 20.dp)
+                        .padding(top = 50.dp)
                         .height(400.dp)
                 ) {
 
@@ -115,10 +118,10 @@ fun LocationScreen() {
 }
 
 @Composable
-fun dropDownMenuLocation() {
+fun dropDownMenuLocationTablet() {
 
     var expanded by remember { mutableStateOf(false) }
-    val suggestions : Array<String> = stringArrayResource(id = R.array.memberLocation)
+    val suggestions: Array<String> = stringArrayResource(id = R.array.memberLocation)
     var selectedText by remember { mutableStateOf(suggestions[0]) }
 
     val icon = if (expanded)
