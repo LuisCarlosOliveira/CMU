@@ -24,127 +24,122 @@ import com.example.mysmarthome.R
 @Composable
 fun InviteMemberScreen() {
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
 
-        val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-        val configuration = LocalConfiguration.current
-        val screenWidth = configuration.screenWidthDp.dp
+    var email by rememberSaveable {
+        mutableStateOf("")
+    }
 
-        var email by rememberSaveable {
-            mutableStateOf("")
-        }
+    var letterSpacing by remember {
+        mutableStateOf(1.sp)
+    }
 
-        var letterSpacing by remember {
-            mutableStateOf(1.sp)
-        }
-
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp)
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp)
+            ) {
+                IconButton(
+                    onClick = { }
                 ) {
-                    IconButton(
-                        onClick = { }
-                    ) {
-                        Icon(
-                            Icons.Rounded.ArrowBack, "",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .width(50.dp)
-                                .padding(start = 5.dp),
-                        )
-                    }
-
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                        fontSize = 22.sp,
-                        text = stringResource(id = R.string.inviteMemberTitle)
+                    Icon(
+                        Icons.Rounded.ArrowBack, "",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .width(50.dp)
+                            .padding(start = 5.dp),
                     )
                 }
 
-                Divider(
-                    startIndent = 20.dp,
-                    thickness = 1.dp,
+                Text(
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = letterSpacing,
+                    fontFamily = FontFamily.Serif,
                     color = Color.Black,
-                    modifier = Modifier
-                        .padding(top = 70.dp)
-                        .width(screenWidth - 20.dp)
+                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
+                    fontSize = 22.sp,
+                    text = stringResource(id = R.string.inviteMemberTitle)
                 )
-            },
+            }
 
-            content = {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
+            Divider(
+                startIndent = 20.dp,
+                thickness = 1.dp,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(top = 70.dp)
+                    .width(screenWidth - 20.dp)
+            )
+        },
+
+        content = {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        Icons.Rounded.QrCode2, "",
+                        modifier = Modifier
+                            .size(380.dp)
+                            .padding(top = 50.dp),
+                        tint = Color.Black,
+                    )
+                }
+
+                Column() {
+                    Text(
+                        modifier = Modifier.padding(start = 25.dp, top = 50.dp),
+                        letterSpacing = letterSpacing,
+                        fontWeight = FontWeight.Bold,
+                        text = "Email:"
+                    )
+                    TextField(colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Blue,
+                        disabledIndicatorColor = Color.Blue
+                    ),
+                        modifier = Modifier
+                            .padding(start = 20.dp, top = 30.dp, end = 20.dp)
+                            .fillMaxWidth(),
+                        value = email,
+                        shape = RoundedCornerShape(7.dp),
+                        onValueChange = { email = it },
+                        placeholder = { Text(text = "Insira o Email") },
+                        label = { Text(text = "Email") })
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+                        border = BorderStroke(1.dp, Color.Blue),
+                        modifier = Modifier
+                            .padding(top = 40.dp, bottom = 20.dp)
+                            .width(150.dp)
+                            .height(50.dp),
+                        shape = RoundedCornerShape(20.dp),
+                        onClick = {}) {
+                        Text(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Medium,
+                            text = "Confirmar"
+                        )
                         Icon(
-                            Icons.Rounded.QrCode2, "",
-                            modifier = Modifier
-                                .size(380.dp)
-                                .padding(top = 50.dp),
+                            Icons.Rounded.Check, "",
                             tint = Color.Black,
                         )
                     }
-
-                    Column() {
-                        Text(
-                            modifier = Modifier.padding(start = 25.dp, top = 50.dp),
-                            letterSpacing = letterSpacing,
-                            fontWeight = FontWeight.Bold,
-                            text = "Email:"
-                        )
-                        TextField(colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            disabledIndicatorColor = Color.Blue
-                        ),
-                            modifier = Modifier
-                                .padding(start = 20.dp, top = 30.dp, end = 20.dp)
-                                .fillMaxWidth(),
-                            value = email,
-                            shape = RoundedCornerShape(7.dp),
-                            onValueChange = { email = it },
-                            placeholder = { Text(text = "Insira o Email") },
-                            label = { Text(text = "Email") })
-                    }
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
-                            border = BorderStroke(1.dp, Color.Blue),
-                            modifier = Modifier
-                                .padding(top = 40.dp, bottom = 20.dp)
-                                .width(150.dp)
-                                .height(50.dp),
-                            shape = RoundedCornerShape(20.dp),
-                            onClick = {}) {
-                            Text(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Medium,
-                                text = "Confirmar"
-                            )
-                            Icon(
-                                Icons.Rounded.Check, "",
-                                tint = Color.Black,
-                            )
-                        }
-                    }
                 }
             }
-        )
-    }
+        }
+    )
 }

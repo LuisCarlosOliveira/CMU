@@ -11,6 +11,7 @@
     <string name="personalConfigs"> Configurações Pessoais</string>
 
     <string name="inviteMemberTitle">Convidar Membro</string>
+    <string name="welcome">Bem-Vindo</string>
 
 
     <string-array name="membersType">
