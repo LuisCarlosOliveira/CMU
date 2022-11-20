@@ -4,6 +4,17 @@
     <string name="locationTitle">Localização</string>
 
     <string name="googleMapsKey">AIzaSyDlrrTOTHLR0nvFTB-4uTIMW6kUHavWjY4</string>
+    <string name="adesaoPedidos"> - Pedidos de Adesão</string>
+    <string name="memberType">Tipo Membro</string>
+    <string name="select"> Select</string>
+
+    <string-array name="membersType">
+        <item>Administrador</item>
+        <item>Residente Adulto</item>
+        <item>Residente Infantil</item>
+        <item>Convidado</item>
+        <item>Não Aceite</item>
+    </string-array>
 
     <string-array name="memberLocation">
         <item>Joãozinho</item>
