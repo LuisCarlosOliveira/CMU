@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MySmartHome</string>
+    <string name="definitionsTitle">Definições</string>
+    <string-array name="definitions">
+        <item>Assistente Pessoal</item>
+        <item>Criar Nova Casa</item>
+        <item>Modo Noturno</item>
+        <item>Modo Poupar Energia</item>
+        <item>Ajuda</item>
+        <item>Sobre</item>
+    </string-array>
 </resources>
