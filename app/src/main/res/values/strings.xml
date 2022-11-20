@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">MySmartHome</string>
     <string name="definitionsTitle">Definições</string>
+    <string name="locationTitle">Localização</string>
+
+    <string name="googleMapsKey">AIzaSyDlrrTOTHLR0nvFTB-4uTIMW6kUHavWjY4</string>
+
+    <string-array name="memberLocation">
+        <item>Joãozinho</item>
+        <item>Mariana</item>
+        <item>Vitória</item>
+    </string-array>
+
     <string-array name="definitions">
         <item>Assistente Pessoal</item>
         <item>Criar Nova Casa</item>

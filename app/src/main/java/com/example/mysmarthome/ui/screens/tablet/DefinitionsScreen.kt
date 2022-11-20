@@ -78,7 +78,7 @@ fun DefinitionsScreen() {
                     .fillMaxSize()
                     .padding(top = 50.dp)
             ) {
-                
+
                 val definitions: Array<String> = stringArrayResource(id = R.array.definitions)
 
                 definitions.forEach { definition ->
