@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MySmartHome</string>
+    <string name="newHomeTitle">Nova Casa</string>
     <string name="definitionsTitle">Definições</string>
     <string name="locationTitle">Localização</string>
 
@@ -8,6 +9,7 @@
     <string name="memberType">Tipo Membro</string>
     <string name="select"> Select</string>
     <string name="personalConfigs"> Configurações Pessoais</string>
+
 
     <string-array name="membersType">
         <item>Administrador</item>
