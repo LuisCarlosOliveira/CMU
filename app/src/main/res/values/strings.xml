@@ -10,6 +10,8 @@
     <string name="select"> Select</string>
     <string name="personalConfigs"> Configurações Pessoais</string>
 
+    <string name="inviteMemberTitle">Convidar Membro</string>
+
 
     <string-array name="membersType">
         <item>Administrador</item>
