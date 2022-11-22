@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MySmartHome</string>
+    <string name="new_home">Nova Casa</string>
+    <string name="add_home">Associar Casa</string>
 
     <!-- NEW HOME -->
     <string name="newHomeTitle">Nova Casa</string>
@@ -23,6 +25,17 @@
         <item>Mariana</item>
         <item>Vitória</item>
     </string-array>
+
+    <!-- MEMBERS -->
+    <string name="members"> - Membros</string>
+    <string name="memberType2">Tipo Membro</string>
+    <string-array name="membersType2">
+        <item>Administrador</item>
+        <item>Residente Adulto</item>
+        <item>Residente Infantil</item>
+        <item>Convidado</item>
+    </string-array>
+    <string name="select2"> Select</string>
 
     <!-- MEMBER REQUESTS -->
     <string name="adesaoPedidos"> - Pedidos de Adesão</string>
