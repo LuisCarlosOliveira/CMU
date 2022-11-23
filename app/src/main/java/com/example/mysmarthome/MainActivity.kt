@@ -1,5 +1,6 @@
 package com.example.mysmarthome
 
+import LoginPage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
                 //val navController = rememberNavController()
                 val mainActivity = this
 
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -31,6 +33,8 @@ class MainActivity : ComponentActivity() {
                     Text("MySmartHome")
                     Navigation(mainActivity)
                 }
+
+
             }
         }
     }
