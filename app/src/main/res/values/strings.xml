@@ -1,20 +1,41 @@
 <resources>
     <string name="app_name">MySmartHome</string>
-    <string name="new_home">Nova Casa</string>
     <string name="add_home">Associar Casa</string>
 
     <!-- NEW HOME -->
     <string name="newHomeTitle">Nova Casa</string>
+
+    <!-- News -->
+    <string name="filterByDivision">  Filtrar pela Divisão:  </string>
+    <string name="aboutTitle"> Sobre </string>
+    <string-array name="home_divisions">
+        <item>Cozinha</item>
+        <item>Sala</item>
+        <item>WC</item>
+        <item>Garagem</item>
+        <item>Quarto</item>
+    </string-array>
 
     <!-- DEFINITIONS -->
     <string name="definitionsTitle">Definições</string>
     <string-array name="definitions">
         <item>Assistente Pessoal</item>
         <item>Criar Nova Casa</item>
+        <item>Eliminar Casa</item>
         <item>Modo Noturno</item>
         <item>Modo Poupar Energia</item>
         <item>Ajuda</item>
         <item>Sobre</item>
+    </string-array>
+
+    <!-- Profile -->
+    <string name="admin"> - Administrador</string>
+    <string-array name="profile">
+        <item>Alterar Email</item>
+        <item>Alterar Password</item>
+        <item>Pedidos de Adesão</item>
+        <item>Configurações Pessoais</item>
+        <item>Membros</item>
     </string-array>
 
     <!-- LOCATION -->
@@ -28,14 +49,7 @@
 
     <!-- MEMBERS -->
     <string name="members"> - Membros</string>
-    <string name="memberType2">Tipo Membro</string>
-    <string-array name="membersType2">
-        <item>Administrador</item>
-        <item>Residente Adulto</item>
-        <item>Residente Infantil</item>
-        <item>Convidado</item>
-    </string-array>
-    <string name="select2"> Select</string>
+
 
     <!-- MEMBER REQUESTS -->
     <string name="adesaoPedidos"> - Pedidos de Adesão</string>

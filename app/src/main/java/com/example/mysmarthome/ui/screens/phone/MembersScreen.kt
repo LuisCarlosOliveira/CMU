@@ -9,6 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -21,11 +23,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 
 @Composable
-fun MembersScreen(mainActivity: MainActivity) {
+fun MembersScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -76,7 +77,7 @@ fun MembersScreen(mainActivity: MainActivity) {
                                 Icons.Rounded.PersonAddAlt, "",
                                 tint = Color.Black,
                                 modifier = Modifier
-                                    .width(70.dp)
+                                    .width(50.dp)
                                     .padding(end = 5.dp)
                             )
                         }
@@ -112,8 +113,10 @@ fun MembersScreen(mainActivity: MainActivity) {
                                     fontSize = 18.sp,
                                     text = "Maria"
                                 )
-                                Row() {
+                                Row(horizontalArrangement = Arrangement.SpaceBetween,
+                                    modifier = Modifier.fillMaxWidth()) {
                                     dropDownMenuMembers2()
+
                                     IconButton(
                                         onClick = { }
                                     ) {
@@ -121,8 +124,8 @@ fun MembersScreen(mainActivity: MainActivity) {
                                             Icons.Rounded.DeleteForever, "",
                                             tint = Color.Black,
                                             modifier = Modifier
-                                                .size(50.dp)
-                                                .padding(top = 10.dp)
+                                                .size(65.dp)
+                                                .padding(top = 35.dp, end = 15.dp)
                                         )
                                     }
                                 }
@@ -192,10 +195,10 @@ fun MembersScreen(mainActivity: MainActivity) {
 @SuppressLint("ResourceType")
 @Composable
 fun dropDownMenuMembers2() {
-
+    var typeMember by remember {mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
-    val select: String = stringResource(id = R.string.select2)
-    val memberType: Array<String> = stringArrayResource(id = R.array.membersType2)
+    val memberType: Array<String> = stringArrayResource(id = R.array.membersType)
+    val select: String = memberType[0]
     var selectedText by remember { mutableStateOf(select) }
 
     val icon = if (expanded)
@@ -203,30 +206,51 @@ fun dropDownMenuMembers2() {
     else
         Icons.Filled.KeyboardArrowDown
 
-    Column(Modifier.padding(start = 15.dp)) {
-        OutlinedTextField(
-            value = selectedText,
-            onValueChange = { selectedText = it },
-            modifier = Modifier
-                .width(300.dp)
-                .padding(end = 20.dp),
-            label = { Text(stringResource(id = R.string.memberType)) },
-            trailingIcon = {
-                Icon(icon, "contentDescription",
-                    Modifier.clickable { expanded = !expanded })
+    val localization = if (selectedText.equals("Residente Infantil"))
+        Icons.Filled.LocationOn
+   else
+       null
+
+    Column(Modifier.padding(start = 20.dp, top = 15.dp)) {
+        Row() {
+            OutlinedTextField(
+                value = selectedText,
+                onValueChange = { selectedText = it },
+                modifier = Modifier
+                    .width(250.dp)
+                    .padding(end = 20.dp),
+                label = { Text(stringResource(id = R.string.memberType)) },
+                trailingIcon = {
+                    Icon(icon, "contentDescription",
+                        Modifier.clickable { expanded = !expanded })
+                }
+            )
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.width(220.dp)
+            ) {
+                memberType.forEach { label ->
+                    DropdownMenuItem(onClick = {
+                        selectedText = label
+                        expanded = false
+                    }) {
+                        Text(text = label)
+                    }
+                }
             }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.width(220.dp)
-        ) {
-            memberType.forEach { label ->
-                DropdownMenuItem(onClick = {
-                    selectedText = label
-                    expanded = false
-                }) {
-                    Text(text = label)
+            IconButton(
+                onClick = { }
+            ) {
+                if (localization != null) {
+                    Icon(
+                        localization, "",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(top = 20.dp, end = 15.dp)
+                    )
                 }
             }
         }

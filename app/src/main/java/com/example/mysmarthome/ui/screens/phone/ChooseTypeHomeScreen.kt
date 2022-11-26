@@ -85,7 +85,7 @@ fun ChooseTypeHomeScreen(mainActivity: MainActivity) {
                             shape = RoundedCornerShape(20.dp),
                             modifier = Modifier.width(250.dp).height(80.dp),
                             onClick = { /*TODO*/ }) {
-                            Text(text = stringResource(id = R.string.new_home),
+                            Text(text = stringResource(id = R.string.newHomeTitle),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Medium)
                         }
