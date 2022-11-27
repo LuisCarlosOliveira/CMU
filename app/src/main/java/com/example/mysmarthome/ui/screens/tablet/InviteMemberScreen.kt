@@ -39,6 +39,7 @@ fun InviteMemberScreen() {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -78,6 +79,7 @@ fun InviteMemberScreen() {
         },
 
         content = {
+
             Column(modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -94,6 +96,7 @@ fun InviteMemberScreen() {
                 }
 
                 Column() {
+
                     Text(
                         modifier = Modifier.padding(start = 25.dp, top = 50.dp),
                         letterSpacing = letterSpacing,
@@ -119,6 +122,7 @@ fun InviteMemberScreen() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
+
                     Button(
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                         border = BorderStroke(1.dp, Color.Blue),
