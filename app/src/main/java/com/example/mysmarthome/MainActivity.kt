@@ -1,6 +1,8 @@
 package com.example.mysmarthome
 
 import LoginPage
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -49,6 +51,19 @@ class MainActivity : ComponentActivity() {
 
     fun imgQRCode(): Int {
         return R.drawable.ic_baseline_qr_code_2_24
+    }
+
+    fun composeEmail(addresses: Array<String>, subject: String, text: String, attachment: Uri) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "*/*"
+            putExtra(Intent.EXTRA_EMAIL, addresses)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, text)
+            putExtra(Intent.EXTRA_STREAM, attachment)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 }
 
