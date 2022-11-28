@@ -5,6 +5,9 @@
     <!-- NEW HOME -->
     <string name="newHomeTitle">Nova Casa</string>
 
+    <!-- NEW ACCOUNT -->
+    <string name="newAccountTitle">Criar Conta</string>
+
     <!-- News -->
     <string name="filterByDivision">  Filtrar pela Divisão:  </string>
     <string name="aboutTitle"> Sobre </string>

@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.tablet
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -26,14 +29,19 @@ import com.example.mysmarthome.R
 
 @Composable
 fun NewAccountScreen() {
+
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
+    val localCtx= LocalContext.current
 
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
     var nome by rememberSaveable {
+        mutableStateOf("")
+    }
+    var contacto by rememberSaveable {
         mutableStateOf("")
     }
     var email by rememberSaveable {
@@ -72,13 +80,14 @@ fun NewAccountScreen() {
                     )
                 }
                 Text(
+                    text = stringResource(id = R.string.newAccountTitle),
+                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                     fontWeight = FontWeight.Medium,
                     letterSpacing = letterSpacing,
                     fontFamily = FontFamily.Serif,
                     color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                     fontSize = 24.sp,
-                    text = "Criar Conta"
+
                 )
 
             }
@@ -109,6 +118,29 @@ fun NewAccountScreen() {
                         onValueChange = { nome = it },
                         placeholder = { Text(text = "Insira o Nome") },
                         label = { Text(text = "Nome") })
+
+                    Text(
+                        modifier = Modifier.padding(start = 20.dp, top = 50.dp),
+                        fontWeight = FontWeight.Bold,
+                        text = "Contacto Telefónico"
+                    )
+                    TextField(colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Blue,
+                        disabledIndicatorColor = Color.Blue
+                    ),
+                        modifier = Modifier
+                            .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+                            .fillMaxWidth(),
+                        value = contacto,
+                        shape = RoundedCornerShape(7.dp),
+                        onValueChange = { contacto = it },
+                        placeholder = { Text(text = "Insira o Contacto") },
+                        label = { Text(text = "Contacto") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        )
+                    )
 
                     Text(
                         modifier = Modifier.padding(start = 20.dp, top = 50.dp),
@@ -215,7 +247,13 @@ fun NewAccountScreen() {
                         modifier = Modifier
                             .width(150.dp)
                             .height(50.dp),
-                        onClick = {}) {
+                        onClick = {
+                            if (nome.isNotEmpty() && contacto.isNotEmpty() && email.isNotEmpty() &&
+                                password.isNotEmpty() && password2.isNotEmpty()
+                            ) {
+                                Toast.makeText(localCtx,"Conta Criada!",Toast.LENGTH_SHORT).show()
+                            }
+                        }) {
                         Text(fontSize = 18.sp, fontWeight = FontWeight.Medium, text = "Continuar")
                         Icon(
                             Icons.Rounded.ArrowForward, "",

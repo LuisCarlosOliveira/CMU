@@ -1,6 +1,5 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import android.R
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -87,7 +87,7 @@ fun NewAccountScreen(/*navController: NavController*/) {
                         color = Color.Black,
                         modifier = Modifier.padding(top = 7.dp),
                         fontSize = 24.sp,
-                        text = "Criar Conta"
+                        text = stringResource(id = com.example.mysmarthome.R.string.newAccountTitle)
                     )
                     IconButton(
                         onClick = {
