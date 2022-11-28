@@ -5,15 +5,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.rounded.AccountCircle
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -78,7 +76,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                         val list = arrayOfNulls<Number>(25)
 
                         LazyVerticalGrid(
-                            cells = GridCells.Adaptive(minSize = 128.dp),
+                            columns = GridCells.Adaptive(minSize = 128.dp),
                         ) {
                             items(list.size) { l ->
                                 Card(
@@ -152,7 +150,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             onClick = { }
                         ) {
                             Icon(
-                                painterResource(id = mainActivity.imgDevices()), "",
+                                Icons.Rounded.Devices, "",
                                 tint = Color.Black,
                                 modifier = Modifier
                                     .size(50.dp)
@@ -174,7 +172,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             onClick = { }
                         ) {
                             Icon(
-                                painterResource(id = mainActivity.imgConsume()), "",
+                                Icons.Rounded.Timeline, "",
                                 tint = Color.Black,
                                 modifier = Modifier
                                     .size(50.dp)
