@@ -81,7 +81,6 @@ fun MembersScreen() {
                                     .padding(end = 5.dp)
                             )
                         }
-
                     }
 
                     Divider(
@@ -92,7 +91,6 @@ fun MembersScreen() {
                             .padding(top = 70.dp)
                             .width(screenWidth - 20.dp)
                     )
-
                 },
                 content = {
                     LazyColumn {
@@ -117,6 +115,29 @@ fun MembersScreen() {
                                     modifier = Modifier.fillMaxWidth()) {
                                     dropDownMenuMembers2()
 
+                                    IconButton(
+                                        onClick = { }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.Phone, "",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .size(55.dp)
+                                                .padding(top = 35.dp, end = 15.dp)
+                                        )
+                                    }
+
+                                    IconButton(
+                                        onClick = { }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.Sms, "",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .size(55.dp)
+                                                .padding(top = 35.dp, end = 15.dp)
+                                        )
+                                    }
                                     IconButton(
                                         onClick = { }
                                     ) {
@@ -195,7 +216,6 @@ fun MembersScreen() {
 @SuppressLint("ResourceType")
 @Composable
 fun dropDownMenuMembers2() {
-    var typeMember by remember {mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
     val memberType: Array<String> = stringArrayResource(id = R.array.membersType)
     val select: String = memberType[0]
@@ -208,8 +228,8 @@ fun dropDownMenuMembers2() {
 
     val localization = if (selectedText.equals("Residente Infantil"))
         Icons.Filled.LocationOn
-   else
-       null
+    else
+        null
 
     Column(Modifier.padding(start = 20.dp, top = 15.dp)) {
         Row() {
@@ -217,7 +237,7 @@ fun dropDownMenuMembers2() {
                 value = selectedText,
                 onValueChange = { selectedText = it },
                 modifier = Modifier
-                    .width(250.dp)
+                    .width(200.dp)
                     .padding(end = 20.dp),
                 label = { Text(stringResource(id = R.string.memberType)) },
                 trailingIcon = {
@@ -249,7 +269,7 @@ fun dropDownMenuMembers2() {
                         tint = Color.Black,
                         modifier = Modifier
                             .size(50.dp)
-                            .padding(top = 20.dp, end = 15.dp)
+                            .padding(top = 20.dp)
                     )
                 }
             }
