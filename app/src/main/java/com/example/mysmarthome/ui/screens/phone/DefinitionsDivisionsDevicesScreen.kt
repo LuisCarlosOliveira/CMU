@@ -258,8 +258,3 @@ fun dropDownMenuColors() {
     }
 }
 
-@Preview()
-@Composable
-fun tentarVer() {
-    DefinitionsDivisionsDevicesScreens()
-}
