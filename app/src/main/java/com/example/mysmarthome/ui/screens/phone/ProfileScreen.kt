@@ -24,6 +24,38 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.mysmarthome.R
 
 @Composable
+fun MyAlertDialog() {
+    var dialogOpen by remember { mutableStateOf(false) }
+    if (dialogOpen) {
+        AlertDialog(
+            onDismissRequest = { dialogOpen = false },
+            buttons = {
+                Row( modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Button(onClick = { dialogOpen = false }) {
+                        Text(text = "Confirm")
+                    }
+                    Button(onClick = { dialogOpen = false }) {
+                        Text(text = "Dismiss")
+                    }
+                }
+            },
+            title = { Text(text = "Alterar Email") },
+            text = { Text(text = "Pequeno formulario") },
+            modifier = Modifier.fillMaxWidth().padding(28.dp),
+            shape = RoundedCornerShape(10.dp),
+            backgroundColor = Color.White,
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true ) )
+    }
+    Button(onClick = { dialogOpen = true }) {
+        Text(modifier = Modifier.fillMaxWidth(), text = "AlertDialog", textAlign = TextAlign.Center)
+    }
+}
+
+@Composable
 fun ProfileScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -107,14 +139,14 @@ fun ProfileScreen() {
                             IconButton(
                                 onClick = { }//dialogOpen = true }
                             ) {
-                            Icon(
-                                Icons.Rounded.Email, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(end = 15.dp),
-                            )
-                        }}
+                                Icon(
+                                    Icons.Rounded.Email, "",
+                                    tint = Color.Black,
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                        .padding(end = 15.dp),
+                                )
+                            }}
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -233,37 +265,3 @@ fun ProfileScreen() {
         }
     }
 }
-
-@Composable
-fun MyAlertDialog() {
-    var dialogOpen by remember { mutableStateOf(false) }
-    if (dialogOpen) {
-        AlertDialog(
-            onDismissRequest = { dialogOpen = false },
-            buttons = {
-                Row( modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Button(onClick = { dialogOpen = false }) {
-                        Text(text = "Confirm")
-                    }
-                    Button(onClick = { dialogOpen = false }) {
-                        Text(text = "Dismiss")
-                    }
-                }
-            },
-            title = { Text(text = "Alterar Email") },
-            text = { Text(text = "Pequeno formulario") },
-            modifier = Modifier.fillMaxWidth().padding(28.dp),
-            shape = RoundedCornerShape(10.dp),
-            backgroundColor = Color.White,
-            properties = DialogProperties(
-                dismissOnBackPress = true,
-                dismissOnClickOutside = true ) )
-    }
-    Button(onClick = { dialogOpen = true }) {
-        Text(modifier = Modifier.fillMaxWidth(), text = "AlertDialog", textAlign = TextAlign.Center)
-    }
-}
-
-
