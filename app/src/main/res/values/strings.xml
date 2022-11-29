@@ -74,5 +74,9 @@
 
     <!-- HOMEPAGE -->
     <string name="welcome">Bem-Vindo</string>
+    <string name="homeLocation">Localizar Casa</string>
+    <string name="createAlarm">Criar Despertador</string>
+    <string name="addEvent">Agendar Evento</string>
+    <string name="utilities">Utilidades</string>
 
 </resources>
