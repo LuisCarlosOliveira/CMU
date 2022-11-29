@@ -266,9 +266,4 @@ fun MyAlertDialog() {
     }
 }
 
-@Preview()
-@Composable
-fun PreviewTest() {
-    ProfileScreen()
-}
 

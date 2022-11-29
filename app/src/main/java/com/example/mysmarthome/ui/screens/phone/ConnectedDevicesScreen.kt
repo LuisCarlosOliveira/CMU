@@ -1,31 +1,34 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import LoginPage
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mysmarthome.R
 
 @Composable
-fun PersonalConfigsScreen() {
+fun ConnectedDevicesScreen() {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -63,7 +66,7 @@ fun PersonalConfigsScreen() {
                     color = Color.Black,
                     modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                     fontSize = 22.sp,
-                    text = stringResource(id = R.string.personalConfigs)
+                    text = "Dispositivos Conectados"
                 )
             }
 
@@ -74,7 +77,40 @@ fun PersonalConfigsScreen() {
             )
 
         },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                icon = {
+                    Icon(
+                        Icons.Rounded.Add, "",
+                        modifier = Modifier.size(40.dp),
+                        tint = Color.Black
+                    )
+                },
+                text = { Text("Adicionar", fontSize = 18.sp) },
+                backgroundColor = Color.Gray,
+                onClick = { },
+                elevation = FloatingActionButtonDefaults.elevation(8.dp)
+            )
+        },
         content = {
+
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text(
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    text = "Filtrar por divisão:",
+                    maxLines = 2,
+                    letterSpacing = 1.sp,
+                    modifier = Modifier.padding(start = 20.dp, top = 20.dp)
+
+                )
+                dropFilterByDivision()
+            }
 
             Column(
                 Modifier
@@ -82,6 +118,7 @@ fun PersonalConfigsScreen() {
                     .padding(top = 20.dp, bottom = 15.dp)
             ) {
 
+                Spacer(modifier = Modifier.height(50.dp))
                 // Em vez de items(x) mete-se foreach ...
                 LazyColumn {
 
@@ -105,11 +142,11 @@ fun PersonalConfigsScreen() {
                                 modifier = Modifier
                                     .padding(top = 15.dp, start = 20.dp),
                                 fontSize = 18.sp,
-                                text = "Luz Direita Teto"
+                                text = "Dispositivo "
                             )
 
                             Icon(
-                                Icons.Rounded.Edit, "",
+                                Icons.Rounded.Delete, "",
                                 tint = Color.Black,
                                 modifier = Modifier
                                     .width(50.dp)
@@ -125,10 +162,60 @@ fun PersonalConfigsScreen() {
     )
 }
 
+@Composable
+fun dropFilterByDivision() {
+
+    var expanded by remember { mutableStateOf(false) }
+    val suggestions = listOf("Cozinha", "WC", "Sala de Jantar", "Garagem")
+    var selectedText by remember { mutableStateOf("Cozinha") }
+
+    val icon = if (expanded)
+        Icons.Filled.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+
+    Column(Modifier.padding(5.dp)) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Text(
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Bold,
+                fontSize = 22.sp,
+                text = selectedText,
+                maxLines = 2,
+                letterSpacing = 1.sp,
+                modifier = Modifier.padding(end = 20.dp)
+            )
+            Icon(icon, "contentDescription",
+                Modifier
+                    .clickable { expanded = !expanded })
+            Box(modifier = Modifier.padding(top = 50.dp)) {
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                ) {
+                    suggestions.forEach { label ->
+                        DropdownMenuItem(onClick = {
+                            selectedText = label
+                            expanded = false
+                        }) {
+                            Text(text = label)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 @Preview(showBackground = true)
 @Composable
-fun PersonalConfigsScreenPreview(){
-    PersonalConfigsScreen()
+fun ConnectedDevicesScreenPreview() {
+    ConnectedDevicesScreen()
 }
