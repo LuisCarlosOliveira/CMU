@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import WindowInfo
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -29,504 +30,523 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.screens.tablet.dropDownMenu
 import kotlinx.coroutines.launch
+import rememberWindowInfo
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
-    ) {
-        Column(
+    //consoante o windowInfo, é mostrado uma composable diferente
+    val windownInfo = rememberWindowInfo()
+
+    if( windownInfo.screenWidthInfo is WindowInfo.WindowType.Compact ) {
+
+        Surface(
             modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
         ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+            ) {
 
-            val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-            val scope = rememberCoroutineScope()
+                val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+                val scope = rememberCoroutineScope()
 
-            var dialogOpenAlarm by remember { mutableStateOf(false) }
-            var dialogOpenAgenda by remember { mutableStateOf(false) }
+                var dialogOpenAlarm by remember { mutableStateOf(false) }
+                var dialogOpenAgenda by remember { mutableStateOf(false) }
 
-            var message by rememberSaveable {
-                mutableStateOf("")
-            }
-            var hour by rememberSaveable {
-                mutableStateOf("")
-            }
-            var minute by rememberSaveable {
-                mutableStateOf("")
-            }
-            var title by rememberSaveable {
-                mutableStateOf("")
-            }
-            var locationEvent by rememberSaveable {
-                mutableStateOf("")
-            }
-            var description by rememberSaveable {
-                mutableStateOf("")
-            }
-
-            Box() {
-                Spacer(modifier = Modifier.padding(start = 5.dp))
-
-                IconButton(
-                    onClick = {
-                        scope.launch {
-                            scaffoldState.drawerState.open()
-                        }
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.Menu, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp, end = 5.dp, top = 30.dp),
-                    )
+                var message by rememberSaveable {
+                    mutableStateOf("")
                 }
-            }
+                var hour by rememberSaveable {
+                    mutableStateOf("")
+                }
+                var minute by rememberSaveable {
+                    mutableStateOf("")
+                }
+                var title by rememberSaveable {
+                    mutableStateOf("")
+                }
+                var locationEvent by rememberSaveable {
+                    mutableStateOf("")
+                }
+                var description by rememberSaveable {
+                    mutableStateOf("")
+                }
 
-            Scaffold(
-                scaffoldState = scaffoldState,
-                modifier = Modifier.fillMaxWidth(),
-                topBar = {
-                    Row(
-                        horizontalArrangement = Arrangement.Center, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp)
+                Box() {
+                    Spacer(modifier = Modifier.padding(start = 5.dp))
+
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        }
                     ) {
-
-                        Text(
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.Black,
-                            textAlign = TextAlign.Center,
-                            fontSize = 24.sp,
-                            letterSpacing = 1.sp,
-                            text = stringResource(id = R.string.welcome) + " João!"
+                        Icon(
+                            Icons.Rounded.Menu, "",
+                            tint = Color.Black,
+                            modifier = Modifier
+                                .width(50.dp)
+                                .padding(start = 5.dp, end = 5.dp, top = 30.dp),
                         )
                     }
-                },
-                content = {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        dropDownMenu()
-                    }
-                    Column(
-                        modifier = Modifier.padding(
-                            start = 10.dp,
-                            top = 100.dp,
-                            bottom = 70.dp
-                        )
-                    ) {
-                        val list = arrayOfNulls<Number>(25)
+                }
 
-                        LazyVerticalGrid(
-                            columns = GridCells.Adaptive(minSize = 128.dp),
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    modifier = Modifier.fillMaxWidth(),
+                    topBar = {
+                        Row(
+                            horizontalArrangement = Arrangement.Center, modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 20.dp)
                         ) {
-                            items(list.size) { l ->
-                                Card(
-                                    elevation = 10.dp,
-                                    border = BorderStroke(1.dp, Color.Blue),
-                                    modifier = Modifier
-                                        .aspectRatio(1f)
-                                        .padding(end = 5.dp)
-                                ) {
-                                    Text(text = l.toString(), Modifier.padding(10.dp))
+
+                            Text(
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.Black,
+                                textAlign = TextAlign.Center,
+                                fontSize = 24.sp,
+                                letterSpacing = 1.sp,
+                                text = stringResource(id = R.string.welcome) + " João!"
+                            )
+                        }
+                    },
+                    content = {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            dropDownMenu()
+                        }
+                        Column(
+                            modifier = Modifier.padding(
+                                start = 10.dp,
+                                top = 100.dp,
+                                bottom = 70.dp
+                            )
+                        ) {
+                            val list = arrayOfNulls<Number>(25)
+
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(minSize = 128.dp),
+                            ) {
+                                items(list.size) { l ->
+                                    Card(
+                                        elevation = 10.dp,
+                                        border = BorderStroke(1.dp, Color.Blue),
+                                        modifier = Modifier
+                                            .aspectRatio(1f)
+                                            .padding(end = 5.dp)
+                                    ) {
+                                        Text(text = l.toString(), Modifier.padding(10.dp))
+                                    }
                                 }
                             }
                         }
-                    }
-                },
+                    },
 
-                drawerContent = {
-                    Column(
-                        modifier = Modifier
-                            .background(Color.LightGray)
-                            .fillMaxHeight()
-                    ) {
+                    drawerContent = {
+                        Column(
+                            modifier = Modifier
+                                .background(Color.LightGray)
+                                .fillMaxHeight()
+                        ) {
 
-                        Text(
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black,
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(bottom = 20.dp, top = 30.dp, start = 10.dp),
-                            letterSpacing = 1.sp,
-                            text = stringResource(id = R.string.utilities)
-                        )
-                        Divider()
-                        Column(modifier = Modifier.padding(top = 15.dp)) {
-                            Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(modifier = Modifier.fillMaxWidth()) {
-                                Spacer(modifier = Modifier.padding(start = 20.dp))
+                            Text(
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                                fontSize = 18.sp,
+                                modifier = Modifier.padding(
+                                    bottom = 20.dp,
+                                    top = 30.dp,
+                                    start = 10.dp
+                                ),
+                                letterSpacing = 1.sp,
+                                text = stringResource(id = R.string.utilities)
+                            )
+                            Divider()
+                            Column(modifier = Modifier.padding(top = 15.dp)) {
+                                Spacer(modifier = Modifier.padding(top = 20.dp))
+                                Row(modifier = Modifier.fillMaxWidth()) {
+                                    Spacer(modifier = Modifier.padding(start = 20.dp))
 
-                                if (dialogOpenAlarm) {
-                                    AlertDialog(
-                                        onDismissRequest = { dialogOpenAlarm = false },
-                                        buttons = {
-                                            Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(bottom = 5.dp),
-                                                horizontalArrangement = Arrangement.SpaceEvenly
-                                            ) {
-                                                Button(colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = Color.Blue
-                                                ),
-                                                    onClick = {
-                                                        dialogOpenAlarm = false
-                                                        mainActivity.createAlarm(
-                                                            message,
-                                                            hour.toInt(),
-                                                            minute.toInt()
-                                                        )
-                                                    }) {
-                                                    Text(color = Color.White, text = "Criar")
-                                                }
-                                                Button(colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = Color.Blue
-                                                ),
-                                                    onClick = { dialogOpenAlarm = false }) {
-                                                    Text(color = Color.White, text = "Cancelar")
-                                                }
-                                            }
-                                        },
-
-                                        title = { },
-
-                                        text = {
-                                            Column(
-                                                Modifier
-                                                    .fillMaxWidth()
-                                                    .fillMaxHeight()
-                                            ) {
-
-                                                TextField(colors = TextFieldDefaults.textFieldColors(
-                                                    focusedIndicatorColor = Color.Blue,
-                                                    unfocusedIndicatorColor = Color.Blue,
-                                                    disabledIndicatorColor = Color.Blue
-                                                ),
+                                    if (dialogOpenAlarm) {
+                                        AlertDialog(
+                                            onDismissRequest = { dialogOpenAlarm = false },
+                                            buttons = {
+                                                Row(
                                                     modifier = Modifier
-                                                        .padding(top = 10.dp)
-                                                        .fillMaxWidth(),
-                                                    value = message,
-                                                    shape = RoundedCornerShape(7.dp),
-                                                    onValueChange = { message = it },
-                                                    placeholder = { Text(text = "Insira a Mensagem") },
-                                                    label = { Text(text = "Mensagem") })
+                                                        .fillMaxWidth()
+                                                        .padding(bottom = 5.dp),
+                                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                                ) {
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = {
+                                                            dialogOpenAlarm = false
+                                                            mainActivity.createAlarm(
+                                                                message,
+                                                                hour.toInt(),
+                                                                minute.toInt()
+                                                            )
+                                                        }) {
+                                                        Text(color = Color.White, text = "Criar")
+                                                    }
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = { dialogOpenAlarm = false }) {
+                                                        Text(color = Color.White, text = "Cancelar")
+                                                    }
+                                                }
+                                            },
 
-                                                TextField(
-                                                    colors = TextFieldDefaults.textFieldColors(
+                                            title = { },
+
+                                            text = {
+                                                Column(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .fillMaxHeight()
+                                                ) {
+
+                                                    TextField(colors = TextFieldDefaults.textFieldColors(
                                                         focusedIndicatorColor = Color.Blue,
                                                         unfocusedIndicatorColor = Color.Blue,
                                                         disabledIndicatorColor = Color.Blue
                                                     ),
-                                                    modifier = Modifier
-                                                        .padding(top = 10.dp, bottom = 10.dp)
-                                                        .fillMaxWidth(),
-                                                    value = hour,
-                                                    shape = RoundedCornerShape(7.dp),
-                                                    onValueChange = { hour = it },
-                                                    placeholder = { Text(text = "Insira a Hora") },
-                                                    label = { Text(text = "Hora") },
-                                                    /* keyboardOptions = KeyboardOptions(
+                                                        modifier = Modifier
+                                                            .padding(top = 10.dp)
+                                                            .fillMaxWidth(),
+                                                        value = message,
+                                                        shape = RoundedCornerShape(7.dp),
+                                                        onValueChange = { message = it },
+                                                        placeholder = { Text(text = "Insira a Mensagem") },
+                                                        label = { Text(text = "Mensagem") })
+
+                                                    TextField(
+                                                        colors = TextFieldDefaults.textFieldColors(
+                                                            focusedIndicatorColor = Color.Blue,
+                                                            unfocusedIndicatorColor = Color.Blue,
+                                                            disabledIndicatorColor = Color.Blue
+                                                        ),
+                                                        modifier = Modifier
+                                                            .padding(top = 10.dp, bottom = 10.dp)
+                                                            .fillMaxWidth(),
+                                                        value = hour,
+                                                        shape = RoundedCornerShape(7.dp),
+                                                        onValueChange = { hour = it },
+                                                        placeholder = { Text(text = "Insira a Hora") },
+                                                        label = { Text(text = "Hora") },
+                                                        /* keyboardOptions = KeyboardOptions(
                                                          keyboardType = KeyboardType.Number
                                                      )),*/
-                                                )
+                                                    )
 
-                                                TextField(
-                                                    colors = TextFieldDefaults.textFieldColors(
-                                                        focusedIndicatorColor = Color.Blue,
-                                                        unfocusedIndicatorColor = Color.Blue,
-                                                        disabledIndicatorColor = Color.Blue
-                                                    ),
-                                                    modifier = Modifier
-                                                        .padding(bottom = 10.dp)
-                                                        .fillMaxWidth(),
-                                                    value = minute,
-                                                    shape = RoundedCornerShape(7.dp),
-                                                    onValueChange = { minute = it },
-                                                    placeholder = { Text(text = "Insira os Minutos") },
-                                                    label = { Text(text = "Minutos") },
-                                                    /*   keyboardOptions = KeyboardOptions(
+                                                    TextField(
+                                                        colors = TextFieldDefaults.textFieldColors(
+                                                            focusedIndicatorColor = Color.Blue,
+                                                            unfocusedIndicatorColor = Color.Blue,
+                                                            disabledIndicatorColor = Color.Blue
+                                                        ),
+                                                        modifier = Modifier
+                                                            .padding(bottom = 10.dp)
+                                                            .fillMaxWidth(),
+                                                        value = minute,
+                                                        shape = RoundedCornerShape(7.dp),
+                                                        onValueChange = { minute = it },
+                                                        placeholder = { Text(text = "Insira os Minutos") },
+                                                        label = { Text(text = "Minutos") },
+                                                        /*   keyboardOptions = KeyboardOptions(
                                                            keyboardType = KeyboardType.Number
                                                        )  ), */
-                                                )
+                                                    )
 
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(400.dp)
-                                            .padding(2.dp),
-                                        shape = RoundedCornerShape(10.dp),
-                                        backgroundColor = Color.White,
-                                        properties = DialogProperties(
-                                            dismissOnBackPress = true,
-                                            dismissOnClickOutside = true
+                                                }
+                                            },
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(400.dp)
+                                                .padding(2.dp),
+                                            shape = RoundedCornerShape(10.dp),
+                                            backgroundColor = Color.White,
+                                            properties = DialogProperties(
+                                                dismissOnBackPress = true,
+                                                dismissOnClickOutside = true
+                                            )
                                         )
-                                    )
-                                }
-                                IconButton(
-                                    onClick = {
-                                        dialogOpenAlarm = true
                                     }
-                                ) {
-                                    Icon(
-                                        Icons.Rounded.Timer, "",
-                                        tint = Color.Black,
-                                        modifier = Modifier
-                                            .width(50.dp)
-                                            .padding(bottom = 25.dp)
+                                    IconButton(
+                                        onClick = {
+                                            dialogOpenAlarm = true
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.Timer, "",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .width(50.dp)
+                                                .padding(bottom = 25.dp)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.padding(start = 20.dp))
+                                    Text(
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Color.Black,
+                                        fontSize = 16.sp,
+                                        letterSpacing = 1.sp,
+                                        text = stringResource(id = R.string.createAlarm)
                                     )
                                 }
-                                Spacer(modifier = Modifier.padding(start = 20.dp))
-                                Text(
-                                    fontFamily = FontFamily.SansSerif,
-                                    fontWeight = FontWeight.Medium,
-                                    color = Color.Black,
-                                    fontSize = 16.sp,
-                                    letterSpacing = 1.sp,
-                                    text = stringResource(id = R.string.createAlarm)
+                                Spacer(modifier = Modifier.padding(top = 20.dp))
+                                Row(Modifier.fillMaxWidth()) {
+                                    Spacer(modifier = Modifier.padding(start = 20.dp))
+                                    if (dialogOpenAgenda) {
+                                        AlertDialog(
+                                            onDismissRequest = { dialogOpenAgenda = false },
+                                            buttons = {
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(bottom = 5.dp),
+                                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                                ) {
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = {
+                                                            dialogOpenAlarm = false
+                                                            mainActivity.addEvent(
+                                                                title,
+                                                                locationEvent,
+                                                                description
+                                                            )
+                                                        }) {
+                                                        Text(color = Color.White, text = "Agendar")
+                                                    }
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = { dialogOpenAgenda = false }) {
+                                                        Text(color = Color.White, text = "Cancelar")
+                                                    }
+                                                }
+                                            },
+
+                                            title = { },
+
+                                            text = {
+                                                Column(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .fillMaxHeight()
+                                                ) {
+
+                                                    TextField(colors = TextFieldDefaults.textFieldColors(
+                                                        focusedIndicatorColor = Color.Blue,
+                                                        unfocusedIndicatorColor = Color.Blue,
+                                                        disabledIndicatorColor = Color.Blue
+                                                    ),
+                                                        modifier = Modifier
+                                                            .padding(top = 10.dp)
+                                                            .fillMaxWidth(),
+                                                        value = title,
+                                                        shape = RoundedCornerShape(7.dp),
+                                                        onValueChange = { title = it },
+                                                        placeholder = { Text(text = "Insira o Título") },
+                                                        label = { Text(text = "Título") })
+
+                                                    TextField(
+                                                        colors = TextFieldDefaults.textFieldColors(
+                                                            focusedIndicatorColor = Color.Blue,
+                                                            unfocusedIndicatorColor = Color.Blue,
+                                                            disabledIndicatorColor = Color.Blue
+                                                        ),
+                                                        modifier = Modifier
+                                                            .padding(top = 10.dp, bottom = 10.dp)
+                                                            .fillMaxWidth(),
+                                                        value = locationEvent,
+                                                        shape = RoundedCornerShape(7.dp),
+                                                        onValueChange = { locationEvent = it },
+                                                        placeholder = { Text(text = "Insira o Local") },
+                                                        label = { Text(text = "Local") },
+
+                                                        )
+
+                                                    TextField(
+                                                        colors = TextFieldDefaults.textFieldColors(
+                                                            focusedIndicatorColor = Color.Blue,
+                                                            unfocusedIndicatorColor = Color.Blue,
+                                                            disabledIndicatorColor = Color.Blue
+                                                        ),
+                                                        modifier = Modifier
+                                                            .padding(bottom = 10.dp)
+                                                            .fillMaxWidth()
+                                                            .height(100.dp),
+                                                        value = description,
+                                                        shape = RoundedCornerShape(7.dp),
+                                                        maxLines = 3,
+                                                        onValueChange = { description = it },
+                                                        placeholder = { Text(text = "Insira a Descrição") },
+                                                        label = { Text(text = "Descrição") },
+
+                                                        )
+                                                }
+                                            },
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(400.dp)
+                                                .padding(2.dp),
+                                            shape = RoundedCornerShape(10.dp),
+                                            backgroundColor = Color.White,
+                                            properties = DialogProperties(
+                                                dismissOnBackPress = true,
+                                                dismissOnClickOutside = true
+                                            )
+                                        )
+                                    }
+                                    IconButton(
+                                        onClick = {
+                                            dialogOpenAgenda = true
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.CalendarToday, "",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .width(50.dp)
+                                                .padding(bottom = 25.dp),
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.padding(start = 20.dp))
+                                    Text(
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Color.Black,
+                                        fontSize = 16.sp,
+                                        letterSpacing = 1.sp,
+                                        text = stringResource(id = R.string.addEvent)
+                                    )
+                                }
+                                Spacer(modifier = Modifier.padding(top = 20.dp))
+                                Row(Modifier.fillMaxWidth()) {
+                                    Spacer(modifier = Modifier.padding(start = 20.dp))
+                                    IconButton(
+                                        onClick = {
+                                            mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal")
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.PinDrop, "",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .width(50.dp)
+                                                .padding(bottom = 25.dp),
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.padding(start = 20.dp))
+                                    Text(
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Color.Black,
+                                        fontSize = 16.sp,
+                                        letterSpacing = 1.sp,
+                                        text = stringResource(id = R.string.homeLocation)
+                                    )
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+                    floatingActionButton = {
+                        ExtendedFloatingActionButton(
+                            icon = {
+                                Icon(
+                                    Icons.Rounded.Add, "",
+                                    modifier = Modifier.size(40.dp),
+                                    tint = Color.Black
+                                )
+                            },
+                            text = { Text("Nova", fontSize = 18.sp) },
+                            backgroundColor = Color.Gray,
+                            onClick = { },
+                            elevation = FloatingActionButtonDefaults.elevation(8.dp)
+                        )
+                    },
+                    bottomBar = {
+
+                        Row(
+                            modifier = Modifier
+                                .background(Color.LightGray)
+                                .fillMaxWidth()
+                                .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
+                        ) {
+
+                            IconButton(
+                                onClick = { }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.Devices, "",
+                                    tint = Color.Black,
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                        .padding(top = 10.dp)
                                 )
                             }
-                            Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(Modifier.fillMaxWidth()) {
-                                Spacer(modifier = Modifier.padding(start = 20.dp))
-                                if (dialogOpenAgenda) {
-                                    AlertDialog(
-                                        onDismissRequest = { dialogOpenAgenda = false },
-                                        buttons = {
-                                            Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(bottom = 5.dp),
-                                                horizontalArrangement = Arrangement.SpaceEvenly
-                                            ) {
-                                                Button(colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = Color.Blue
-                                                ),
-                                                    onClick = {
-                                                        dialogOpenAlarm = false
-                                                        mainActivity.addEvent(
-                                                            title,
-                                                            locationEvent,
-                                                            description
-                                                        )
-                                                    }) {
-                                                    Text(color = Color.White, text = "Agendar")
-                                                }
-                                                Button(colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = Color.Blue
-                                                ),
-                                                    onClick = { dialogOpenAgenda = false }) {
-                                                    Text(color = Color.White, text = "Cancelar")
-                                                }
-                                            }
-                                        },
-
-                                        title = { },
-
-                                        text = {
-                                            Column(
-                                                Modifier
-                                                    .fillMaxWidth()
-                                                    .fillMaxHeight()
-                                            ) {
-
-                                                TextField(colors = TextFieldDefaults.textFieldColors(
-                                                    focusedIndicatorColor = Color.Blue,
-                                                    unfocusedIndicatorColor = Color.Blue,
-                                                    disabledIndicatorColor = Color.Blue
-                                                ),
-                                                    modifier = Modifier
-                                                        .padding(top = 10.dp)
-                                                        .fillMaxWidth(),
-                                                    value = title,
-                                                    shape = RoundedCornerShape(7.dp),
-                                                    onValueChange = { title = it },
-                                                    placeholder = { Text(text = "Insira o Título") },
-                                                    label = { Text(text = "Título") })
-
-                                                TextField(
-                                                    colors = TextFieldDefaults.textFieldColors(
-                                                        focusedIndicatorColor = Color.Blue,
-                                                        unfocusedIndicatorColor = Color.Blue,
-                                                        disabledIndicatorColor = Color.Blue
-                                                    ),
-                                                    modifier = Modifier
-                                                        .padding(top = 10.dp, bottom = 10.dp)
-                                                        .fillMaxWidth(),
-                                                    value = locationEvent,
-                                                    shape = RoundedCornerShape(7.dp),
-                                                    onValueChange = { locationEvent = it },
-                                                    placeholder = { Text(text = "Insira o Local") },
-                                                    label = { Text(text = "Local") },
-
-                                                    )
-
-                                                TextField(
-                                                    colors = TextFieldDefaults.textFieldColors(
-                                                        focusedIndicatorColor = Color.Blue,
-                                                        unfocusedIndicatorColor = Color.Blue,
-                                                        disabledIndicatorColor = Color.Blue
-                                                    ),
-                                                    modifier = Modifier
-                                                        .padding(bottom = 10.dp)
-                                                        .fillMaxWidth()
-                                                        .height(100.dp),
-                                                    value = description,
-                                                    shape = RoundedCornerShape(7.dp),
-                                                    maxLines = 3,
-                                                    onValueChange = { description = it },
-                                                    placeholder = { Text(text = "Insira a Descrição") },
-                                                    label = { Text(text = "Descrição") },
-
-                                                    )
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(400.dp)
-                                            .padding(2.dp),
-                                        shape = RoundedCornerShape(10.dp),
-                                        backgroundColor = Color.White,
-                                        properties = DialogProperties(
-                                            dismissOnBackPress = true,
-                                            dismissOnClickOutside = true
-                                        )
-                                    )
-                                }
-                                IconButton(
-                                    onClick = {
-                                        dialogOpenAgenda = true
-                                    }
-                                ) {
-                                    Icon(
-                                        Icons.Rounded.CalendarToday, "",
-                                        tint = Color.Black,
-                                        modifier = Modifier
-                                            .width(50.dp)
-                                            .padding(bottom = 25.dp),
-                                    )
-                                }
-                                Spacer(modifier = Modifier.padding(start = 20.dp))
-                                Text(
-                                    fontFamily = FontFamily.SansSerif,
-                                    fontWeight = FontWeight.Medium,
-                                    color = Color.Black,
-                                    fontSize = 16.sp,
-                                    letterSpacing = 1.sp,
-                                    text = stringResource(id = R.string.addEvent))
+                            IconButton(
+                                onClick = { }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.AccountCircle, "",
+                                    tint = Color.Black,
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                        .padding(top = 10.dp)
+                                )
                             }
-                            Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(Modifier.fillMaxWidth()) {
-                                Spacer(modifier = Modifier.padding(start = 20.dp))
-                                IconButton(
-                                    onClick = {
-                                        mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal")
-                                    }
-                                ) {
-                                    Icon(
-                                        Icons.Rounded.PinDrop, "",
-                                        tint = Color.Black,
-                                        modifier = Modifier
-                                            .width(50.dp)
-                                            .padding(bottom = 25.dp),
-                                    )
-                                }
-                                Spacer(modifier = Modifier.padding(start = 20.dp))
-                                Text(fontFamily = FontFamily.SansSerif,
-                                    fontWeight = FontWeight.Medium,
-                                    color = Color.Black,
-                                    fontSize = 16.sp,
-                                    letterSpacing = 1.sp,
-                                    text = stringResource(id = R.string.homeLocation))
+                            IconButton(
+                                onClick = { }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.Timeline, "",
+                                    tint = Color.Black,
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                        .padding(top = 10.dp)
+                                )
                             }
+                            IconButton(
+                                onClick = { }
+                            ) {
+                                Icon(
 
-                        }
-
-                    }
-
-                },
-
-                floatingActionButton = {
-                    ExtendedFloatingActionButton(
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Add, "",
-                                modifier = Modifier.size(40.dp),
-                                tint = Color.Black
-                            )
-                        },
-                        text = { Text("Nova", fontSize = 18.sp) },
-                        backgroundColor = Color.Gray,
-                        onClick = { },
-                        elevation = FloatingActionButtonDefaults.elevation(8.dp)
-                    )
-                },
-                bottomBar = {
-
-                    Row(
-                        modifier = Modifier
-                            .background(Color.LightGray)
-                            .fillMaxWidth()
-                            .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Devices, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.AccountCircle, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Timeline, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-
-                                Icons.Rounded.Settings, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
+                                    Icons.Rounded.Settings, "",
+                                    tint = Color.Black,
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                        .padding(top = 10.dp)
+                                )
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
         }
+    }else if( windownInfo.screenWidthInfo is WindowInfo.WindowType.Medium ){
+        //introduzir view para Medium
+    }else{
+        //introduzir view para Expanded
     }
 }
 
