@@ -1,6 +1,6 @@
 package com.example.mysmarthome.retrofit.data_models.light
 
-data class LightsData(
+data class LightsData (
 
     val is_on: Boolean,
 

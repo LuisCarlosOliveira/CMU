@@ -1,6 +1,6 @@
 package com.example.mysmarthome.retrofit.data_models.light
 
-data class Light(
+data class Light (
 
     val wifiConnection: Boolean,
 
