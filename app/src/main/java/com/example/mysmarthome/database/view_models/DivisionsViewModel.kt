@@ -6,13 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Division
-import com.example.mysmarthome.database.entities.User
 import com.example.mysmarthome.database.repositories.DivisionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class DivisionsViewModels(application: Application) : AndroidViewModel(application) {
+class DivisionsViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: DivisionRepository
     val allDivisions: LiveData<List<Division>>

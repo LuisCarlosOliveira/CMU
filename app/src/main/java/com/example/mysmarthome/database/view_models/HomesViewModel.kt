@@ -10,7 +10,7 @@ import com.example.mysmarthome.database.repositories.HomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomesViewModels(application: Application) : AndroidViewModel(application) {
+class HomesViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: HomeRepository
     val allHomes: LiveData<List<Home>>
