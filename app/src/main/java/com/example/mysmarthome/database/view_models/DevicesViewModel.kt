@@ -10,7 +10,7 @@ import com.example.mysmarthome.database.repositories.DeviceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DevicesViewModels(application: Application) : AndroidViewModel(application) {
+class DevicesViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: DeviceRepository
     val allDevicesConnected: LiveData<List<Device>>

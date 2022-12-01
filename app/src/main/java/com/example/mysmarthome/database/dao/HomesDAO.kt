@@ -10,7 +10,7 @@ interface HomesDAO {
     @Query("select * from Home")
     fun getHomes(): LiveData<List<Home>>
 
-    @Query("select * from Home where home_Id = :home_id")
+    @Query("select * from Home where idHome = :home_id")
     fun getOneHome(home_id: Int): LiveData<Home>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -10,7 +10,7 @@ import com.example.mysmarthome.database.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UsersViewModels(application: Application) : AndroidViewModel(application) {
+class UsersViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: UserRepository
     val allUsers: LiveData<List<User>>

@@ -10,7 +10,7 @@ interface DivisionsDAO {
         @Query("select * from Division")
         fun getDivisions(): LiveData<List<Division>>
 
-        @Query("select * from Division where division_Id = :division_id")
+        @Query("select * from Division where idDivision = :division_id")
         fun getOneDivision(division_id:Int):LiveData<Division>
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)

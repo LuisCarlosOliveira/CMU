@@ -10,7 +10,7 @@ import com.example.mysmarthome.database.repositories.PersonalConfigsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PersonalConfigsViewModels(application: Application) : AndroidViewModel(application) {
+class PersonalConfigsViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository : PersonalConfigsRepository
     val allPersonalConfigs : LiveData<List<PersonalConfigs>>

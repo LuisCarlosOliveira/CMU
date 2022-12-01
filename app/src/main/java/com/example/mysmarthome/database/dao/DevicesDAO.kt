@@ -13,7 +13,7 @@ interface DevicesDAO {
         @Query("select * from Device where connected = 0 ")
         fun getUnconnectedDevices(): LiveData<List<Device>>
 
-        @Query("select * from Device where device_Id = :device_id")
+        @Query("select * from Device where idDevice = :device_id")
         fun getOneDevice(device_id:Int):LiveData<Device>
 
         @Update
