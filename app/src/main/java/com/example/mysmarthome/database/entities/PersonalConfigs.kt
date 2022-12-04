@@ -3,7 +3,10 @@ package com.example.mysmarthome.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(primaryKeys = ["idUser", "idDevice"])
 data class PersonalConfigs(
-    @PrimaryKey val id: Int
+
+    val idUser: Int,
+    val idDevice: Int
+
 )

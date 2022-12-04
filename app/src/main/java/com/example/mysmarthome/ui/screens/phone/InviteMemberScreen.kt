@@ -1,6 +1,9 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -35,6 +39,18 @@ fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavControlle
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
         val configuration = LocalConfiguration.current
         val screenWidth = configuration.screenWidthDp.dp
+
+        val ctx = LocalContext.current
+
+        var hasFile by remember { mutableStateOf(false) }
+        var fileUri by remember { mutableStateOf<Uri?>(null) }
+
+        val filePicker = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                hasFile = uri != null
+                fileUri = uri
+            })
 
         var email by rememberSaveable {
             mutableStateOf("")
@@ -99,7 +115,7 @@ fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavControlle
                                                 arrayOf(email),
                                                 titulo,
                                                 descricao,
-                                                Uri.EMPTY
+                                                fileUri ?: Uri.EMPTY
                                             )
                                         }) {
                                         Text(color = Color.White, text = "Convidar")
@@ -165,7 +181,7 @@ fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavControlle
                                         label = { Text(text = "Descrição") })
 
                                     IconButton(
-                                        onClick = { }
+                                        onClick = { filePicker.launch("*/*") }
                                     ) {
                                         Icon(
                                             Icons.Filled.UploadFile, "",
@@ -173,6 +189,14 @@ fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavControlle
                                             modifier = Modifier
                                                 .width(50.dp)
                                         )
+                                    }
+                                    if (hasFile && fileUri != null) {
+                                        Toast.makeText(
+                                            ctx, "Ficheiro Selecionado com Sucesso", Toast
+                                                .LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        null
                                     }
                                 }
                             },
