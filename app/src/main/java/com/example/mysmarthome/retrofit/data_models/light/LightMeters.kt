@@ -6,6 +6,8 @@ data class LightMeters (
 
     val is_valid: Boolean,
 
+    val timestamp: Int,
+
     val total: Float
 
 ) { }

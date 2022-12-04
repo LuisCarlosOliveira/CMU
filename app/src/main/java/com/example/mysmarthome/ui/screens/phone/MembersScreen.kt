@@ -1,21 +1,25 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
+import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -23,10 +27,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 
 @Composable
-fun MembersScreen() {
+fun MembersScreen(mainActivity: MainActivity) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -38,6 +44,27 @@ fun MembersScreen() {
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
             val configuration = LocalConfiguration.current
             val screenWidth = configuration.screenWidthDp.dp
+
+            var message by rememberSaveable {
+                mutableStateOf("")
+            }
+
+            var contact by rememberSaveable {
+                mutableStateOf("912852300")
+            }
+
+            val ctx = LocalContext.current
+
+            var hasFile by remember { mutableStateOf(false) }
+            var fileUri by remember { mutableStateOf<Uri?>(null) }
+
+            val filePicker = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.GetContent(),
+                onResult = { uri ->
+                    hasFile = uri != null
+                    fileUri = uri
+                })
+
             var letterSpacing by remember {
                 mutableStateOf(1.sp)
             }
@@ -111,12 +138,17 @@ fun MembersScreen() {
                                     fontSize = 18.sp,
                                     text = "Maria"
                                 )
-                                Row(horizontalArrangement = Arrangement.SpaceBetween,
-                                    modifier = Modifier.fillMaxWidth()) {
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
                                     dropDownMenuMembers2()
 
+
                                     IconButton(
-                                        onClick = { }
+                                        onClick = {
+                                            mainActivity.callSomeone(contact)
+                                        }
                                     ) {
                                         Icon(
                                             Icons.Rounded.Phone, "",
@@ -127,8 +159,124 @@ fun MembersScreen() {
                                         )
                                     }
 
+                                    var dialogOpen by remember { mutableStateOf(false) }
+
+                                    if (dialogOpen) {
+                                        AlertDialog(
+                                            onDismissRequest = { dialogOpen = false },
+                                            buttons = {
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(bottom = 5.dp),
+                                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                                ) {
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = {
+                                                            dialogOpen = false
+                                                            mainActivity.composeSMSMessage(
+                                                                message,
+                                                                contact,
+                                                                fileUri ?: Uri.EMPTY
+                                                            )
+                                                        }) {
+                                                        Text(color = Color.White, text = "Enviar")
+                                                    }
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = { dialogOpen = false }) {
+                                                        Text(color = Color.White, text = "Cancelar")
+                                                    }
+                                                }
+                                            },
+
+                                            title = { },
+
+                                            text = {
+                                                Column(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .fillMaxHeight()
+                                                ) {
+
+                                                    Text(
+                                                        fontFamily = FontFamily.SansSerif,
+                                                        fontWeight = FontWeight.Medium,
+                                                        color = Color.Black,
+                                                        fontSize = 16.sp,
+                                                        letterSpacing = 1.sp,
+                                                        text = "Inserir Mensagem: "
+                                                    )
+
+                                                    TextField(colors = TextFieldDefaults.textFieldColors(
+                                                        focusedIndicatorColor = Color.Blue,
+                                                        unfocusedIndicatorColor = Color.Blue,
+                                                        disabledIndicatorColor = Color.Blue
+                                                    ),
+                                                        modifier = Modifier
+                                                            .padding(top = 10.dp, bottom = 10.dp)
+                                                            .fillMaxWidth()
+                                                            .height(120.dp),
+                                                        value = message,
+                                                        shape = RoundedCornerShape(7.dp),
+                                                        maxLines = 3,
+                                                        onValueChange = { message = it },
+                                                        placeholder = { Text(text = "Insira a Mensagem") },
+                                                        label = { Text(text = "Mensagem") })
+
+                                                    Text(
+                                                        fontFamily = FontFamily.SansSerif,
+                                                        fontWeight = FontWeight.Medium,
+                                                        color = Color.Black,
+                                                        fontSize = 16.sp,
+                                                        letterSpacing = 1.sp,
+                                                        text = "Anexar Ficheiro: "
+                                                    )
+
+                                                    IconButton(
+                                                        onClick = {
+                                                            filePicker.launch("*/*")
+                                                        }
+                                                    ) {
+                                                        Icon(
+                                                            Icons.Filled.UploadFile, "",
+                                                            tint = Color.Black,
+                                                            modifier = Modifier
+                                                                .width(50.dp)
+                                                                .padding(top = 10.dp)
+                                                        )
+                                                    }
+                                                    if (hasFile && fileUri != null) {
+                                                        Toast.makeText(
+                                                            ctx,
+                                                            "Ficheiro Selecionado com Sucesso",
+                                                            Toast
+                                                                .LENGTH_SHORT
+                                                        ).show()
+                                                    } else {
+                                                        null
+                                                    }
+
+                                                }
+                                            },
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(350.dp)
+                                                .padding(2.dp),
+                                            shape = RoundedCornerShape(10.dp),
+                                            backgroundColor = Color.White,
+                                            properties = DialogProperties(
+                                                dismissOnBackPress = true,
+                                                dismissOnClickOutside = true
+                                            )
+                                        )
+                                    }
+
                                     IconButton(
-                                        onClick = { }
+                                        onClick = { dialogOpen = true }
                                     ) {
                                         Icon(
                                             Icons.Rounded.Sms, "",

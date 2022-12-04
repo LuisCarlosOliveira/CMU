@@ -9,7 +9,7 @@ import com.example.mysmarthome.database.entities.*
 
 @Database(
     entities = [User::class, Device::class, Division::class, Home::class, PersonalConfigs::class],
-    version = 2
+    version = 3
 )
 abstract class MySmartHomeDatabase : RoomDatabase() {
 
