@@ -8,9 +8,9 @@ import com.example.mysmarthome.enums.TypeDevice
 data class Device(
 
     @PrimaryKey val idDevice: Int,
-    val name: String,
-    val status: Boolean,
-    val connected: Boolean,
+    val idDivisionDevice: Int,
+    val wifiConnection: Boolean,
+    val ip: String,
     val type: TypeDevice,
 
 )

@@ -1,6 +1,6 @@
-package com.example.mysmarthome.retrofit.data_models.plug
+package com.example.mysmarthome.database.entities
 
-data class PlugMeters (
+data class LightMeters(
 
     val power: Float,
 
@@ -10,4 +10,4 @@ data class PlugMeters (
 
     val total: Float
 
-) { }
+){ }

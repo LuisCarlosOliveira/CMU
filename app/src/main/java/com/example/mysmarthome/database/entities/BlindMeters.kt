@@ -1,6 +1,6 @@
-package com.example.mysmarthome.retrofit.data_models.blind
+package com.example.mysmarthome.database.entities
 
-data class BlindMeters (
+data class BlindMeters(
 
     val power: Float,
 
@@ -12,7 +12,4 @@ data class BlindMeters (
 
     val total: Float
 
-) { }
-
-
-
+){ }
