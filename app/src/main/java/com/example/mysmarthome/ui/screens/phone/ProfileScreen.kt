@@ -3,7 +3,9 @@ package com.example.mysmarthome.ui.screens.phone
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -112,6 +114,7 @@ fun ProfileScreen() {
                 content = {
                     Column(
                         Modifier
+                            .verticalScroll(rememberScrollState())
                             .fillMaxSize()
                             .padding(top = 20.dp)
                     ) {
