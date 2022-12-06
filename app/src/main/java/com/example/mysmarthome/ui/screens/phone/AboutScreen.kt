@@ -2,6 +2,8 @@ package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
@@ -107,7 +109,7 @@ fun AboutScreen() {
                     letterSpacing = letterSpacing,
                     fontFamily = FontFamily.SansSerif,
                     color = Color.Black,
-                    modifier = Modifier.padding(top = 20.dp, start = 15.dp, bottom = 15.dp),
+                    modifier = Modifier.verticalScroll(rememberScrollState()).padding(top = 20.dp, start = 15.dp, bottom = 15.dp),
                     fontSize = 15.sp,
                     text =
                     "Este Trabalho foi proposto ao grupo pelo Docente Fábio Silva, no âmbito " +

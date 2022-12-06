@@ -120,12 +120,13 @@ fun MembersScreen(mainActivity: MainActivity) {
                     )
                 },
                 content = {
+                    Column(Modifier.padding(bottom = 60.dp)){
                     LazyColumn {
                         items(4) {
                             Column(
                                 Modifier
                                     .fillMaxSize()
-                                    .padding(top = 20.dp)
+                                    .padding(top = 10.dp)
                             ) {
                                 Text(
                                     fontWeight = FontWeight.Medium,
@@ -139,7 +140,7 @@ fun MembersScreen(mainActivity: MainActivity) {
                                     text = "Maria"
                                 )
                                 Row(
-                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    horizontalArrangement = Arrangement.Start,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     dropDownMenuMembers2()
@@ -301,6 +302,7 @@ fun MembersScreen(mainActivity: MainActivity) {
                             }
                         }
                     }
+                }
                 },
                 bottomBar = {
                     Row(
@@ -385,7 +387,7 @@ fun dropDownMenuMembers2() {
                 value = selectedText,
                 onValueChange = { selectedText = it },
                 modifier = Modifier
-                    .width(200.dp)
+                    .width(180.dp)
                     .padding(end = 20.dp),
                 label = { Text(stringResource(id = R.string.memberType)) },
                 trailingIcon = {

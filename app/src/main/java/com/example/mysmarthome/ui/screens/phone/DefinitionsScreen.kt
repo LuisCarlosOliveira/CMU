@@ -1,8 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -74,7 +72,7 @@ fun DefinitionsScreen() {
         content = {
 
             Column(
-                Modifier
+                Modifier.verticalScroll(rememberScrollState())
                     .fillMaxSize()
                     .padding(top = 20.dp)
             ) {

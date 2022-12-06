@@ -3,6 +3,8 @@ package com.example.mysmarthome.ui.screens.phone
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -133,7 +135,7 @@ fun dropDownMenuConsumptions() {
     else
         Icons.Filled.KeyboardArrowDown
 
-    Column(Modifier.padding(20.dp)) {
+    Column(Modifier.verticalScroll(rememberScrollState()).padding(20.dp)) {
 
         Row(
             modifier = Modifier.fillMaxWidth(),

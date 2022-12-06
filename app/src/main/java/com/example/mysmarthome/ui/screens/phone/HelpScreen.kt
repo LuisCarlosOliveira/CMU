@@ -3,6 +3,8 @@ package com.example.mysmarthome.ui.screens.phone
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -82,36 +84,35 @@ fun HelpScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
 
             },
             content = {
-                Column(
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Column(
 
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 40.dp, bottom = 90.dp)
-                ) {
-                    Text(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 20.dp, end = 20.dp, start = 20.dp),
-                        fontSize = 14.sp,
-                        text = "Veja como a nossa aplicação funciona:"
-                    )
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 40.dp, bottom = 90.dp)
+                    ) {
+                        Text(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = letterSpacing,
+                            fontFamily = FontFamily.Serif,
+                            color = Color.Black,
+                            modifier = Modifier.padding(top = 20.dp, end = 20.dp, start = 20.dp),
+                            fontSize = 14.sp,
+                            text = "Veja como a nossa aplicação funciona:"
+                        )
+                    }
+
+                    Column(
+
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 30.dp, bottom = 90.dp)
+                    ) {
+                        addVideo()
+                    }
                 }
-
-
-                Column(
-
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 200.dp, bottom = 90.dp)
-                ) {
-                    addVideo()
-                }
-
-
 
             }
         )

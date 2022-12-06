@@ -3,7 +3,9 @@ package com.example.mysmarthome.ui.screens.phone
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -92,7 +94,7 @@ fun NewHomeScreen(/* navController: NavController */) {
 
             },
             content = {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxSize()) {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, top = 20.dp),
                         fontWeight = FontWeight.Bold,
@@ -187,7 +189,7 @@ fun NewHomeScreen(/* navController: NavController */) {
                             colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                             border = BorderStroke(1.dp, Color.Blue),
                             modifier = Modifier
-                                .padding(start = 130.dp, top = 20.dp, bottom = 20.dp),
+                                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp),
                             shape = RoundedCornerShape(20.dp),
                             onClick = {}) {
                             Text(fontWeight = FontWeight.Medium,text = "Continuar")
