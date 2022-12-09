@@ -1,12 +1,15 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
@@ -95,7 +98,10 @@ fun DefinitionsDivisionsDevicesScreens() {
         },
         content = {
             Column(
-                modifier = Modifier.padding(start = 20.dp)) {
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(start = 20.dp)
+            ) {
                 Row(
                     modifier = Modifier
                         .height(80.dp)
@@ -116,7 +122,7 @@ fun DefinitionsDivisionsDevicesScreens() {
                         checked = onOff.value,
                         onCheckedChange = { onOff.value = it },
                         modifier = Modifier.padding(top = 7.dp),
-                        )
+                    )
                 }
 
                 Row(
@@ -153,18 +159,32 @@ fun DefinitionsDivisionsDevicesScreens() {
                         fontSize = 17.sp,
                         text = "Brilho:        "
                     )
+                    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        Slider(
+                            modifier = Modifier.padding(end = 70.dp),
+                            value = sliderPosition,
+                            onValueChange = { sliderPosition = it },
+                            valueRange = 0f..10f,
+                            onValueChangeFinished = {
+                                // launch some business logic update with the state you hold
+                                // viewModel.updateSelectedSliderValue(sliderPosition)
+                            },
+                            steps = 9
+                        )
+                    } else {
+                        Slider(
+                            modifier = Modifier.padding(end = 35.dp),
+                            value = sliderPosition,
+                            onValueChange = { sliderPosition = it },
+                            valueRange = 0f..10f,
+                            onValueChangeFinished = {
+                                // launch some business logic update with the state you hold
+                                // viewModel.updateSelectedSliderValue(sliderPosition)
+                            },
+                            steps = 9
+                        )
+                    }
 
-                    Slider(
-                        modifier = Modifier.padding(end = 15.dp),
-                        value = sliderPosition,
-                        onValueChange = { sliderPosition = it },
-                        valueRange = 0f..10f,
-                        onValueChangeFinished = {
-                            // launch some business logic update with the state you hold
-                            // viewModel.updateSelectedSliderValue(sliderPosition)
-                        },
-                        steps = 9
-                    )
                 }
                 Row(
                     modifier = Modifier
@@ -183,24 +203,41 @@ fun DefinitionsDivisionsDevicesScreens() {
                         text = "Potencia:    "
                     )
 
-                    Slider(
-                        modifier = Modifier.padding(end = 15.dp),
-                        value = sliderPosition,
-                        onValueChange = { sliderPosition = it },
-                        valueRange = 0f..10f,
-                        onValueChangeFinished = {
-                            // launch some business logic update with the state you hold
-                            // viewModel.updateSelectedSliderValue(sliderPosition)
-                        },
-                        steps = 9
-                    )
+                    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        Slider(
+                            modifier = Modifier.padding(end = 70.dp),
+                            value = sliderPosition,
+                            onValueChange = { sliderPosition = it },
+                            valueRange = 0f..10f,
+                            onValueChangeFinished = {
+                                // launch some business logic update with the state you hold
+                                // viewModel.updateSelectedSliderValue(sliderPosition)
+                            },
+                            steps = 9
+                        )
+                    } else {
+                        Slider(
+                            modifier = Modifier.padding(end = 35.dp),
+                            value = sliderPosition,
+                            onValueChange = { sliderPosition = it },
+                            valueRange = 0f..10f,
+                            onValueChangeFinished = {
+                                // launch some business logic update with the state you hold
+                                // viewModel.updateSelectedSliderValue(sliderPosition)
+                            },
+                            steps = 9
+                        )
+                    }
+
                 }
                 Spacer(Modifier.padding(20.dp))
                 Box(modifier = Modifier.padding(80.dp)) {
                     Button(
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                         shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.width(200.dp).height(40.dp),
+                        modifier = Modifier
+                            .width(200.dp)
+                            .height(40.dp),
                         onClick = { /*TODO*/ }) {
                         Text(
                             text = "Guardar Alterações",

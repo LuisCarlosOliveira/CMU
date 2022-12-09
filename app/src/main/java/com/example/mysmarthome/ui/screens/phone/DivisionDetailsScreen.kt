@@ -2,6 +2,8 @@ package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -105,40 +107,43 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
 
             },
             content = {
-
-                Column(
-
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 10.dp, bottom = 50.dp)
-                ) {
-                    addImage()
-                }
-
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(top = 190.dp),
-
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    Button(
-                        onClick = { },
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .height(35.dp)
+                            .fillMaxSize()
+                            .padding(top = 10.dp, bottom = 50.dp)
                     ) {
-                        Text(text = "Editar Imagem")
+                        addImage()
                     }
-                }
 
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(top = 300.dp)
-                ) {
-                    dropFilterByDevice()
-                    dropFilterByDevice()
-                    dropFilterByDevice()
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .padding(top = 20.dp),
+
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Button(
+                            onClick = { },
+                            modifier = Modifier
+                                .height(35.dp)
+                        ) {
+                            Text(text = "Editar Imagem")
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .padding(top = 40.dp, bottom = 60.dp)
+                    ) {
+                        dropFilterByDevice()
+                        dropFilterByDevice()
+                        dropFilterByDevice()
+                    }
                 }
             },
             floatingActionButton = {

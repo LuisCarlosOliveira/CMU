@@ -2,8 +2,10 @@ package com.example.mysmarthome.ui.screens.phone
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -114,7 +116,7 @@ fun NewAccountScreen(/*navController: NavController*/) {
                 )
             },
             content = {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxSize()) {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, top = 20.dp),
                         fontWeight = FontWeight.Bold,
