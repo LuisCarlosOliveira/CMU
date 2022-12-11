@@ -26,11 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 
 @Composable
-fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavController*/) {
+fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -76,7 +77,9 @@ fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavControlle
                         .padding(top = 20.dp)
                 ) {
                     IconButton(
-                        onClick = { }
+                        onClick = {
+                            navController.popBackStack()
+                        }
                     ) {
                         Icon(
                             Icons.Rounded.ArrowBack, "",
@@ -213,7 +216,6 @@ fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavControlle
                         )
                     }
 
-
                     IconButton(
                         onClick = { dialogOpen = true }
                     ) {
@@ -252,7 +254,6 @@ fun InviteMemberScreen(mainActivity: MainActivity /*,navController: NavControlle
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-
             }
         )
     }

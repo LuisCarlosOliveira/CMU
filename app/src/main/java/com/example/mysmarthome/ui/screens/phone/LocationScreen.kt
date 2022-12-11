@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -26,7 +27,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun LocationScreen() {
+fun LocationScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -50,7 +51,9 @@ fun LocationScreen() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -118,7 +121,7 @@ fun LocationScreen() {
 fun dropDownMenuLocation() {
 
     var expanded by remember { mutableStateOf(false) }
-    val suggestions : Array<String> = stringArrayResource(id = R.array.memberLocation)
+    val suggestions: Array<String> = stringArrayResource(id = R.array.memberLocation)
     var selectedText by remember { mutableStateOf(suggestions[0]) }
 
     val icon = if (expanded)
