@@ -66,6 +66,28 @@
     </string-array>
     <string name="select"> Select</string>
 
+    <!-- DIVISION DETAILS -->
+    <string-array name="deviceType">
+        <item>Estoros</item>
+        <item>Luzes</item>
+        <item>Tomadas</item>
+    </string-array>
+    <string-array name="estorosOptions">
+        <item>Estoros Esquerda</item>
+        <item>Estoros Frente</item>
+        <item>Estoros Direita</item>
+    </string-array>
+    <string-array name="luzesOptions">
+        <item>Luz Esquerda Teto</item>
+        <item>Luz Direita Teto</item>
+        <item>Luz Mesa Ferramentas</item>
+    </string-array>
+    <string-array name="tomadasOptions">
+        <item>Tomada Parede Esquerda</item>
+        <item>Tomada Parede Frente</item>
+        <item>Tomada Parede Direita</item>
+    </string-array>
+
     <!-- PERSONAL CONFIGS -->
     <string name="personalConfigs"> Configurações Pessoais</string>
 

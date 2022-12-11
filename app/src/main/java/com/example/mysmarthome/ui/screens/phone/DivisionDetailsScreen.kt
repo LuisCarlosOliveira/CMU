@@ -1,27 +1,32 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
+import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.CollapsableLazyColumn
+import com.example.mysmarthome.ui.components.CollapsableSection
 
 @Composable
-fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
+fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -31,6 +36,12 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
         val configuration = LocalConfiguration.current
         val screenWidth = configuration.screenWidthDp.dp
 
+        var dialogOpen by remember { mutableStateOf(false) }
+
+        val deviceType: Array<String> = stringArrayResource(id = R.array.deviceType)
+        val estoros: Array<String> = stringArrayResource(id = R.array.estorosOptions)
+        val luzes: Array<String> = stringArrayResource(id = R.array.luzesOptions)
+        val tomadas: Array<String> = stringArrayResource(id = R.array.tomadasOptions)
 
         var letterSpacing by remember {
             mutableStateOf(1.sp)
@@ -46,7 +57,9 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
                         .padding(top = 20.dp)
                 ) {
                     IconButton(
-                        onClick = { }
+                        onClick = {
+                            navController.popBackStack()
+                        }
                     ) {
                         Icon(
                             Icons.Rounded.ArrowBack, "",
@@ -73,8 +86,6 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
                             tint = Color.Black,
                             modifier = Modifier
                                 .width(50.dp)
-                                .size(60.dp)
-                                .padding(end = 30.dp),
                         )
                     }
                     IconButton(
@@ -85,14 +96,8 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
                             tint = Color.Black,
                             modifier = Modifier
                                 .width(50.dp)
-                                .size(60.dp)
-                                .padding(end = 20.dp),
                         )
                     }
-
-                    var dialogOpen by remember { mutableStateOf(false) }
-
-
 
                 }
 
@@ -112,9 +117,11 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 10.dp, bottom = 50.dp)
+                            .padding(top = 10.dp, bottom = 20.dp)
                     ) {
-                        addImage()
+                        Icon(imageVector = Icons.Rounded.Garage,
+                            contentDescription = "",
+                            modifier= Modifier.size(150.dp))
                     }
 
                     Column(
@@ -138,11 +145,28 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight()
-                            .padding(top = 40.dp, bottom = 60.dp)
+                            .padding(top = 40.dp, bottom = 40.dp,start = 7.dp, end = 7.dp)
                     ) {
-                        dropFilterByDevice()
-                        dropFilterByDevice()
-                        dropFilterByDevice()
+                        CollapsableLazyColumn(
+                            navController
+                            ,sections = listOf(
+                                CollapsableSection(
+                                    title = deviceType[0],
+                                    rows = estoros,
+                                ),
+                                CollapsableSection(
+                                    title = deviceType[1],
+                                    rows = luzes,
+                                ),
+                                CollapsableSection(
+                                    title = deviceType[2],
+                                    rows = tomadas,
+                                )
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                                .height(200.dp)
+                                .padding(start=7.dp, end=7.dp)
+                        )
                     }
                 }
             },
@@ -167,60 +191,8 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
     }
 }
 
-@Composable
-fun dropFilterByDevice() {
-
-    var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("Iluminação", "Estoros", "Tomadas")
-    var selectedText by remember { mutableStateOf("Estoros") }
-
-    val icon = if (expanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-    Column(Modifier.padding(5.dp)) {
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
-                text = selectedText,
-                maxLines = 2,
-                letterSpacing = 1.sp,
-                modifier = Modifier.padding(end = 20.dp)
-            )
-            Icon(icon, "contentDescription",
-                Modifier
-                    .clickable { expanded = !expanded })
-            Box(modifier = Modifier.padding(top = 50.dp)) {
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                ) {
-                    suggestions.forEach { label ->
-                        DropdownMenuItem(onClick = {
-                            selectedText = label
-                            expanded = false
-                        }) {
-                            Text(text = label)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-
 @Preview()
 @Composable
 fun PreviewDivisionDetailsScreen() {
-    DivisionDetailsScreen()
+    DivisionDetailsScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
 }
