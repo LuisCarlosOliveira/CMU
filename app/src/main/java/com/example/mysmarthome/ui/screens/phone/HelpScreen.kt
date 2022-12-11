@@ -1,30 +1,29 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun HelpScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
+fun HelpScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -49,7 +48,9 @@ fun HelpScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
                         .padding(top = 20.dp)
                 ) {
                     IconButton(
-                        onClick = { }
+                        onClick = {
+                            navController.popBackStack()
+                        }
                     ) {
                         Icon(
                             Icons.Rounded.ArrowBack, "",
@@ -68,8 +69,6 @@ fun HelpScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
                         fontSize = 22.sp,
                         text = "Ajuda"
                     )
-
-
 
                 }
 
@@ -113,19 +112,17 @@ fun HelpScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
                         addVideo()
                     }
                 }
-
             }
         )
     }
 }
 
 @Composable
-fun addVideo(){
+fun addVideo() {
     Image(
         painter = painterResource(id = R.drawable.video_icon),
         contentDescription = "Video",
         //contentScale = ContentScale.Crop
-
     )
 }
 
@@ -133,5 +130,5 @@ fun addVideo(){
 @Preview()
 @Composable
 fun PreviewHelpScreen() {
-    HelpScreen()
+    HelpScreen(navController = NavController(LocalContext.current))
 }

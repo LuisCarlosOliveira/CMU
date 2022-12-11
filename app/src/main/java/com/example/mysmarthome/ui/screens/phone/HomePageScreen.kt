@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -21,8 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
@@ -135,7 +136,19 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                         .aspectRatio(1f)
                                         .padding(end = 5.dp)
                                 ) {
-                                    Text(text = l.toString(), Modifier.padding(10.dp))
+                                    IconButton(
+                                        onClick = {
+                                            navController.navigate("DivisionDetailsScreen")
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.Home, "",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .width(50.dp)
+                                                .padding(start = 5.dp),
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -161,7 +174,10 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                         Divider()
                         Column(modifier = Modifier.padding(top = 15.dp)) {
                             Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(modifier = Modifier.fillMaxWidth()) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable(onClick = { dialogOpenAlarm = true })) {
+
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
 
                                 if (dialogOpenAlarm) {
@@ -233,9 +249,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                     onValueChange = { hour = it },
                                                     placeholder = { Text(text = "Insira a Hora") },
                                                     label = { Text(text = "Hora") },
-                                                    /* keyboardOptions = KeyboardOptions(
-                                                         keyboardType = KeyboardType.Number
-                                                     )),*/
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    )
                                                 )
 
                                                 TextField(
@@ -252,9 +268,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                     onValueChange = { minute = it },
                                                     placeholder = { Text(text = "Insira os Minutos") },
                                                     label = { Text(text = "Minutos") },
-                                                    /*   keyboardOptions = KeyboardOptions(
-                                                           keyboardType = KeyboardType.Number
-                                                       )  ), */
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    )
                                                 )
 
                                             }
@@ -272,9 +288,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     )
                                 }
                                 IconButton(
-                                    onClick = {
-                                        dialogOpenAlarm = true
-                                    }
+                                    onClick = { }
                                 ) {
                                     Icon(
                                         Icons.Rounded.Timer, "",
@@ -295,8 +309,14 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 )
                             }
                             Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(Modifier.fillMaxWidth()) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clickable(onClick = { dialogOpenAgenda = true })
+                            ) {
+
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
+
                                 if (dialogOpenAgenda) {
                                     AlertDialog(
                                         onDismissRequest = { dialogOpenAgenda = false },
@@ -311,7 +331,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                     backgroundColor = Color.Blue
                                                 ),
                                                     onClick = {
-                                                        dialogOpenAlarm = false
+                                                        dialogOpenAgenda = false
                                                         mainActivity.addEvent(
                                                             title,
                                                             locationEvent,
@@ -402,9 +422,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     )
                                 }
                                 IconButton(
-                                    onClick = {
-                                        dialogOpenAgenda = true
-                                    }
+                                    onClick = { }
                                 ) {
                                     Icon(
                                         Icons.Rounded.CalendarToday, "",
@@ -421,15 +439,18 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     color = Color.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = 1.sp,
-                                    text = stringResource(id = R.string.addEvent))
+                                    text = stringResource(id = R.string.addEvent)
+                                )
                             }
                             Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(Modifier.fillMaxWidth()) {
+                            Row(Modifier
+                                .fillMaxWidth()
+                                .clickable(
+                                    onClick = { mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal") }
+                                )) {
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
                                 IconButton(
-                                    onClick = {
-                                        mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal")
-                                    }
+                                    onClick = { }
                                 ) {
                                     Icon(
                                         Icons.Rounded.PinDrop, "",
@@ -440,12 +461,14 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     )
                                 }
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
-                                Text(fontFamily = FontFamily.SansSerif,
+                                Text(
+                                    fontFamily = FontFamily.SansSerif,
                                     fontWeight = FontWeight.Medium,
                                     color = Color.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = 1.sp,
-                                    text = stringResource(id = R.string.homeLocation))
+                                    text = stringResource(id = R.string.homeLocation)
+                                )
                             }
 
                         }
@@ -465,7 +488,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                         },
                         text = { Text("Nova", fontSize = 18.sp) },
                         backgroundColor = Color.Gray,
-                        onClick = { },
+                        onClick = {
+                            navController.navigate("NewDivisionScreen")
+                        },
                         elevation = FloatingActionButtonDefaults.elevation(8.dp)
                     )
                 },
@@ -479,7 +504,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                     ) {
 
                         IconButton(
-                            onClick = { }
+                            onClick = {
+                                navController.navigate("ConnectedDevicesScreen")
+                            }
                         ) {
                             Icon(
                                 Icons.Rounded.Devices, "",
@@ -490,7 +517,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             )
                         }
                         IconButton(
-                            onClick = { }
+                            onClick = {
+                                navController.navigate("ProfileScreen")
+                            }
                         ) {
                             Icon(
                                 Icons.Rounded.AccountCircle, "",
@@ -501,7 +530,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             )
                         }
                         IconButton(
-                            onClick = { }
+                            onClick = {
+                                navController.navigate("ConsumptionsScreen")
+                            }
                         ) {
                             Icon(
                                 Icons.Rounded.Timeline, "",
@@ -512,7 +543,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             )
                         }
                         IconButton(
-                            onClick = { }
+                            onClick = {
+                                navController.navigate("DefinitionsScreen")
+                            }
                         ) {
                             Icon(
 
