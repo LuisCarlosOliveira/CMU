@@ -1,10 +1,7 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import LoginPage
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -15,17 +12,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun PersonalConfigsScreen() {
+fun PersonalConfigsScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -34,7 +32,6 @@ fun PersonalConfigsScreen() {
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
-
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -45,7 +42,9 @@ fun PersonalConfigsScreen() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -107,16 +106,18 @@ fun PersonalConfigsScreen() {
                                 fontSize = 18.sp,
                                 text = "Luz Direita Teto"
                             )
-
-                            Icon(
-                                Icons.Rounded.Edit, "",
-                                tint = Color.Black,
+                            IconButton(
+                                onClick = { navController.navigate("DefinitionsDivisionsDevicesScreen") },
                                 modifier = Modifier
                                     .width(50.dp)
-                                    .padding(top = 15.dp, end = 20.dp)
-                                    .clickable { },
-                            )
-
+                                    .padding(top = 5.dp, end = 20.dp)
+                            ) {
+                                Icon(
+                                    Icons.Rounded.Edit,
+                                    "",
+                                    tint = Color.Black,
+                                )
+                            }
                         }
                     }
                 }
@@ -125,10 +126,8 @@ fun PersonalConfigsScreen() {
     )
 }
 
-
-
 @Preview(showBackground = true)
 @Composable
-fun PersonalConfigsScreenPreview(){
-    PersonalConfigsScreen()
+fun PersonalConfigsScreenPreview() {
+    PersonalConfigsScreen(navController = NavController(LocalContext.current))
 }
