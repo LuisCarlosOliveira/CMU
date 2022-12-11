@@ -2,16 +2,12 @@ package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.widget.SeekBar
-import android.widget.TextView
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -21,27 +17,26 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun DefinitionsDivisionsDevicesScreens() {
+fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val onOff = remember { mutableStateOf(true) }
-    var sliderPosition by remember { mutableStateOf(0f) }
+    var sliderPositionBrilho by remember { mutableStateOf(0f) }
+    var sliderPositionPotencia by remember { mutableStateOf(0f) }
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
@@ -55,7 +50,9 @@ fun DefinitionsDivisionsDevicesScreens() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -77,7 +74,9 @@ fun DefinitionsDivisionsDevicesScreens() {
                 )
 
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.navigate("PersonalConfigsScreen")
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.Star, "",
@@ -162,8 +161,8 @@ fun DefinitionsDivisionsDevicesScreens() {
                     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Slider(
                             modifier = Modifier.padding(end = 70.dp),
-                            value = sliderPosition,
-                            onValueChange = { sliderPosition = it },
+                            value = sliderPositionBrilho,
+                            onValueChange = { sliderPositionBrilho = it },
                             valueRange = 0f..10f,
                             onValueChangeFinished = {
                                 // launch some business logic update with the state you hold
@@ -174,8 +173,8 @@ fun DefinitionsDivisionsDevicesScreens() {
                     } else {
                         Slider(
                             modifier = Modifier.padding(end = 35.dp),
-                            value = sliderPosition,
-                            onValueChange = { sliderPosition = it },
+                            value = sliderPositionBrilho,
+                            onValueChange = { sliderPositionBrilho = it },
                             valueRange = 0f..10f,
                             onValueChangeFinished = {
                                 // launch some business logic update with the state you hold
@@ -206,8 +205,8 @@ fun DefinitionsDivisionsDevicesScreens() {
                     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Slider(
                             modifier = Modifier.padding(end = 70.dp),
-                            value = sliderPosition,
-                            onValueChange = { sliderPosition = it },
+                            value = sliderPositionPotencia,
+                            onValueChange = { sliderPositionPotencia = it },
                             valueRange = 0f..10f,
                             onValueChangeFinished = {
                                 // launch some business logic update with the state you hold
@@ -218,8 +217,8 @@ fun DefinitionsDivisionsDevicesScreens() {
                     } else {
                         Slider(
                             modifier = Modifier.padding(end = 35.dp),
-                            value = sliderPosition,
-                            onValueChange = { sliderPosition = it },
+                            value = sliderPositionPotencia,
+                            onValueChange = { sliderPositionPotencia = it },
                             valueRange = 0f..10f,
                             onValueChangeFinished = {
                                 // launch some business logic update with the state you hold
@@ -233,22 +232,23 @@ fun DefinitionsDivisionsDevicesScreens() {
                 Spacer(Modifier.padding(20.dp))
                 Box(modifier = Modifier.padding(80.dp)) {
                     Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray),
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier
                             .width(200.dp)
-                            .height(40.dp),
-                        onClick = { /*TODO*/ }) {
+                            .height(50.dp),
+                        onClick = {
+
+                        }) {
                         Text(
                             text = "Guardar Alterações",
                             fontSize = 15.sp,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 }
             }
         }
-
     )
 }
 
@@ -294,4 +294,3 @@ fun dropDownMenuColors() {
         }
     }
 }
-

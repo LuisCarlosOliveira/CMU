@@ -15,14 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -31,7 +31,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun ConsumptiosScreen() {
+fun ConsumptionsScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -55,7 +55,9 @@ fun ConsumptiosScreen() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -93,15 +95,16 @@ fun ConsumptiosScreen() {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
-                ) {Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.SansSerif,
-                    color = Color.Red,
-                    modifier = Modifier.padding(top = 20.dp),
-                    fontSize = 17.sp,
-                    text = "Dispositivos que:  "
-                )
+                ) {
+                    Text(
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = letterSpacing,
+                        fontFamily = FontFamily.SansSerif,
+                        color = Color.Red,
+                        modifier = Modifier.padding(top = 20.dp),
+                        fontSize = 17.sp,
+                        text = "Dispositivos que:  "
+                    )
                     dropDownMenuConsumptions()
                 }
 
@@ -127,7 +130,7 @@ fun ConsumptiosScreen() {
 fun dropDownMenuConsumptions() {
 
     var expanded by remember { mutableStateOf(false) }
-    val suggestions : Array<String> = arrayOf("Todos", "Mais Consomem", "Menos Consomem")
+    val suggestions: Array<String> = arrayOf("Todos", "Mais Consomem", "Menos Consomem")
     var selectedText by remember { mutableStateOf(suggestions[0]) }
 
     val icon = if (expanded)
@@ -135,7 +138,10 @@ fun dropDownMenuConsumptions() {
     else
         Icons.Filled.KeyboardArrowDown
 
-    Column(Modifier.verticalScroll(rememberScrollState()).padding(20.dp)) {
+    Column(
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp)) {
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -177,5 +183,5 @@ fun dropDownMenuConsumptions() {
 @Preview()
 @Composable
 fun tentarVer() {
-    ConsumptiosScreen()
+    ConsumptionsScreen(navController = NavController(LocalContext.current))
 }
