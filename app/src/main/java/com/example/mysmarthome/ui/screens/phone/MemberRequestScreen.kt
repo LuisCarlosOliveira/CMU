@@ -20,10 +20,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun MemberRequestScreen() {
+fun MemberRequestScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -42,7 +43,9 @@ fun MemberRequestScreen() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -99,9 +102,7 @@ fun MemberRequestScreen() {
                                 fontSize = 18.sp,
                                 text = "Maria"
                             )
-
                             dropDownMenuMembers()
-
                         }
                     }
                 }
@@ -118,7 +119,9 @@ fun MemberRequestScreen() {
             ) {
 
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.navigate("HomePageScreen")
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.Home, "",
@@ -129,7 +132,9 @@ fun MemberRequestScreen() {
                     )
                 }
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.navigate("ConnectedDevicesScreen")
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.Devices, "",
@@ -140,7 +145,9 @@ fun MemberRequestScreen() {
                     )
                 }
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.navigate("ConsumptionsScreen")
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.Timeline, "",
@@ -151,7 +158,9 @@ fun MemberRequestScreen() {
                     )
                 }
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.navigate("DefinitionsScreen")
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.Settings, "",
