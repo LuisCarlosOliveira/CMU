@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -22,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
@@ -104,46 +105,26 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 .fillMaxWidth()
                                 .padding(top = 20.dp)
                         ) {
-
-                            Text(
-                                fontFamily = FontFamily.SansSerif,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = Color.Black,
-                                textAlign = TextAlign.Center,
-                                fontSize = 24.sp,
-                                letterSpacing = 1.sp,
-                                text = stringResource(id = R.string.welcome) + " João!"
-                            )
-                        }
-                    },
-                    content = {
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            dropDownMenu()
-                        }
-                        Column(
-                            modifier = Modifier.padding(
-                                start = 10.dp,
-                                top = 100.dp,
-                                bottom = 70.dp
-                            )
-                        ) {
-                            val list = arrayOfNulls<Number>(25)
-
-                            LazyVerticalGrid(
-                                columns = GridCells.Adaptive(minSize = 128.dp),
-                            ) {
-                                items(list.size) { l ->
-                                    Card(
-                                        elevation = 10.dp,
-                                        border = BorderStroke(1.dp, Color.Blue),
-                                        modifier = Modifier
-                                            .aspectRatio(1f)
-                                            .padding(end = 5.dp)
+                            items(list.size) { l ->
+                                Card(
+                                    elevation = 10.dp,
+                                    border = BorderStroke(1.dp, Color.Blue),
+                                    modifier = Modifier
+                                        .aspectRatio(1f)
+                                        .padding(end = 5.dp)
+                                ) {
+                                    IconButton(
+                                        onClick = {
+                                            navController.navigate("DivisionDetailsScreen")
+                                        }
                                     ) {
-                                        Text(text = l.toString(), Modifier.padding(10.dp))
+                                        Icon(
+                                            Icons.Rounded.Home, "",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .width(50.dp)
+                                                .padding(start = 5.dp),
+                                        )
                                     }
                                 }
                             }
@@ -157,30 +138,70 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 .fillMaxHeight()
                         ) {
 
-                            Text(
-                                fontFamily = FontFamily.SansSerif,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black,
-                                fontSize = 18.sp,
-                                modifier = Modifier.padding(
-                                    bottom = 20.dp,
-                                    top = 30.dp,
-                                    start = 10.dp
-                                ),
-                                letterSpacing = 1.sp,
-                                text = stringResource(id = R.string.utilities)
-                            )
-                            Divider()
-                            Column(modifier = Modifier.padding(top = 15.dp)) {
-                                Spacer(modifier = Modifier.padding(top = 20.dp))
-                                Row(modifier = Modifier.fillMaxWidth()) {
-                                    Spacer(modifier = Modifier.padding(start = 20.dp))
+                        Text(
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(bottom = 20.dp, top = 30.dp, start = 10.dp),
+                            letterSpacing = 1.sp,
+                            text = stringResource(id = R.string.utilities)
+                        )
+                        Divider()
+                        Column(modifier = Modifier.padding(top = 15.dp)) {
+                            Spacer(modifier = Modifier.padding(top = 20.dp))
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable(onClick = { dialogOpenAlarm = true })) {
 
-                                    if (dialogOpenAlarm) {
-                                        AlertDialog(
-                                            onDismissRequest = { dialogOpenAlarm = false },
-                                            buttons = {
-                                                Row(
+                                Spacer(modifier = Modifier.padding(start = 20.dp))
+
+                                if (dialogOpenAlarm) {
+                                    AlertDialog(
+                                        onDismissRequest = { dialogOpenAlarm = false },
+                                        buttons = {
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(bottom = 5.dp),
+                                                horizontalArrangement = Arrangement.SpaceEvenly
+                                            ) {
+                                                Button(colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = Color.Blue
+                                                ),
+                                                    onClick = {
+                                                        dialogOpenAlarm = false
+                                                        mainActivity.createAlarm(
+                                                            message,
+                                                            hour.toInt(),
+                                                            minute.toInt()
+                                                        )
+                                                    }) {
+                                                    Text(color = Color.White, text = "Criar")
+                                                }
+                                                Button(colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = Color.Blue
+                                                ),
+                                                    onClick = { dialogOpenAlarm = false }) {
+                                                    Text(color = Color.White, text = "Cancelar")
+                                                }
+                                            }
+                                        },
+
+                                        title = { },
+
+                                        text = {
+                                            Column(
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .fillMaxHeight()
+                                            ) {
+
+                                                TextField(colors = TextFieldDefaults.textFieldColors(
+                                                    focusedIndicatorColor = Color.Blue,
+                                                    unfocusedIndicatorColor = Color.Blue,
+                                                    disabledIndicatorColor = Color.Blue
+                                                ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
                                                         .padding(bottom = 5.dp),
@@ -222,52 +243,37 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                         unfocusedIndicatorColor = Color.Blue,
                                                         disabledIndicatorColor = Color.Blue
                                                     ),
-                                                        modifier = Modifier
-                                                            .padding(top = 10.dp)
-                                                            .fillMaxWidth(),
-                                                        value = message,
-                                                        shape = RoundedCornerShape(7.dp),
-                                                        onValueChange = { message = it },
-                                                        placeholder = { Text(text = "Insira a Mensagem") },
-                                                        label = { Text(text = "Mensagem") })
-
-                                                    TextField(
-                                                        colors = TextFieldDefaults.textFieldColors(
-                                                            focusedIndicatorColor = Color.Blue,
-                                                            unfocusedIndicatorColor = Color.Blue,
-                                                            disabledIndicatorColor = Color.Blue
-                                                        ),
-                                                        modifier = Modifier
-                                                            .padding(top = 10.dp, bottom = 10.dp)
-                                                            .fillMaxWidth(),
-                                                        value = hour,
-                                                        shape = RoundedCornerShape(7.dp),
-                                                        onValueChange = { hour = it },
-                                                        placeholder = { Text(text = "Insira a Hora") },
-                                                        label = { Text(text = "Hora") },
-                                                        /* keyboardOptions = KeyboardOptions(
-                                                         keyboardType = KeyboardType.Number
-                                                     )),*/
+                                                    modifier = Modifier
+                                                        .padding(top = 10.dp, bottom = 10.dp)
+                                                        .fillMaxWidth(),
+                                                    value = hour,
+                                                    shape = RoundedCornerShape(7.dp),
+                                                    onValueChange = { hour = it },
+                                                    placeholder = { Text(text = "Insira a Hora") },
+                                                    label = { Text(text = "Hora") },
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
                                                     )
+                                                )
 
-                                                    TextField(
-                                                        colors = TextFieldDefaults.textFieldColors(
-                                                            focusedIndicatorColor = Color.Blue,
-                                                            unfocusedIndicatorColor = Color.Blue,
-                                                            disabledIndicatorColor = Color.Blue
-                                                        ),
-                                                        modifier = Modifier
-                                                            .padding(bottom = 10.dp)
-                                                            .fillMaxWidth(),
-                                                        value = minute,
-                                                        shape = RoundedCornerShape(7.dp),
-                                                        onValueChange = { minute = it },
-                                                        placeholder = { Text(text = "Insira os Minutos") },
-                                                        label = { Text(text = "Minutos") },
-                                                        /*   keyboardOptions = KeyboardOptions(
-                                                           keyboardType = KeyboardType.Number
-                                                       )  ), */
+                                                TextField(
+                                                    colors = TextFieldDefaults.textFieldColors(
+                                                        focusedIndicatorColor = Color.Blue,
+                                                        unfocusedIndicatorColor = Color.Blue,
+                                                        disabledIndicatorColor = Color.Blue
+                                                    ),
+                                                    modifier = Modifier
+                                                        .padding(bottom = 10.dp)
+                                                        .fillMaxWidth(),
+                                                    value = minute,
+                                                    shape = RoundedCornerShape(7.dp),
+                                                    onValueChange = { minute = it },
+                                                    placeholder = { Text(text = "Insira os Minutos") },
+                                                    label = { Text(text = "Minutos") },
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
                                                     )
+                                                )
 
                                                 }
                                             },
@@ -282,38 +288,84 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                 dismissOnClickOutside = true
                                             )
                                         )
-                                    }
-                                    IconButton(
-                                        onClick = {
-                                            dialogOpenAlarm = true
-                                        }
-                                    ) {
-                                        Icon(
-                                            Icons.Rounded.Timer, "",
-                                            tint = Color.Black,
-                                            modifier = Modifier
-                                                .width(50.dp)
-                                                .padding(bottom = 25.dp)
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.padding(start = 20.dp))
-                                    Text(
-                                        fontFamily = FontFamily.SansSerif,
-                                        fontWeight = FontWeight.Medium,
-                                        color = Color.Black,
-                                        fontSize = 16.sp,
-                                        letterSpacing = 1.sp,
-                                        text = stringResource(id = R.string.createAlarm)
                                     )
                                 }
-                                Spacer(modifier = Modifier.padding(top = 20.dp))
-                                Row(Modifier.fillMaxWidth()) {
-                                    Spacer(modifier = Modifier.padding(start = 20.dp))
-                                    if (dialogOpenAgenda) {
-                                        AlertDialog(
-                                            onDismissRequest = { dialogOpenAgenda = false },
-                                            buttons = {
-                                                Row(
+                                IconButton(
+                                    onClick = { }
+                                ) {
+                                    Icon(
+                                        Icons.Rounded.Timer, "",
+                                        tint = Color.Black,
+                                        modifier = Modifier
+                                            .width(50.dp)
+                                            .padding(bottom = 25.dp)
+                                    )
+                                }
+                                Spacer(modifier = Modifier.padding(start = 20.dp))
+                                Text(
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.Black,
+                                    fontSize = 16.sp,
+                                    letterSpacing = 1.sp,
+                                    text = stringResource(id = R.string.createAlarm)
+                                )
+                            }
+                            Spacer(modifier = Modifier.padding(top = 20.dp))
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clickable(onClick = { dialogOpenAgenda = true })
+                            ) {
+
+                                Spacer(modifier = Modifier.padding(start = 20.dp))
+
+                                if (dialogOpenAgenda) {
+                                    AlertDialog(
+                                        onDismissRequest = { dialogOpenAgenda = false },
+                                        buttons = {
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(bottom = 5.dp),
+                                                horizontalArrangement = Arrangement.SpaceEvenly
+                                            ) {
+                                                Button(colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = Color.Blue
+                                                ),
+                                                    onClick = {
+                                                        dialogOpenAgenda = false
+                                                        mainActivity.addEvent(
+                                                            title,
+                                                            locationEvent,
+                                                            description
+                                                        )
+                                                    }) {
+                                                    Text(color = Color.White, text = "Agendar")
+                                                }
+                                                Button(colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = Color.Blue
+                                                ),
+                                                    onClick = { dialogOpenAgenda = false }) {
+                                                    Text(color = Color.White, text = "Cancelar")
+                                                }
+                                            }
+                                        },
+
+                                        title = { },
+
+                                        text = {
+                                            Column(
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .fillMaxHeight()
+                                            ) {
+
+                                                TextField(colors = TextFieldDefaults.textFieldColors(
+                                                    focusedIndicatorColor = Color.Blue,
+                                                    unfocusedIndicatorColor = Color.Blue,
+                                                    disabledIndicatorColor = Color.Blue
+                                                ),
                                                     modifier = Modifier
                                                         .fillMaxWidth()
                                                         .padding(bottom = 5.dp),
@@ -412,85 +464,133 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                 dismissOnClickOutside = true
                                             )
                                         )
-                                    }
-                                    IconButton(
-                                        onClick = {
-                                            dialogOpenAgenda = true
-                                        }
-                                    ) {
-                                        Icon(
-                                            Icons.Rounded.CalendarToday, "",
-                                            tint = Color.Black,
-                                            modifier = Modifier
-                                                .width(50.dp)
-                                                .padding(bottom = 25.dp),
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.padding(start = 20.dp))
-                                    Text(
-                                        fontFamily = FontFamily.SansSerif,
-                                        fontWeight = FontWeight.Medium,
-                                        color = Color.Black,
-                                        fontSize = 16.sp,
-                                        letterSpacing = 1.sp,
-                                        text = stringResource(id = R.string.addEvent)
                                     )
                                 }
-                                Spacer(modifier = Modifier.padding(top = 20.dp))
-                                Row(Modifier.fillMaxWidth()) {
-                                    Spacer(modifier = Modifier.padding(start = 20.dp))
-                                    IconButton(
-                                        onClick = {
-                                            mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal")
-                                        }
-                                    ) {
-                                        Icon(
-                                            Icons.Rounded.PinDrop, "",
-                                            tint = Color.Black,
-                                            modifier = Modifier
-                                                .width(50.dp)
-                                                .padding(bottom = 25.dp),
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.padding(start = 20.dp))
-                                    Text(
-                                        fontFamily = FontFamily.SansSerif,
-                                        fontWeight = FontWeight.Medium,
-                                        color = Color.Black,
-                                        fontSize = 16.sp,
-                                        letterSpacing = 1.sp,
-                                        text = stringResource(id = R.string.homeLocation)
+                                IconButton(
+                                    onClick = { }
+                                ) {
+                                    Icon(
+                                        Icons.Rounded.CalendarToday, "",
+                                        tint = Color.Black,
+                                        modifier = Modifier
+                                            .width(50.dp)
+                                            .padding(bottom = 25.dp),
                                     )
                                 }
-
+                                Spacer(modifier = Modifier.padding(start = 20.dp))
+                                Text(
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.Black,
+                                    fontSize = 16.sp,
+                                    letterSpacing = 1.sp,
+                                    text = stringResource(id = R.string.addEvent)
+                                )
+                            }
+                            Spacer(modifier = Modifier.padding(top = 20.dp))
+                            Row(Modifier
+                                .fillMaxWidth()
+                                .clickable(
+                                    onClick = { mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal") }
+                                )) {
+                                Spacer(modifier = Modifier.padding(start = 20.dp))
+                                IconButton(
+                                    onClick = { }
+                                ) {
+                                    Icon(
+                                        Icons.Rounded.PinDrop, "",
+                                        tint = Color.Black,
+                                        modifier = Modifier
+                                            .width(50.dp)
+                                            .padding(bottom = 25.dp),
+                                    )
+                                }
+                                Spacer(modifier = Modifier.padding(start = 20.dp))
+                                Text(
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.Black,
+                                    fontSize = 16.sp,
+                                    letterSpacing = 1.sp,
+                                    text = stringResource(id = R.string.homeLocation)
+                                )
                             }
 
                         }
 
-                    },
+                    }
 
-                    floatingActionButton = {
-                        ExtendedFloatingActionButton(
-                            icon = {
-                                Icon(
-                                    Icons.Rounded.Add, "",
-                                    modifier = Modifier.size(40.dp),
-                                    tint = Color.Black
-                                )
-                            },
-                            text = { Text("Nova", fontSize = 18.sp) },
-                            backgroundColor = Color.Gray,
-                            onClick = { },
-                            elevation = FloatingActionButtonDefaults.elevation(8.dp)
-                        )
-                    },
-                    bottomBar = {
+                },
 
-                        Row(
-                            modifier = Modifier
-                                .background(Color.LightGray)
-                                .fillMaxWidth()
-                                .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
+                floatingActionButton = {
+                    ExtendedFloatingActionButton(
+                        icon = {
+                            Icon(
+                                Icons.Rounded.Add, "",
+                                modifier = Modifier.size(40.dp),
+                                tint = Color.Black
+                            )
+                        },
+                        text = { Text("Nova", fontSize = 18.sp) },
+                        backgroundColor = Color.Gray,
+                        onClick = {
+                            navController.navigate("NewDivisionScreen")
+                        },
+                        elevation = FloatingActionButtonDefaults.elevation(8.dp)
+                    )
+                },
+                bottomBar = {
+
+                    Row(
+                        modifier = Modifier
+                            .background(Color.LightGray)
+                            .fillMaxWidth()
+                            .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+
+                        IconButton(
+                            onClick = {
+                                navController.navigate("ConnectedDevicesScreen")
+                            }
+                        ) {
+                            Icon(
+                                Icons.Rounded.Devices, "",
+                                tint = Color.Black,
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(top = 10.dp)
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                navController.navigate("ProfileScreen")
+                            }
+                        ) {
+                            Icon(
+                                Icons.Rounded.AccountCircle, "",
+                                tint = Color.Black,
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(top = 10.dp)
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                navController.navigate("ConsumptionsScreen")
+                            }
+                        ) {
+                            Icon(
+                                Icons.Rounded.Timeline, "",
+                                tint = Color.Black,
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(top = 10.dp)
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                navController.navigate("DefinitionsScreen")
+                            }
                         ) {
 
                             IconButton(

@@ -2,15 +2,15 @@
     <string name="app_name">MySmartHome</string>
     <string name="add_home">Associar Casa</string>
 
-    <!-- NEW HOME -->
-    <string name="newHomeTitle">Nova Casa</string>
+    <!-- ABOUT -->
+    <string name="aboutTitle">Sobre</string>
 
-    <!-- NEW ACCOUNT -->
-    <string name="newAccountTitle">Criar Conta</string>
+    <!-- CHOOSE TYPE HOME -->
+    <string name="chooseHomeTitle">Casa</string>
 
-    <!-- News -->
+    <!-- CONNECTED DEVICES -->
+    <string name="connectedDevicesTitle">Dispositivos Conectados</string>
     <string name="filterByDivision">  Filtrar pela Divisão:  </string>
-    <string name="aboutTitle"> Sobre </string>
     <string-array name="home_divisions">
         <item>Cozinha</item>
         <item>Sala</item>
@@ -18,6 +18,27 @@
         <item>Garagem</item>
         <item>Quarto</item>
     </string-array>
+
+    <!-- UNCONNECTED DEVICES -->
+    <string name="unconnectedDevicesTitle">Dispositivos Não Conectados</string>
+
+    <!-- ASSISTENTE VIRTUAL -->
+    <string name="virtualAssistantTitle">Assistente Virtual Pessoal</string>
+
+    <!-- CONSUMPTIONS -->
+    <string name="consumptionsTitle">Consumos</string>
+
+    <!-- HELP -->
+    <string name="helpTitle">Ajuda</string>
+
+    <!-- NEW HOME -->
+    <string name="newHomeTitle">Nova Casa</string>
+
+    <!-- NEW DIVISION -->
+    <string name="newDivisionTitle">Nova Divisão</string>
+
+    <!-- NEW ACCOUNT -->
+    <string name="newAccountTitle">Criar Conta</string>
 
     <!-- DEFINITIONS -->
     <string name="definitionsTitle">Definições</string>
@@ -31,7 +52,7 @@
         <item>Sobre</item>
     </string-array>
 
-    <!-- Profile -->
+    <!-- PROFILE -->
     <string name="admin"> - Administrador</string>
     <string-array name="profile">
         <item>Alterar Email</item>
@@ -53,7 +74,6 @@
     <!-- MEMBERS -->
     <string name="members"> - Membros</string>
 
-
     <!-- MEMBER REQUESTS -->
     <string name="adesaoPedidos"> - Pedidos de Adesão</string>
     <string name="memberType">Tipo Membro</string>
@@ -65,6 +85,28 @@
         <item>Não Aceite</item>
     </string-array>
     <string name="select"> Select</string>
+
+    <!-- DIVISION DETAILS -->
+    <string-array name="deviceType">
+        <item>Estoros</item>
+        <item>Luzes</item>
+        <item>Tomadas</item>
+    </string-array>
+    <string-array name="estorosOptions">
+        <item>Estoros Esquerda</item>
+        <item>Estoros Frente</item>
+        <item>Estoros Direita</item>
+    </string-array>
+    <string-array name="luzesOptions">
+        <item>Luz Esquerda Teto</item>
+        <item>Luz Direita Teto</item>
+        <item>Luz Mesa Ferramentas</item>
+    </string-array>
+    <string-array name="tomadasOptions">
+        <item>Tomada Parede Esquerda</item>
+        <item>Tomada Parede Frente</item>
+        <item>Tomada Parede Direita</item>
+    </string-array>
 
     <!-- PERSONAL CONFIGS -->
     <string name="personalConfigs"> Configurações Pessoais</string>

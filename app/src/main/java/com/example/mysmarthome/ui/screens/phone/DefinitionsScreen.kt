@@ -2,6 +2,7 @@ package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -16,16 +17,20 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun DefinitionsScreen() {
-    
+fun DefinitionsScreen(navController: NavController) {
+
     val nocturnMode = remember { mutableStateOf(true) }
     val savingEnergyMode = remember { mutableStateOf(true) }
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
+
+    var dialogOpen by remember { mutableStateOf(false) }
 
     var letterSpacing by remember {
         mutableStateOf(1.sp)
@@ -40,7 +45,9 @@ fun DefinitionsScreen() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -72,9 +79,10 @@ fun DefinitionsScreen() {
         content = {
 
             Column(
-                Modifier.verticalScroll(rememberScrollState())
+                Modifier
+                    .verticalScroll(rememberScrollState())
                     .fillMaxSize()
-                    .padding(top = 20.dp)
+                    .padding(top = 20.dp, bottom = 10.dp)
             ) {
                 val definitions: Array<String> = stringArrayResource(id = R.array.definitions)
 
@@ -136,6 +144,68 @@ fun DefinitionsScreen() {
                         }
 
                     } else {
+                        if (dialogOpen) {
+                            AlertDialog(
+                                onDismissRequest = { dialogOpen = false },
+                                buttons = {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(bottom = 5.dp),
+                                        horizontalArrangement = Arrangement.SpaceEvenly
+                                    ) {
+                                        Button(colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = Color.Blue
+                                        ),
+                                            onClick = {
+
+                                            }) {
+                                            Text(
+                                                color = Color.White,
+                                                text = "Sim"
+                                            )
+                                        }
+                                        Button(colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = Color.Blue
+                                        ),
+                                            onClick = { dialogOpen = false }) {
+                                            Text(
+                                                color = Color.White,
+                                                text = "Não"
+                                            )
+                                        }
+                                    }
+                                },
+
+                                title = { },
+
+                                text = {
+                                    Column(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight()
+                                    ) {
+                                        Text(
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.SansSerif,
+                                            fontSize = 20.sp,
+                                            color = Color.Black,
+                                            text = "Pretende Verdadeiramente Eliminar esta Casa?"
+                                        )
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp)
+                                    .padding(2.dp),
+                                shape = RoundedCornerShape(10.dp),
+                                backgroundColor = Color.White,
+                                properties = DialogProperties(
+                                    dismissOnBackPress = true,
+                                    dismissOnClickOutside = true
+                                )
+                            )
+                        }
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -144,7 +214,13 @@ fun DefinitionsScreen() {
                                 .border(border = BorderStroke(width = 1.dp, Color.LightGray))
                                 .clickable(
                                     onClick = {
-
+                                        when (definition) {
+                                            "Assistente Pessoal" -> navController.navigate("VirtualPersonalAssistantScreen")
+                                            "Criar Nova Casa" -> navController.navigate("NewHomeScreen")
+                                            "Eliminar Casa" -> dialogOpen = true
+                                            "Ajuda" -> navController.navigate("HelpScreen")
+                                            "Sobre" -> navController.navigate("AboutScreen")
+                                        }
                                     },
                                 ), verticalAlignment = Alignment.CenterVertically
                         ) {

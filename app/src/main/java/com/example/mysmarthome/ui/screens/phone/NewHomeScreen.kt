@@ -15,13 +15,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.mysmarthome.R
 
 @Composable
-fun NewHomeScreen(/* navController: NavController */) {
+fun NewHomeScreen(navController: NavController) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -64,15 +67,17 @@ fun NewHomeScreen(/* navController: NavController */) {
                         .fillMaxWidth()
                         .padding(top = 20.dp)
                 ) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                        modifier = Modifier
-                            .padding(start = 20.dp)
-                            .width(50.dp),
-                        onClick = {}) {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    ) {
                         Icon(
                             Icons.Rounded.ArrowBack, "",
                             tint = Color.Black,
+                            modifier = Modifier
+                                .width(50.dp)
+                                .padding(start = 5.dp),
                         )
                     }
                     Text(
@@ -82,7 +87,7 @@ fun NewHomeScreen(/* navController: NavController */) {
                         color = Color.Black,
                         modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                         fontSize = 22.sp,
-                        text = "Nova Casa"
+                        text = stringResource(id = R.string.newHomeTitle)
                     )
                 }
 
@@ -94,7 +99,11 @@ fun NewHomeScreen(/* navController: NavController */) {
 
             },
             content = {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxSize()) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .fillMaxSize()
+                ) {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, top = 20.dp),
                         fontWeight = FontWeight.Bold,
@@ -177,22 +186,28 @@ fun NewHomeScreen(/* navController: NavController */) {
                             disabledIndicatorColor = Color.Blue
                         ),
                             modifier = Modifier
-                                .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+                                .padding(start = 20.dp, top = 20.dp, end = 20.dp, bottom = 20.dp)
                                 .fillMaxWidth(),
                             value = country,
                             shape = RoundedCornerShape(7.dp),
                             onValueChange = { country = it },
                             placeholder = { Text(text = "Insira o País") },
                             label = { Text(text = "País") })
-
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Button(
                             colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                             border = BorderStroke(1.dp, Color.Blue),
                             modifier = Modifier
                                 .padding(start = 20.dp, top = 20.dp, bottom = 20.dp),
                             shape = RoundedCornerShape(20.dp),
-                            onClick = {}) {
-                            Text(fontWeight = FontWeight.Medium,text = "Continuar")
+                            onClick = {
+                                navController.navigate("NewDivisionScreen")
+                            }) {
+                            Text(fontWeight = FontWeight.Medium, text = "Continuar")
                             Icon(
                                 Icons.Rounded.ArrowForward, "",
                                 tint = Color.Black,

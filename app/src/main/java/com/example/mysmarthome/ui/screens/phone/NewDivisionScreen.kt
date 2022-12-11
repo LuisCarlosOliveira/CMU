@@ -1,6 +1,5 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import AppImage
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -8,14 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +18,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -31,13 +26,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 
 @Composable
-fun NewDivisionScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
+fun NewDivisionScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -67,7 +61,6 @@ fun NewDivisionScreen(/*mainActivity: MainActivity ,navController: NavController
             mutableStateOf(1.sp)
         }
 
-
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
@@ -78,7 +71,9 @@ fun NewDivisionScreen(/*mainActivity: MainActivity ,navController: NavController
                         .padding(top = 20.dp)
                 ) {
                     IconButton(
-                        onClick = { }
+                        onClick = {
+                            navController.popBackStack()
+                        }
                     ) {
                         Icon(
                             Icons.Rounded.ArrowBack, "",
@@ -95,7 +90,7 @@ fun NewDivisionScreen(/*mainActivity: MainActivity ,navController: NavController
                         color = Color.Black,
                         modifier = Modifier.padding(top = 7.dp, end = 150.dp),
                         fontSize = 22.sp,
-                        text = "Nova Divisão"
+                        text = stringResource(id = R.string.newDivisionTitle)
                     )
 
                 }
@@ -169,8 +164,6 @@ fun NewDivisionScreen(/*mainActivity: MainActivity ,navController: NavController
                         addImage(image.asImageBitmap())
                     }
 
-                    addImage(imageBitmap = null)
-
                     if (hasImg && imgUri != null) {
                         AsyncImage(
                             model = imgUri,
@@ -194,13 +187,15 @@ fun NewDivisionScreen(/*mainActivity: MainActivity ,navController: NavController
                     },
                     text = { Text("Associar Dispositivos", fontSize = 18.sp) },
                     backgroundColor = Color.Gray,
-                    onClick = { },
+                    onClick = {
+                        navController.navigate("UnconnectedDevicesScreen")
+                    },
                     modifier = Modifier.padding(bottom = 10.dp),
                     elevation = FloatingActionButtonDefaults.elevation(8.dp)
                 )
 
             },
-            floatingActionButtonPosition = FabPosition.End
+            floatingActionButtonPosition = FabPosition.Center
         )
 
     }
@@ -238,5 +233,5 @@ fun addImage(imageBitmap: ImageBitmap?) {
 @Preview()
 @Composable
 fun PreviewNewDivisionScreen() {
-    NewDivisionScreen()
+    NewDivisionScreen(navController = NavController(LocalContext.current))
 }

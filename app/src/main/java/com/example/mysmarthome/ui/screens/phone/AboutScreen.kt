@@ -13,14 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun AboutScreen() {
+fun AboutScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -43,7 +45,9 @@ fun AboutScreen() {
             ) {
 
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -61,11 +65,13 @@ fun AboutScreen() {
                     color = Color.Black,
                     modifier = Modifier.padding(top = 7.dp, start = 10.dp, end = 10.dp),
                     fontSize = 22.sp,
-                    text = "Sobre"
+                    text = stringResource(id = R.string.aboutTitle)
                 )
 
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.navigate("HelpScreen")
+                    }
                 ) {
                     Icon(
                         Icons.Filled.Help, "",
@@ -75,7 +81,6 @@ fun AboutScreen() {
                             .padding(end = 5.dp),
                     )
                 }
-
             }
 
             Divider(
@@ -109,7 +114,9 @@ fun AboutScreen() {
                     letterSpacing = letterSpacing,
                     fontFamily = FontFamily.SansSerif,
                     color = Color.Black,
-                    modifier = Modifier.verticalScroll(rememberScrollState()).padding(top = 20.dp, start = 15.dp, bottom = 15.dp),
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(top = 20.dp, start = 15.dp, bottom = 15.dp),
                     fontSize = 15.sp,
                     text =
                     "Este Trabalho foi proposto ao grupo pelo Docente Fábio Silva, no âmbito " +
