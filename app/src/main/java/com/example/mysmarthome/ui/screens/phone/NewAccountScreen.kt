@@ -9,8 +9,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,9 +26,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.mysmarthome.database.entities.User
+import com.example.mysmarthome.database.view_models.UsersViewModel
+import com.example.mysmarthome.enums.TypeMember
 
 @Composable
-fun NewAccountScreen(/*navController: NavController*/) {
+fun NewAccountScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -63,6 +69,9 @@ fun NewAccountScreen(/*navController: NavController*/) {
             mutableStateOf(false)
         }
 
+        val usersViewModel: UsersViewModel = viewModel()
+        val users = usersViewModel.allUsers.observeAsState()
+
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
@@ -72,7 +81,9 @@ fun NewAccountScreen(/*navController: NavController*/) {
                         .padding(top = 10.dp)
                 ) {
                     IconButton(
-                        onClick = { }
+                        onClick = {
+                            navController.popBackStack()
+                        }
                     ) {
                         Icon(
                             Icons.Rounded.ArrowBack, "",
@@ -96,12 +107,24 @@ fun NewAccountScreen(/*navController: NavController*/) {
                             if (nome.isNotEmpty() && contacto.isNotEmpty() && email.isNotEmpty() &&
                                 password.isNotEmpty() && password2.isNotEmpty()
                             ) {
-                                Toast.makeText(localCtx,"Conta Criada!",Toast.LENGTH_SHORT).show()
+                                if(contacto.length == 9 && password.equals(password2)){
+                                    usersViewModel.insertUser(
+                                        User(1, nome, email,
+                                        TypeMember.Administrador,password, contacto.toInt())
+                                    )
+                                    Toast.makeText(localCtx,"Conta Criada!",Toast.LENGTH_SHORT).show()
+                                    navController.navigate("ChooseTypeHomeScreen")
+                                } else{
+                                    Toast.makeText(localCtx,"O Contacto deve ter 9 números!",Toast.LENGTH_SHORT).show()
+                                }
+
+                            }else{
+                                Toast.makeText(localCtx,"Preencha todos os campos!",Toast.LENGTH_SHORT).show()
                             }
                         }
                     ) {
                         Icon(
-                            Icons.Rounded.Save, "",
+                            Icons.Rounded.ArrowForward, "",
                             tint = Color.Black,
                             modifier = Modifier
                                 .width(50.dp)
