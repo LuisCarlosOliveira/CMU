@@ -10,16 +10,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun VirtualPersonalAssistantScreen(/*mainActivity: MainActivity ,navController: NavController*/) {
+fun VirtualPersonalAssistantScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -44,7 +47,9 @@ fun VirtualPersonalAssistantScreen(/*mainActivity: MainActivity ,navController: 
                         .padding(top = 20.dp)
                 ) {
                     IconButton(
-                        onClick = { }
+                        onClick = {
+                            navController.popBackStack()
+                        }
                     ) {
                         Icon(
                             Icons.Rounded.ArrowBack, "",
@@ -61,11 +66,8 @@ fun VirtualPersonalAssistantScreen(/*mainActivity: MainActivity ,navController: 
                         color = Color.Black,
                         modifier = Modifier.padding(top = 7.dp, end = 20.dp),
                         fontSize = 22.sp,
-                        text = "Assistente Virtual Pessoal"
+                        text = stringResource(id = R.string.virtualAssistantTitle)
                     )
-
-
-
                 }
 
                 Divider(
@@ -79,9 +81,6 @@ fun VirtualPersonalAssistantScreen(/*mainActivity: MainActivity ,navController: 
 
             },
             content = {
-
-
-
                 Column(
 
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -91,21 +90,21 @@ fun VirtualPersonalAssistantScreen(/*mainActivity: MainActivity ,navController: 
                 ) {
                     addAssistant()
                 }
-
-
-
             },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
                     icon = {
                         Icon(
                             Icons.Rounded.Mic, "",
-                            modifier = Modifier.size(60.dp),
+                            modifier = Modifier
+                                .padding(start = 7.dp)
+                                .fillMaxSize(),
                             tint = Color.Black
                         )
                     },
                     onClick = { },
                     elevation = FloatingActionButtonDefaults.elevation(8.dp),
+                    modifier = Modifier.size(70.dp),
                     text = {}
                 )
 
@@ -121,13 +120,11 @@ fun addAssistant(){
         painter = painterResource(id = R.drawable.personal_assistant),
         contentDescription = "Personal Assistant",
         //contentScale = ContentScale.Crop
-
     )
 }
-
 
 @Preview()
 @Composable
 fun PreviewVirtualPersonalAssistantScreen() {
-    VirtualPersonalAssistantScreen()
+    VirtualPersonalAssistantScreen(navController= NavController(LocalContext.current))
 }

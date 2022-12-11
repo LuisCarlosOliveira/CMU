@@ -1,31 +1,30 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import LoginPage
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 
 @Composable
-fun UnconnectedDevicesScreen() {
+fun UnconnectedDevicesScreen(mainActivity: MainActivity,navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -34,7 +33,6 @@ fun UnconnectedDevicesScreen() {
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
-
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -45,7 +43,9 @@ fun UnconnectedDevicesScreen() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -63,7 +63,7 @@ fun UnconnectedDevicesScreen() {
                     color = Color.Black,
                     modifier = Modifier.padding(top = 7.dp, start = 5.dp),
                     fontSize = 20.sp,
-                    text = "Dispositivos Não Conectados"
+                    text = stringResource(id = R.string.unconnectedDevicesTitle)
                 )
             }
 
@@ -72,7 +72,6 @@ fun UnconnectedDevicesScreen() {
                     .padding(top = 70.dp)
                     .width(screenWidth - 20.dp)
             )
-
         },
         content = {
 
@@ -107,15 +106,11 @@ fun UnconnectedDevicesScreen() {
                                 fontSize = 18.sp,
                                 text = "Dispositivo"
                             )
-
                             CheckBoxDemo()
-
                         }
                     }
                 }
             }
-
-
         },
 
         floatingActionButton = {
@@ -129,14 +124,16 @@ fun UnconnectedDevicesScreen() {
                 },
                 text = { Text("Confirmar", fontSize = 18.sp) },
                 backgroundColor = Color.Gray,
-                onClick = { },
+                onClick = {
+                    navController.navigate("HomePageScreen")
+                    mainActivity.notification_logged_in()
+                },
                 elevation = FloatingActionButtonDefaults.elevation(8.dp)
             )
 
         },
         floatingActionButtonPosition = FabPosition.Center,
-
-    )
+        )
 }
 
 @Composable
@@ -151,5 +148,5 @@ fun CheckBoxDemo() {
 @Preview(showBackground = true)
 @Composable
 fun UnconnectedDevicesScreenPreview(){
-    UnconnectedDevicesScreen()
+    UnconnectedDevicesScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
 }

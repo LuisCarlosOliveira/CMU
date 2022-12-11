@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -65,7 +66,7 @@ fun LoginScreen(navController: NavController) {
         AppImage()
 
         Text(
-            text = "MySmartHome",
+            text = stringResource(id = R.string.app_name),
             fontStyle = FontStyle.Italic,
             style = TextStyle(fontSize = 35.sp, fontFamily = FontFamily.SansSerif)
         )

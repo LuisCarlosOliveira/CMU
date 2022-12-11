@@ -64,7 +64,7 @@ fun ChooseTypeHomeScreen(navController: NavController) {
                             color = Color.Black,
                             modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                             fontSize = 22.sp,
-                            text = "Casa"
+                            text = stringResource(id = R.string.chooseHomeTitle)
                         )
                     }
 

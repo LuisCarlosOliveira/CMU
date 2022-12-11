@@ -26,7 +26,7 @@ fun Navigation(mainActivity: MainActivity) {
             ProfileScreen( navController=  navController)
         }
         composable("ConsumptionsScreen") {
-            ConsumptiosScreen( navController=  navController)
+            ConsumptionsScreen( navController=  navController)
         }
         composable("DefinitionsScreen") {
             DefinitionsScreen( navController=  navController)
@@ -92,5 +92,4 @@ fun Navigation(mainActivity: MainActivity) {
         */
 
     }
-
 }
