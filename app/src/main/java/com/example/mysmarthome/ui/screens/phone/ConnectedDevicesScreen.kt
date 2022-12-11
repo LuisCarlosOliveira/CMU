@@ -12,23 +12,22 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun ConnectedDevicesScreen() {
+fun ConnectedDevicesScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -48,7 +47,9 @@ fun ConnectedDevicesScreen() {
                     .padding(top = 20.dp)
             ) {
                 IconButton(
-                    onClick = { }
+                    onClick = {
+                        navController.popBackStack()
+                    }
                 ) {
                     Icon(
                         Icons.Rounded.ArrowBack, "",
@@ -88,21 +89,23 @@ fun ConnectedDevicesScreen() {
                 },
                 text = { Text("Adicionar", fontSize = 18.sp) },
                 backgroundColor = Color.Gray,
-                onClick = { },
+                onClick = {
+                    navController.navigate("UnconnectedDevicesScreen")
+                },
                 elevation = FloatingActionButtonDefaults.elevation(8.dp)
             )
         },
         content = {
 
             Row(
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
 
                 Text(
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,
+                    fontSize = 16.sp,
                     text = "Filtrar por divisão:",
                     maxLines = 2,
                     letterSpacing = 1.sp,
@@ -185,7 +188,7 @@ fun dropFilterByDivision() {
             Text(
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
+                fontSize = 18.sp,
                 text = selectedText,
                 maxLines = 2,
                 letterSpacing = 1.sp,
@@ -217,5 +220,5 @@ fun dropFilterByDivision() {
 @Preview(showBackground = true)
 @Composable
 fun ConnectedDevicesScreenPreview() {
-    ConnectedDevicesScreen()
+    ConnectedDevicesScreen(navController = NavController(LocalContext.current))
 }

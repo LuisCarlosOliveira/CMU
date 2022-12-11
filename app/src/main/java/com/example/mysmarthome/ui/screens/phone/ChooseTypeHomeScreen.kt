@@ -14,19 +14,19 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.mysmarthome.MainActivity
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
 
 @Composable
-fun ChooseTypeHomeScreen(mainActivity: MainActivity) {
+fun ChooseTypeHomeScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Column( modifier = Modifier.fillMaxSize(),
+        Column(
+            modifier = Modifier.fillMaxSize(),
         ) {
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
@@ -45,7 +45,9 @@ fun ChooseTypeHomeScreen(mainActivity: MainActivity) {
                             .padding(top = 20.dp)
                     ) {
                         IconButton(
-                            onClick = { }
+                            onClick = {
+                                navController.popBackStack()
+                            }
                         ) {
                             Icon(
                                 Icons.Rounded.ArrowBack, "",
@@ -77,17 +79,25 @@ fun ChooseTypeHomeScreen(mainActivity: MainActivity) {
 
                 },
                 content = {
-                    Column(Modifier.fillMaxSize() ,horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center) {
+                    Column(
+                        Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
                         Button(
                             colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                             border = BorderStroke(1.dp, Color.Blue),
                             shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier.width(250.dp).height(80.dp),
-                            onClick = { /*TODO*/ }) {
-                            Text(text = stringResource(id = R.string.newHomeTitle),
+                            modifier = Modifier
+                                .width(250.dp)
+                                .height(80.dp),
+                            onClick = {
+                                navController.navigate("NewHomeScreen")
+                            }) {
+                            Text(
+                                text = stringResource(id = R.string.newHomeTitle),
                                 fontSize = 18.sp,
-                                fontWeight = FontWeight.Medium)
+                                fontWeight = FontWeight.Medium
+                            )
                         }
 
                         Spacer(Modifier.padding(60.dp))
@@ -95,18 +105,23 @@ fun ChooseTypeHomeScreen(mainActivity: MainActivity) {
                         Button(
                             colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                             border = BorderStroke(1.dp, Color.Blue),
-                            shape = RoundedCornerShape(20.dp),modifier = Modifier.width(250.dp).height(80.dp),
-                            onClick = { /*TODO*/ }) {
-                            Text(text = stringResource(id = R.string.add_home),
+                            shape = RoundedCornerShape(20.dp),
+                            modifier = Modifier
+                                .width(250.dp)
+                                .height(80.dp),
+                            onClick = {
+                                navController.navigate("AssociateHouseScreen")
+                            }) {
+                            Text(
+                                text = stringResource(id = R.string.add_home),
                                 fontSize = 18.sp,
-                                fontWeight = FontWeight.Medium)
+                                fontWeight = FontWeight.Medium
+                            )
                         }
                     }
 
                 },
             )
-
         }
     }
 }
-
