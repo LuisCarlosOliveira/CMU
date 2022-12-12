@@ -13,6 +13,9 @@ interface DivisionsDAO {
         @Query("select * from Division where idDivision = :division_id")
         fun getOneDivision(division_id:Int):LiveData<Division>
 
+       // @Query("select * from Division div, HomeWithDivisions hwd where div.idDivisionHome = :home_id and div.idDivisionHome = hwd.idHome")
+        //fun getDivisionByHome(home_id: Int): LiveData<List<Division>>
+
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insert(division:Division)
 

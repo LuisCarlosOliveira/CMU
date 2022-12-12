@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.entities.relations.personal_configs
 
 import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
 import com.example.mysmarthome.database.entities.*

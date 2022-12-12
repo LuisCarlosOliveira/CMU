@@ -7,7 +7,7 @@ import com.example.mysmarthome.retrofit.data_models.light.LightsData
 data class Light(
 
     @PrimaryKey
-    val idss: String,
+    val ssid: String,
 
     val idDeviceLight: Int,
 

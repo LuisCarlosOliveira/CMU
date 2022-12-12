@@ -14,6 +14,10 @@ class DivisionRepository(val divisionDao: DivisionsDAO) {
         return divisionDao.getOneDivision(id)
     }
 
+  /*  fun getDivisionByHome(id: Int): LiveData<List<Division>> {
+        return divisionDao.getDivisionByHome(id)
+    }*/
+
     suspend fun insert(division: Division) {
         divisionDao.insert(division)
     }

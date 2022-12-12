@@ -48,4 +48,10 @@ class DivisionsViewModel(application: Application) : AndroidViewModel(applicatio
         return repository.getDivision(id)
     }
 
+   /* fun getDivisionByHome(id: Int): LiveData<List<Division>> {
+        return repository.getDivisionByHome(id)
+    }
+*/
+
+
 }

@@ -9,13 +9,13 @@ import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.repositories.HomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+/*
 class HomesViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: HomeRepository
     val allHomes: LiveData<List<Home>>
 
-    init {
+   init {
         val db = MySmartHomeDatabase.getDatabase(application)
         repository = HomeRepository(db.getHomeDao())
         allHomes = repository.getHomes()
@@ -41,4 +41,4 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getHome(id)
     }
 
-}
+}*/

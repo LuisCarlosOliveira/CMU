@@ -7,7 +7,7 @@ import com.example.mysmarthome.retrofit.data_models.blind.BlindRoller
 data class Blind(
 
     @PrimaryKey
-    val idss: String,
+    val ssid: String,
 
     val idDeviceBlind: Int,
 

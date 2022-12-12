@@ -6,10 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.mysmarthome.database.dao.*
 import com.example.mysmarthome.database.entities.*
+import com.example.mysmarthome.database.entities.relations.device_division.DivisionWithDevices
 
 @Database(
     entities = [User::class, Device::class, Division::class, Home::class, PersonalConfigs::class],
-    version = 3
+    version = 6
+
 )
 abstract class MySmartHomeDatabase : RoomDatabase() {
 
@@ -30,7 +32,7 @@ abstract class MySmartHomeDatabase : RoomDatabase() {
                     context.applicationContext,
                     MySmartHomeDatabase::class.java,
                     "mysmarthome-database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

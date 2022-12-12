@@ -38,8 +38,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Text("MySmartHome")
-                    Navigation(mainActivity)
+                    Text("MySmartHomeeeeeeeeeeeeeeeeeeeee")
+                    //Navigation(mainActivity)
                 }
 
 

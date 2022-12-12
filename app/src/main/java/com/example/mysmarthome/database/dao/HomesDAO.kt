@@ -7,8 +7,9 @@ import com.example.mysmarthome.database.entities.Home
 @Dao
 interface HomesDAO {
 
-    @Query("select * from Home")
-    fun getHomes(): LiveData<List<Home>>
+    //????????????????????????????
+  //  @Query("select * from Home home, User_Home uh where uh.idUser = :user_id and home.idHome = uh.idHome")
+  //  fun getHomes(user_id: Int): LiveData<List<Home>>
 
     @Query("select * from Home where idHome = :home_id")
     fun getOneHome(home_id: Int): LiveData<Home>

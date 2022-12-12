@@ -7,7 +7,7 @@ import com.example.mysmarthome.retrofit.data_models.plug.PlugRelays
 data class Plug(
 
     @PrimaryKey
-    val idss: String,
+    val ssid: String,
 
     val idDevicePlug: Int,
 

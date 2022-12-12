@@ -114,7 +114,7 @@ fun DivisionDetailsScreen(/*mainActivity: MainActivity ,navController: NavContro
                             .fillMaxSize()
                             .padding(top = 10.dp, bottom = 50.dp)
                     ) {
-                        addImage()
+                      //  addImage()
                     }
 
                     Column(
