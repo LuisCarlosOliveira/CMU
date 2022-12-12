@@ -10,10 +10,10 @@ data class Device(
     val idDivisionDevice: Int,
 
     val wifiConnection: Boolean,
-
+//trocar pela porta
     val ip: String,
 
-    val type: TypeDevice,
+    val type: String,
 
 ){
     @PrimaryKey (autoGenerate = true)

@@ -54,7 +54,7 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         return repository.getConnectedDevicesByDivision(id)
     }
 
-    fun getTypeDevice(id: Int): LiveData<TypeDevice>{
-        return repository.getTypeDevice(id)
+    fun  getDevicesByTypeDevice(typeDevice:String): LiveData<List<Device>>{
+        return repository.getDevicesByTypeDevice(typeDevice)
     }
 }

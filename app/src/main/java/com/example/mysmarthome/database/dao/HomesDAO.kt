@@ -5,7 +5,8 @@ import androidx.room.*
 import com.example.mysmarthome.database.entities.Home
 
 @Dao
-interface HomesDAO {
+interface
+HomesDAO {
 
     //????????????????????????????
   //  @Query("select * from Home home, User_Home uh where uh.idUser = :user_id and home.idHome = uh.idHome")

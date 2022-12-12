@@ -28,8 +28,8 @@ class DeviceRepository(val deviceDao: DevicesDAO) {
         return deviceDao.getConnectedDevicesByDivision(idDivision)
     }
 
-    fun getTypeDevice(idDevice:Int): LiveData<TypeDevice>{
-        return deviceDao.getTypeDevice(idDevice)
+    fun  getDevicesByTypeDevice(typeDevice:String): LiveData<List<Device>>{
+        return deviceDao.getDevicesByTypeDevice(typeDevice)
     }
 
     suspend fun insert(device: Device) {
