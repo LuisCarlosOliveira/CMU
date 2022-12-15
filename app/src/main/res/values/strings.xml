@@ -136,6 +136,22 @@
         <item>Tomada Parede Direita</item>
     </string-array>
 
+    <!-- DEFINITIONSDIVISIONSDEVICES -->
+    <string name="nameDevice">Luz Direita Teto</string>
+    <string name="onOff">On/Off:</string>
+    <string name="colorOfLight">Cor:</string>
+    <string name="britnessOfLight">Brilho: </string>
+    <string name="gainOfLight">Refletividade: </string>
+    <string name="temperatureOfLight">Temperatura: </string>
+    <string name="timerOfLight">Temporizador </string>
+    <string name="saveLight">Guardar</string>
+    <string-array name="colorsOptions">
+        <item>Azul</item>
+        <item>Branco</item>
+        <item>Verde</item>
+        <item>Vermelho</item>
+    </string-array>
+
     <!-- PERSONAL CONFIGS -->
     <string name="personalConfigs"> Configurações Pessoais</string>
 

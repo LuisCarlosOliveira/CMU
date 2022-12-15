@@ -21,18 +21,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
-import com.example.mysmarthome.ui.components.AlertPopup
+import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
@@ -61,12 +63,7 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
+            Topbar2EndIcons(content = {
                 IconButton(
                     onClick = {
                         navController.popBackStack()
@@ -88,7 +85,7 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                     color = Color.Black,
                     modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                     fontSize = 22.sp,
-                    text = "Luz Direita Teto"
+                    text = stringResource(id = R.string.nameDevice)
                 )
 
                 IconButton(
@@ -102,33 +99,6 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                         modifier = Modifier
                             .width(50.dp)
                     )
-                }
-                if (hasTimer && !dialogOpen) {
-                    if (dialogInfo) {
-                        AlertPopup(
-                            state = dialogInfo,
-                            btn1Text = "Ok",
-                            btn2Text = "Cancelar",
-                            content = {
-
-                                Column(
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    PersonalText(Color.Red, "Início Temporizador: ")
-                                    PersonalText(Color.Black, "10:00h ")
-
-                                    PersonalText(Color.Red, "Fim Temporizador: ")
-                                    PersonalText(Color.Black, "10:30h ")
-
-                                    PersonalText(Color.Red, "Tempo Restante: ")
-                                    PersonalText(Color.Black, "30 min ")
-                                }
-                            },
-                            actionBtn = { dialogInfo = false },
-                            actionBtn2 = { dialogInfo = false })
-                    }
-                } else {
-                    null
                 }
 
                 IconButton(
@@ -144,15 +114,35 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                             .padding(end = 15.dp),
                     )
                 }
+            })
 
+            if (hasTimer && !dialogOpen) {
+                if (dialogInfo) {
+                    AlertPopup(
+                        state = dialogInfo,
+                        btn1Text = "Ok",
+                        btn2Text = "Cancelar",
+                        content = {
 
+                            Column(
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                PersonalText(Color.Red, null, "Início Temporizador: ")
+                                PersonalText(Color.Black, null, "10:00h ")
+
+                                PersonalText(Color.Red, null, "Fim Temporizador: ")
+                                PersonalText(Color.Black, null, "10:30h ")
+
+                                PersonalText(Color.Red, null, "Tempo Restante: ")
+                                PersonalText(Color.Black, null, "30 min ")
+                            }
+                        },
+                        actionBtn = { dialogInfo = false },
+                        actionBtn2 = { dialogInfo = false })
+                }
+            } else {
+                null
             }
-
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
-            )
         },
         content = {
             Column(
@@ -168,70 +158,52 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                 ) {
                     Column() {
                         Row(Modifier.height(80.dp)) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.SansSerif,
+                            PersonalText(
                                 color = Color.Red,
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                fontSize = 17.sp,
-                                text = "On/Off: "
+                                text = stringResource(id = R.string.onOff)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.SansSerif,
+                            PersonalText(
                                 color = Color.Red,
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                fontSize = 17.sp,
-                                text = "Cor: "
+                                text = stringResource(id = R.string.colorOfLight)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.SansSerif,
-                                color = Color.Red,
-                                modifier = Modifier.padding(top = 7.dp),
-                                fontSize = 17.sp,
-                                text = "Brilho: "
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.SansSerif,
+                            PersonalText(
                                 color = Color.Red,
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                fontSize = 17.sp,
-                                text = "Refletividade: "
+                                text = stringResource(id = R.string.britnessOfLight)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.SansSerif,
+                            PersonalText(
                                 color = Color.Red,
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                fontSize = 17.sp,
-                                text = "Temperatura: "
+                                text = stringResource(id = R.string.gainOfLight)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.temperatureOfLight)
                             )
                         }
                         if (dialogOpen) {
@@ -322,21 +294,14 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                                 )
                             )
                         }
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray),
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
+                        NormalButton(
+                            Modifier
                                 .width(150.dp)
                                 .height(50.dp),
-                            onClick = {
-                                dialogOpen = true
-                            }) {
-                            Text(
-                                text = "Temporizador",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
+                            action = { dialogOpen = true },
+                            title = stringResource(id = R.string.timerOfLight)
+                        )
+
                         Spacer(Modifier.padding(10.dp))
                     }
                     Column() {
@@ -351,7 +316,15 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                         }
                         Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
-                            dropDownMenuColors()
+                            DropDownMenuOutlined(
+                                modifier1 = Modifier
+                                    .width(300.dp)
+                                    .padding(end = 20.dp),
+                                modifier2 = Modifier.padding(top = 50.dp),
+                                options = stringArrayResource(
+                                    id = R.array.colorsOptions
+                                )
+                            )
                         }
                         Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
@@ -383,97 +356,29 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                         }
                         Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.SansSerif,
+                            PersonalText(
                                 color = Color.Black,
-                                modifier = Modifier.padding(top = 7.dp),
-                                fontSize = 17.sp,
+                                modifier = Modifier
+                                    .padding(top = 7.dp),
                                 text = "20ºC"
                             )
                         }
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray),
-                            shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier
+                        NormalButton(
+                            Modifier
                                 .width(160.dp)
                                 .height(50.dp),
-                            onClick = {
-
-                            }) {
-                            Text(
-                                text = "Guardar",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-
+                            action = { },
+                            title = stringResource(id = R.string.saveLight)
+                        )
                     }
                 }
-
             }
         },
     )
 }
 
+@Preview()
 @Composable
-fun PersonalText(color: Color, text: String) {
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    var letterSpacing by remember { mutableStateOf(1.sp) }
-    Text(
-        fontWeight = FontWeight.Medium,
-        letterSpacing = letterSpacing,
-        fontFamily = FontFamily.SansSerif,
-        color = color,
-        modifier = Modifier
-            .padding(top = 7.dp)
-            .width(screenWidth / 2),
-        fontSize = 17.sp, text = text
-    )
-}
-
-
-@SuppressLint("ResourceType")
-@Composable
-fun dropDownMenuColors() {
-    var expanded by remember { mutableStateOf(false) }
-    val select: String = stringResource(id = R.string.select)
-    var selectedText by remember { mutableStateOf(select) }
-    val configuration = LocalConfiguration.current
-    val colorType: Array<String> = arrayOf("Azul", "Branco", "Verde", "Vermelho")
-    val screenWidth = configuration.screenWidthDp.dp
-    val icon = if (expanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-
-    OutlinedTextField(
-        value = selectedText,
-        onValueChange = { selectedText = it },
-        modifier = Modifier
-            .width(300.dp)
-            .padding(end = 20.dp),
-        trailingIcon = {
-            Icon(icon, "contentDescription",
-                Modifier.clickable { expanded = !expanded })
-        }
-    )
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        modifier = Modifier
-            .width(200.dp)
-    ) {
-        colorType.forEach { label ->
-            DropdownMenuItem(onClick = {
-                selectedText = label
-                expanded = false
-            }) {
-                Text(text = label)
-            }
-        }
-    }
+fun PreviewDefinitionsDivisionsDevicesScreen() {
+    DefinitionsDivisionsDevicesScreen(navController = NavController(LocalContext.current))
 }
