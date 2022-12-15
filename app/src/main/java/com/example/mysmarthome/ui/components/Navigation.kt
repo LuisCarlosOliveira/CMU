@@ -43,6 +43,9 @@ fun Navigation(mainActivity: MainActivity) {
         composable("NewDivisionScreen") {
             NewDivisionScreen( navController=  navController)
         }
+        composable("NewDeviceScreen") {
+            NewDeviceScreen( navController=  navController)
+        }
         composable("UnconnectedDevicesScreen") {
             UnconnectedDevicesScreen(mainActivity ,navController=  navController)
         }

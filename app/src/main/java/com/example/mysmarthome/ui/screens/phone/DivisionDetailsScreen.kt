@@ -24,6 +24,7 @@ import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.CollapsableLazyColumn
 import com.example.mysmarthome.ui.components.CollapsableSection
+import com.example.mysmarthome.ui.components.NormalButton
 
 @Composable
 fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavController) {
@@ -119,9 +120,11 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
                             .fillMaxSize()
                             .padding(top = 10.dp, bottom = 20.dp)
                     ) {
-                        Icon(imageVector = Icons.Rounded.Garage,
+                        Icon(
+                            imageVector = Icons.Rounded.Garage,
                             contentDescription = "",
-                            modifier= Modifier.size(150.dp))
+                            modifier = Modifier.size(150.dp)
+                        )
                     }
 
                     Column(
@@ -132,24 +135,23 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
 
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Button(
-                            onClick = { },
+                        NormalButton(
                             modifier = Modifier
-                                .height(35.dp)
-                        ) {
-                            Text(text = "Editar Imagem")
-                        }
+                                .width(200.dp)
+                                .height(40.dp),
+                            { },
+                            "Editar Imagem"
+                        )
                     }
 
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight()
-                            .padding(top = 40.dp, bottom = 40.dp,start = 7.dp, end = 7.dp)
+                            .padding(top = 40.dp, bottom = 40.dp, start = 7.dp, end = 7.dp)
                     ) {
                         CollapsableLazyColumn(
-                            navController
-                            ,sections = listOf(
+                            navController, sections = listOf(
                                 CollapsableSection(
                                     title = deviceType[0],
                                     rows = estoros,
@@ -163,9 +165,10 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
                                     rows = tomadas,
                                 )
                             ),
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
                                 .height(200.dp)
-                                .padding(start=7.dp, end=7.dp)
+                                .padding(start = 7.dp, end = 7.dp)
                         )
                     }
                 }
@@ -194,5 +197,8 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
 @Preview()
 @Composable
 fun PreviewDivisionDetailsScreen() {
-    DivisionDetailsScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
+    DivisionDetailsScreen(
+        mainActivity = MainActivity(),
+        navController = NavController(LocalContext.current)
+    )
 }

@@ -4,9 +4,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -19,16 +22,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.DropDownMenuOutlined
 
 @Composable
-fun UnconnectedDevicesScreen(mainActivity: MainActivity,navController: NavController) {
+fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
+
+    var division by remember {
+        mutableStateOf("")
+    }
+
+    var dialogOpen by remember { mutableStateOf(false) }
 
     var letterSpacing by remember {
         mutableStateOf(1.sp)
@@ -63,8 +74,97 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity,navController: NavContro
                     color = Color.Black,
                     modifier = Modifier.padding(top = 7.dp, start = 5.dp),
                     fontSize = 20.sp,
-                    text = stringResource(id = R.string.unconnectedDevicesTitle)
+                    text = "Dispositivos Não Conectados"
                 )
+                if (dialogOpen) {
+                    AlertDialog(
+                        onDismissRequest = { dialogOpen = false },
+                        buttons = {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 5.dp),
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                Button(colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.Blue
+                                ),
+                                    onClick = {
+                                        dialogOpen = false
+                                        navController.navigate("HomePageScreen")
+                                        mainActivity.notification_logged_in()
+                                    }) {
+                                    Text(
+                                        color = Color.White,
+                                        text = "Ok"
+                                    )
+                                }
+                                Button(colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.Blue
+                                ),
+                                    onClick = { dialogOpen = false }) {
+                                    Text(
+                                        color = Color.White,
+                                        text = "Cancelar"
+                                    )
+                                }
+                            }
+                        },
+
+                        title = { },
+
+                        text = {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            ) {
+
+                                Text(
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.Black,
+                                    fontSize = 16.sp,
+                                    letterSpacing = 1.sp,
+                                    text = "Escolha a Divisão: "
+                                )
+
+                                Row(modifier = Modifier.fillMaxWidth()) {
+                                    division = DropDownMenuOutlined(
+                                        modifier1 = Modifier
+                                            .fillMaxWidth()
+                                            .padding(start = 20.dp, end = 20.dp, top = 20.dp),
+                                        modifier2 = Modifier.padding(top = 50.dp),
+                                        arrayOf("Cozinha", "Sala", "Quarto", "WC", "Garagem")
+                                    )
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .padding(2.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        backgroundColor = Color.White,
+                        properties = DialogProperties(
+                            dismissOnBackPress = true,
+                            dismissOnClickOutside = true
+                        )
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        dialogOpen = true
+                    }
+                ) {
+                    Icon(
+                        Icons.Rounded.ArrowForward, "",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .width(50.dp)
+                            .padding(start = 5.dp),
+                    )
+                }
             }
 
             Divider(
@@ -72,6 +172,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity,navController: NavContro
                     .padding(top = 70.dp)
                     .width(screenWidth - 20.dp)
             )
+
         },
         content = {
 
@@ -117,23 +218,21 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity,navController: NavContro
             ExtendedFloatingActionButton(
                 icon = {
                     Icon(
-                        Icons.Rounded.Check, "",
+                        Icons.Rounded.Add, "",
                         modifier = Modifier.size(40.dp),
                         tint = Color.Black
                     )
                 },
-                text = { Text("Confirmar", fontSize = 18.sp) },
+                text = { Text("Novo", fontSize = 18.sp) },
                 backgroundColor = Color.Gray,
                 onClick = {
-                    navController.navigate("HomePageScreen")
-                    mainActivity.notification_logged_in()
+                    navController.navigate("NewDeviceScreen")
                 },
                 elevation = FloatingActionButtonDefaults.elevation(8.dp)
             )
-
         },
         floatingActionButtonPosition = FabPosition.Center,
-        )
+    )
 }
 
 @Composable
@@ -147,6 +246,9 @@ fun CheckBoxDemo() {
 
 @Preview(showBackground = true)
 @Composable
-fun UnconnectedDevicesScreenPreview(){
-    UnconnectedDevicesScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
+fun UnconnectedDevicesScreenPreview() {
+    UnconnectedDevicesScreen(
+        mainActivity = MainActivity(),
+        navController = NavController(LocalContext.current)
+    )
 }

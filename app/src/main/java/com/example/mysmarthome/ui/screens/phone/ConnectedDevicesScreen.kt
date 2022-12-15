@@ -170,8 +170,8 @@ fun ConnectedDevicesScreen(navController: NavController) {
 fun dropFilterByDivision() {
 
     var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("Cozinha", "WC", "Sala de Jantar", "Garagem")
-    var selectedText by remember { mutableStateOf("Cozinha") }
+    val suggestions = listOf("Todos","Cozinha", "WC", "Sala de Jantar", "Garagem")
+    var selectedText by remember { mutableStateOf("Todos") }
 
     val icon = if (expanded)
         Icons.Filled.KeyboardArrowUp

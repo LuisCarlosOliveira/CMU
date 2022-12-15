@@ -20,9 +20,9 @@ fun AlertPopup(
     state: Boolean,
     btn1Text: String,
     btn2Text: String,
-    contentText: String,
+    content: @Composable() () -> Unit,
     actionBtn: () -> Unit,
-    actionBtnExit: () -> Unit
+    actionBtn2: () -> Unit
 ) {
     var dialogOpen by remember { mutableStateOf(false) }
     dialogOpen = state
@@ -50,7 +50,7 @@ fun AlertPopup(
                     Button(colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Blue
                     ),
-                        onClick = { actionBtnExit() }) {
+                        onClick = { actionBtn2() }) {
                         Text(
                             color = Color.White,
                             text = btn2Text
@@ -67,18 +67,12 @@ fun AlertPopup(
                         .fillMaxWidth()
                         .fillMaxHeight()
                 ) {
-                    Text(
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.SansSerif,
-                        fontSize = 20.sp,
-                        color = Color.Black,
-                        text = contentText
-                    )
+                    content()
                 }
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(300.dp)
                 .padding(2.dp),
             shape = RoundedCornerShape(10.dp),
             backgroundColor = Color.White,

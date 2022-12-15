@@ -67,6 +67,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
             var description by rememberSaveable {
                 mutableStateOf("")
             }
+            val colorArray: Array<Color> =
+                arrayOf(Color.Blue, Color.Red, Color.Black, Color.Green)
 
             Box() {
                 Spacer(modifier = Modifier.padding(start = 5.dp))
@@ -132,23 +134,24 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 Card(
                                     elevation = 10.dp,
                                     border = BorderStroke(1.dp, Color.Blue),
+                                    backgroundColor = colorArray.random(),
                                     modifier = Modifier
                                         .aspectRatio(1f)
                                         .padding(end = 5.dp)
-                                ) {
-                                    IconButton(
-                                        onClick = {
+                                        .clickable(onClick = {
                                             navController.navigate("DivisionDetailsScreen")
-                                        }
-                                    ) {
-                                        Icon(
-                                            Icons.Rounded.Home, "",
-                                            tint = Color.Black,
-                                            modifier = Modifier
-                                                .width(50.dp)
-                                                .padding(start = 5.dp),
-                                        )
-                                    }
+                                        })
+                                ) {
+                                    Text(
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(top=50.dp),
+                                        fontSize = 20.sp,
+                                        letterSpacing = 1.sp,
+                                        text = "Garagem"
+                                    )
                                 }
                             }
                         }

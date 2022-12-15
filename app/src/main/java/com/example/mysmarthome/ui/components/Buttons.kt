@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun ChooseButton(route: String, title: String, navController: NavController) {
+fun ChooseButton(title: String, action: () -> Unit) {
     Button(
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
         border = BorderStroke(1.dp, Color.Blue),
@@ -26,7 +26,7 @@ fun ChooseButton(route: String, title: String, navController: NavController) {
             .width(250.dp)
             .height(80.dp),
         onClick = {
-            navController.navigate(route)
+            action()
         }) {
         Text(
             text = title,
@@ -37,12 +37,28 @@ fun ChooseButton(route: String, title: String, navController: NavController) {
 }
 
 @Composable
-fun FloatingButton(
-    icon: ImageVector?,
-    title: String?,
-    route: String,
-    navController: NavController
-) {
+fun NormalButton(modifier: Modifier, action: () -> Unit, title: String) {
+    Button(
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
+        border = BorderStroke(1.dp, Color.Black),
+        shape = RoundedCornerShape(10.dp),
+        onClick = {
+            action()
+        },
+        modifier = modifier
+    ) {
+        Text(
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif,
+            fontSize = 16.sp,
+            color = Color.White,
+            text = title
+        )
+    }
+}
+
+@Composable
+fun FloatingButton(icon: ImageVector?, title: String?, action: () -> Unit) {
     ExtendedFloatingActionButton(
         icon = {
             if (icon != null) {
@@ -60,7 +76,7 @@ fun FloatingButton(
         },
         backgroundColor = Color.LightGray,
         onClick = {
-            navController.navigate(route)
+            action()
         },
         modifier = Modifier.padding(bottom = 10.dp),
         elevation = FloatingActionButtonDefaults.elevation(8.dp)
@@ -68,13 +84,13 @@ fun FloatingButton(
 }
 
 @Composable
-fun LoginSigninButton(title: String, route: String, navController: NavController) {
+fun LoginSigninButton(title: String, action: () -> Unit) {
     Button(
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
         border = BorderStroke(1.dp, Color.Black),
         shape = RoundedCornerShape(10.dp),
         onClick = {
-            navController.navigate(route)
+            action()
         },
 
         modifier = Modifier

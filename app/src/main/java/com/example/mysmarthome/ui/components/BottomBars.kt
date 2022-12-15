@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun BottombarWithoutHome(navController: NavController){
+fun BottombarWithoutHome(navController: NavController) {
     Row(
         modifier = Modifier
             .background(Color.LightGray)
@@ -21,6 +21,7 @@ fun BottombarWithoutHome(navController: NavController){
             .height(60.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
+
         IconButton(
             onClick = {
                 navController.navigate("ConnectedDevicesScreen")
@@ -78,7 +79,7 @@ fun BottombarWithoutHome(navController: NavController){
 }
 
 @Composable
-fun BottombarWithHome(navController: NavController){
+fun BottombarWithHome(navController: NavController) {
     Row(
         modifier = Modifier
             .background(Color.LightGray)

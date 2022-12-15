@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.mysmarthome.R
 
 @Composable
-fun DropDownMenu(options: Array<String>, optionSelected: String) {
+fun DropDownMenu(options: Array<String>, optionSelected: String): String {
     var expanded by remember { mutableStateOf(false) }
     val suggestions = options
     var selectedText by remember { mutableStateOf(optionSelected) }
@@ -68,12 +68,13 @@ fun DropDownMenu(options: Array<String>, optionSelected: String) {
             }
         }
     }
+    return selectedText
 }
 
 @Composable
-fun DropDownMenuOutlined(options: Array<String>) {
+fun DropDownMenuOutlined(modifier1: Modifier, modifier2: Modifier, options: Array<String>): String {
     var expanded by remember { mutableStateOf(false) }
-    val select: String = stringResource(id = R.string.select)
+    val select: String = stringResource(id = com.example.mysmarthome.R.string.select)
     var selectedText by remember { mutableStateOf(select) }
     val suggestions = options
 
@@ -85,29 +86,31 @@ fun DropDownMenuOutlined(options: Array<String>) {
     OutlinedTextField(
         value = selectedText,
         onValueChange = { selectedText = it },
-        modifier = Modifier
-            .width(300.dp)
-            .padding(end = 20.dp),
+        modifier = modifier1,
         trailingIcon = {
             Icon(icon, "contentDescription",
                 Modifier.clickable { expanded = !expanded })
         }
     )
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        modifier = Modifier
-            .width(220.dp)
-    ) {
-        suggestions.forEach { label ->
-            DropdownMenuItem(onClick = {
-                selectedText = label
-                expanded = false
-            }) {
-                Text(text = label)
+    Box(modifier2) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.width(200.dp)
+        ) {
+
+            suggestions.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    selectedText = label
+                    expanded = false
+                }) {
+                    Text(text = label)
+                }
+
             }
         }
     }
+    return selectedText
 }
 
 @Composable

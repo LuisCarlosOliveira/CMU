@@ -61,8 +61,8 @@ fun TopbarBack(
 fun TopBarBackForward(
     iconForward: ImageVector,
     title: String,
-    navController: NavController,
-    routeForward: String
+    actionBack: () -> Unit,
+    actionForward: () -> Unit
 ) {
     var letterSpacing by remember {
         mutableStateOf(1.sp)
@@ -71,11 +71,11 @@ fun TopBarBackForward(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp)
+            .padding(top = 20.dp)
     ) {
         IconButton(
             onClick = {
-                navController.popBackStack()
+                actionBack()
             }
         ) {
             Icon(
@@ -97,7 +97,7 @@ fun TopBarBackForward(
         )
         IconButton(
             onClick = {
-                navController.navigate(routeForward)
+                actionForward()
             }
         ) {
             Icon(
@@ -112,6 +112,18 @@ fun TopBarBackForward(
     DividerTopBar()
 }
 
+@Composable
+fun Topbar2EndIcons(content: @Composable() () -> Unit) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp)
+    ) {
+        content()
+    }
+    DividerTopBar()
+}
 
 @Composable
 fun DividerTopBar() {
@@ -124,7 +136,7 @@ fun DividerTopBar() {
         thickness = 1.dp,
         color = Color.Black,
         modifier = Modifier
-            .padding(top = 60.dp)
+            .padding(top = 70.dp)
             .width(screenWidth - 20.dp)
     )
 }
