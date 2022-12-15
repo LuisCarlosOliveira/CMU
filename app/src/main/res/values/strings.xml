@@ -28,13 +28,17 @@
     <!-- CONNECTED DEVICES -->
     <string name="connectedDevicesTitle">Dispositivos Conectados</string>
     <string name="filterByDivision">  Filtrar pela Divisão:  </string>
+    <string name="selectedOptionDivision">Todos</string>
+    <string name="addConnectedDevice">Adicionar</string>
     <string-array name="home_divisions">
+        <item>Todos</item>
         <item>Cozinha</item>
         <item>Sala</item>
         <item>WC</item>
         <item>Garagem</item>
         <item>Quarto</item>
     </string-array>
+    <string name="titleRow"> Dispositivo </string>
 
     <!-- UNCONNECTED DEVICES -->
     <string name="unconnectedDevicesTitle">Dispositivos Não Conectados</string>

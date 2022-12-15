@@ -48,7 +48,7 @@ fun ListRowWithCheckbox(title: String) {
 }
 
 @Composable
-fun ListRowWithIcon(title: String, icon: ImageVector) {
+fun ListRowWithIcon(title: String, icon: ImageVector, action: ()-> Unit) {
 
     var letterSpacing by remember {
         mutableStateOf(1.sp)
@@ -76,7 +76,9 @@ fun ListRowWithIcon(title: String, icon: ImageVector) {
             text = title
         )
         IconButton(
-            onClick = {  }
+            onClick = {
+                action()
+            }
         ) {
             Icon(
                 icon, "",
