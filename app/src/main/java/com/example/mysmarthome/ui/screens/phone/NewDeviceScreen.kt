@@ -12,14 +12,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.mysmarthome.ui.components.DropDownMenuOutlined
-import com.example.mysmarthome.ui.components.FormNumberTextField
-import com.example.mysmarthome.ui.components.FormStringTextField
+import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun NewDeviceScreen(navController: NavController) {
@@ -47,56 +49,11 @@ fun NewDeviceScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
-
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
-                    )
-                }
-
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 10.dp, end = 10.dp),
-                    fontSize = 22.sp,
-                    text = "Inserir Dispositivo"
-                )
-
-                IconButton(
-                    onClick = {
-                        navController.navigate("ConnectedDevicesScreen")
-                    }
-                ) {
-                    Icon(
-                        Icons.Filled.Save, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(end = 5.dp),
-                    )
-                }
-            }
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
-            )
+            TopBarBackForward(
+                iconForward = Icons.Filled.Save,
+                title = stringResource(id = R.string.newDeviceTitle),
+                actionBack = { navController.popBackStack() },
+                actionForward = { navController.navigate("ConnectedDevicesScreen") })
         },
         content = {
             Column(
@@ -142,67 +99,14 @@ fun NewDeviceScreen(navController: NavController) {
                 }
             }
         },
-
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .background(Color.LightGray)
-                    .fillMaxWidth()
-                    .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                IconButton(
-                    onClick = {
-                        navController.navigate("HomePageScreen")
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.Home, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .size(50.dp)
-                            .padding(top = 10.dp)
-                    )
-                }
-                IconButton(
-                    onClick = {
-                        navController.navigate("ConnectedDevicesScreen")
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.Devices, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .size(50.dp)
-                            .padding(top = 10.dp)
-                    )
-                }
-                IconButton(
-                    onClick = {
-                        navController.navigate("ConsumptionsScreen")
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.Timeline, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .size(50.dp)
-                            .padding(top = 10.dp)
-                    )
-                }
-                IconButton(
-                    onClick = {
-                        navController.navigate("DefinitionsScreen")
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.Settings, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .size(50.dp)
-                            .padding(top = 10.dp)
-                    )
-                }
-            }
+            BottombarWithHome(navController = navController)
         }
     )
+}
+
+@Preview()
+@Composable
+fun PreviewNewDeviceScreen() {
+    NewDeviceScreen(navController= NavController(LocalContext.current))
 }

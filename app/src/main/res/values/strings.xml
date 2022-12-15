@@ -78,6 +78,9 @@
     <string name="newDivisionTitle">Nova Divisão</string>
     <string name="associateDevicesBtn">Associar Dispositivos</string>
 
+    <!-- NEW DEVICE -->
+    <string name="newDeviceTitle">Inserir Dispositivo</string>
+
     <!-- NEW ACCOUNT -->
     <string name="newAccountTitle">Criar Conta</string>
 
@@ -111,6 +114,8 @@
         <item>Mariana</item>
         <item>Vitória</item>
     </string-array>
+    <string name="selectOneChildMember">Joãozinho</string>
+
 
     <!-- MEMBERS -->
     <string name="members"> - Membros</string>
@@ -180,5 +185,11 @@
     <string name="createAlarm">Criar Despertador</string>
     <string name="addEvent">Agendar Evento</string>
     <string name="utilities">Utilidades</string>
+    <string name="newDivisionHomeBtn">Nova</string>
+    <string-array name="homesOptions">
+        <item>CASA SILVA</item>
+        <item>CASA SILVA 2</item>
+    </string-array>
+    <string name="homesOptionSelected">CASA SILVA</string>
 
 </resources>
