@@ -132,6 +132,44 @@ fun SimpleTextField(modifier: Modifier, placeholder: String, label: String): Str
     return field.text
 }
 
+@Composable
+fun SimplePasswordTextField(placeholder: String, label: String): String {
+    var password by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    var passwordVisibility by remember {
+        mutableStateOf(false)
+    }
+
+    val icon = if (passwordVisibility)
+        painterResource(id = android.R.drawable.ic_partial_secure)
+    else
+        painterResource(id = android.R.drawable.ic_secure)
+
+    TextField(
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Blue,
+            unfocusedIndicatorColor = Color.Blue,
+            disabledIndicatorColor = Color.Blue
+        ),
+        modifier = Modifier
+            .padding(start = 20.dp, top = 10.dp, end = 20.dp)
+            .fillMaxWidth(),
+        value = password,
+        onValueChange = { password = it },
+        shape = RoundedCornerShape(7.dp),
+        placeholder = { Text(text = placeholder) },
+        label = { Text(text = label) },
+        trailingIcon = {
+            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                Icon(painter = icon, contentDescription = "")
+            }
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
+    )
+    return password.text
+}
 
 @Composable
 fun FormPasswordTextField(title: String, placeholder: String, label: String): String {

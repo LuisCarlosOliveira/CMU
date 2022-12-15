@@ -22,9 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
-import com.example.mysmarthome.ui.components.CollapsableLazyColumn
-import com.example.mysmarthome.ui.components.CollapsableSection
-import com.example.mysmarthome.ui.components.NormalButton
+import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavController) {
@@ -34,10 +32,6 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
     ) {
 
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-        val configuration = LocalConfiguration.current
-        val screenWidth = configuration.screenWidthDp.dp
-
-        var dialogOpen by remember { mutableStateOf(false) }
 
         val deviceType: Array<String> = stringArrayResource(id = R.array.deviceType)
         val estoros: Array<String> = stringArrayResource(id = R.array.estorosOptions)
@@ -51,12 +45,7 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp)
-                ) {
+                Topbar2EndIcons(content = {
                     IconButton(
                         onClick = {
                             navController.popBackStack()
@@ -99,18 +88,7 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
                                 .width(50.dp)
                         )
                     }
-
-                }
-
-                Divider(
-                    startIndent = 20.dp,
-                    thickness = 1.dp,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(top = 70.dp)
-                        .width(screenWidth - 20.dp)
-                )
-
+                })
             },
             content = {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -140,7 +118,7 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
                                 .width(200.dp)
                                 .height(40.dp),
                             { },
-                            "Editar Imagem"
+                            stringResource(id = R.string.editImage)
                         )
                     }
 
@@ -174,20 +152,10 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
                 }
             },
             floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    icon = {
-                        Icon(
-                            Icons.Rounded.Star, "",
-                            modifier = Modifier.size(40.dp),
-                            tint = Color.Black
-                        )
-                    },
-                    text = { Text("Aplicar Minhas Preferências", fontSize = 18.sp) },
-                    backgroundColor = Color.Gray,
-                    onClick = { },
-                    elevation = FloatingActionButtonDefaults.elevation(8.dp)
-                )
-
+                FloatingButton(
+                    icon = Icons.Rounded.Star,
+                    title = stringResource(id = R.string.applyPreferences),
+                    action = {})
             },
             floatingActionButtonPosition = FabPosition.Center
         )

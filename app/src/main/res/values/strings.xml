@@ -1,5 +1,13 @@
 <resources>
+
+    <!-- LOGIN -->
     <string name="app_name">MySmartHome</string>
+    <string name="insertEmail">Insira o Email</string>
+    <string name="email">Email</string>
+    <string name="insertPassword">Insira a Password</string>
+    <string name="password">Password</string>
+    <string name="login">Iniciar Sessão</string>
+    <string name="signin">Criar Conta</string>
 
     <!-- ASSOCIATE HOME -->
     <string name="add_home">Associar Casa</string>
@@ -58,6 +66,7 @@
 
     <!-- HELP -->
     <string name="helpTitle">Ajuda</string>
+    <string name="descriptionHelp">Veja como a nossa aplicação funciona: </string>
 
     <!-- NEW HOME -->
     <string name="newHomeTitle">Nova Casa</string>
@@ -135,6 +144,8 @@
         <item>Tomada Parede Frente</item>
         <item>Tomada Parede Direita</item>
     </string-array>
+    <string name="editImage">Editar Imagem</string>
+    <string name="applyPreferences">Aplicar Minhas Preferências</string>
 
     <!-- DEFINITIONSDIVISIONSDEVICES -->
     <string name="nameDevice">Luz Direita Teto</string>
