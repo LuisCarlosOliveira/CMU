@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MySmartHome</string>
-    <string name="add_home">Associar Casa</string>
 
     <!-- ASSOCIATE HOME -->
+    <string name="add_home">Associar Casa</string>
     <string name="readQRCode">Ler QR Code</string>
 
     <!-- ABOUT -->
@@ -48,6 +48,13 @@
 
     <!-- CONSUMPTIONS -->
     <string name="consumptionsTitle">Consumos</string>
+    <string name="devicesThat">Dispositivos que: </string>
+    <string name="optionSelectedConsumption">Mais Consomem</string>
+    <string-array name="dropdownConsumptions">
+        <item>Todos</item>
+        <item>Mais Consomem</item>
+        <item>Menos Consomem"</item>
+    </string-array>
 
     <!-- HELP -->
     <string name="helpTitle">Ajuda</string>
