@@ -72,9 +72,11 @@
 
     <!-- NEW HOME -->
     <string name="newHomeTitle">Nova Casa</string>
+    <string name="continueBtn">Continuar</string>
 
     <!-- NEW DIVISION -->
     <string name="newDivisionTitle">Nova Divisão</string>
+    <string name="associateDevicesBtn">Associar Dispositivos</string>
 
     <!-- NEW ACCOUNT -->
     <string name="newAccountTitle">Criar Conta</string>
@@ -167,6 +169,7 @@
 
     <!-- PERSONAL CONFIGS -->
     <string name="personalConfigs"> Configurações Pessoais</string>
+    <string name="personalConfigsRowTitle"> Luz Direita Teto</string>
 
     <!-- INVITE MEMBER -->
     <string name="inviteMemberTitle">Convidar Membro</string>

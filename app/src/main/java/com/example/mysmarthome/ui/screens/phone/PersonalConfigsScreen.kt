@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.ListRowWithIcon
+import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
 fun PersonalConfigsScreen(navController: NavController) {
@@ -35,90 +37,27 @@ fun PersonalConfigsScreen(navController: NavController) {
 
     Scaffold(
         scaffoldState = scaffoldState,
+
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
-                    )
-                }
-
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                    fontSize = 22.sp,
-                    text = stringResource(id = R.string.personalConfigs)
-                )
-            }
-
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
+            TopbarBack(
+                title = stringResource(id = R.string.personalConfigs),
+                navController = navController
             )
-
         },
-        content = {
 
+        content = {
             Column(
                 Modifier
                     .fillMaxSize()
                     .padding(top = 20.dp, bottom = 15.dp)
             ) {
 
-                // Em vez de items(x) mete-se foreach ...
                 LazyColumn {
-
                     items(15) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(80.dp)
-                                .padding(bottom = 20.dp, start = 20.dp, end = 20.dp)
-                                .border(
-                                    border =
-                                    BorderStroke(width = 1.dp, Color.LightGray)
-                                )
-                        ) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.Serif,
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 15.dp, start = 20.dp),
-                                fontSize = 18.sp,
-                                text = "Luz Direita Teto"
-                            )
-                            IconButton(
-                                onClick = { navController.navigate("DefinitionsDivisionsDevicesScreen") },
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .padding(top = 5.dp, end = 20.dp)
-                            ) {
-                                Icon(
-                                    Icons.Rounded.Edit,
-                                    "",
-                                    tint = Color.Black,
-                                )
-                            }
-                        }
+                        ListRowWithIcon(
+                            title = stringResource(id = R.string.personalConfigsRowTitle),
+                            icon = Icons.Rounded.Edit,
+                            action = { navController.navigate("DefinitionsDivisionsDevicesScreen") })
                     }
                 }
             }

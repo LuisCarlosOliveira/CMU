@@ -1,27 +1,27 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.FloatingButton
+import com.example.mysmarthome.ui.components.FormStringTextField
+import com.example.mysmarthome.ui.components.SimpleTextField
+import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
 fun NewHomeScreen(navController: NavController) {
@@ -30,14 +30,7 @@ fun NewHomeScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-        val configuration = LocalConfiguration.current
-        val screenWidth = configuration.screenWidthDp.dp
-
-        var letterSpacing by remember {
-            mutableStateOf(1.sp)
-        }
 
         var nome by rememberSaveable {
             mutableStateOf("")
@@ -62,41 +55,10 @@ fun NewHomeScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp)
-                ) {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(
-                            Icons.Rounded.ArrowBack, "",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .width(50.dp)
-                                .padding(start = 5.dp),
-                        )
-                    }
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                        fontSize = 22.sp,
-                        text = stringResource(id = R.string.newHomeTitle)
-                    )
-                }
-
-                Divider(
-                    startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                        .padding(top = 70.dp)
-                        .width(screenWidth - 20.dp)
+                TopbarBack(
+                    title = stringResource(id = R.string.newHomeTitle),
+                    navController = navController
                 )
-
             },
             content = {
                 Column(
@@ -104,25 +66,7 @@ fun NewHomeScreen(navController: NavController) {
                         .verticalScroll(rememberScrollState())
                         .fillMaxSize()
                 ) {
-                    Text(
-                        modifier = Modifier.padding(start = 20.dp, top = 20.dp),
-                        fontWeight = FontWeight.Bold,
-                        text = "Nome"
-                    )
-
-                    TextField(colors = TextFieldDefaults.textFieldColors(
-                        focusedIndicatorColor = Color.Blue,
-                        unfocusedIndicatorColor = Color.Blue,
-                        disabledIndicatorColor = Color.Blue
-                    ),
-                        modifier = Modifier
-                            .padding(start = 20.dp, top = 20.dp, end = 20.dp)
-                            .fillMaxWidth(),
-                        value = nome,
-                        shape = RoundedCornerShape(7.dp),
-                        onValueChange = { nome = it },
-                        placeholder = { Text(text = "Insira o Nome da Casa") },
-                        label = { Text(text = "Nome da Casa") })
+                    nome = FormStringTextField("Nome", "Insira o Nome da Casa", "Nome da Casa")
 
                     Text(
                         modifier = Modifier.padding(start = 20.dp, top = 20.dp),
@@ -131,91 +75,57 @@ fun NewHomeScreen(navController: NavController) {
                     )
 
                     Spacer(modifier = Modifier.padding(bottom = 10.dp))
+
                     Column(
                         modifier = Modifier
                             .padding(start = 20.dp, end = 20.dp)
                             .background(Color.LightGray)
                     ) {
 
-                        TextField(colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            disabledIndicatorColor = Color.Blue
-                        ),
+                        street = SimpleTextField(
+                            modifier = Modifier
+                                .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+                                .fillMaxWidth(), placeholder = "Insira a Rua", label = "Rua"
+                        )
+
+                        postalcode = SimpleTextField(
                             modifier = Modifier
                                 .padding(start = 20.dp, top = 20.dp, end = 20.dp)
                                 .fillMaxWidth(),
-                            value = street,
-                            shape = RoundedCornerShape(7.dp),
-                            onValueChange = { street = it },
-                            placeholder = { Text(text = "Insira a Rua") },
-                            label = { Text(text = "Rua") })
+                            placeholder = "Insira o Código Postal",
+                            label = "Código Postal"
+                        )
 
-                        TextField(colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            disabledIndicatorColor = Color.Blue
-                        ),
+                        city = SimpleTextField(
                             modifier = Modifier
                                 .padding(start = 20.dp, top = 20.dp, end = 20.dp)
-                                .fillMaxWidth(),
-                            value = postalcode,
-                            shape = RoundedCornerShape(7.dp),
-                            onValueChange = { postalcode = it },
-                            placeholder = { Text(text = "Insira o Código Postal") },
-                            label = { Text(text = "Código Postal") })
+                                .fillMaxWidth(), placeholder = "Insira a Cidade", label = "Cidade"
+                        )
 
-                        TextField(colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            disabledIndicatorColor = Color.Blue
-                        ),
-                            modifier = Modifier
-                                .padding(start = 20.dp, top = 20.dp, end = 20.dp)
-                                .fillMaxWidth(),
-                            value = city,
-                            shape = RoundedCornerShape(7.dp),
-                            onValueChange = { city = it },
-                            placeholder = { Text(text = "Insira a Cidade") },
-                            label = { Text(text = "Cidade") })
-
-
-                        TextField(colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            disabledIndicatorColor = Color.Blue
-                        ),
+                        country = SimpleTextField(
                             modifier = Modifier
                                 .padding(start = 20.dp, top = 20.dp, end = 20.dp, bottom = 20.dp)
-                                .fillMaxWidth(),
-                            value = country,
-                            shape = RoundedCornerShape(7.dp),
-                            onValueChange = { country = it },
-                            placeholder = { Text(text = "Insira o País") },
-                            label = { Text(text = "País") })
+                                .fillMaxWidth(), placeholder = "Insira o País", label = "País"
+                        )
+
                     }
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
-                            border = BorderStroke(1.dp, Color.Blue),
-                            modifier = Modifier
-                                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp),
-                            shape = RoundedCornerShape(20.dp),
-                            onClick = {
-                                navController.navigate("NewDivisionScreen")
-                            }) {
-                            Text(fontWeight = FontWeight.Medium, text = "Continuar")
-                            Icon(
-                                Icons.Rounded.ArrowForward, "",
-                                tint = Color.Black,
-                            )
-                        }
+                        FloatingButton(
+                            icon = Icons.Rounded.ArrowForward,
+                            title = stringResource(id = R.string.continueBtn),
+                            action = { navController.navigate("NewDivisionScreen") })
                     }
                 }
             },
         )
     }
+}
+
+@Preview()
+@Composable
+fun PreviewNewHomeScreen() {
+    NewHomeScreen(navController = NavController(LocalContext.current))
 }
