@@ -50,6 +50,8 @@
 
     <!-- UNCONNECTED DEVICES -->
     <string name="unconnectedDevicesTitle">Dispositivos Não Conectados</string>
+    <string name="deviceTitleRow">Dispositivo</string>
+    <string name="titleBtnUnconnDev">Novo</string>
 
     <!-- ASSISTENTE VIRTUAL -->
     <string name="virtualAssistantTitle">Assistente Virtual Pessoal</string>
