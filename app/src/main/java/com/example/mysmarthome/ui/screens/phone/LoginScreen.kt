@@ -63,7 +63,9 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.padding(20.dp))
 
-        password = SimplePasswordTextField(
+        password = SimplePasswordTextField(Modifier
+            .padding(start = 20.dp, top = 10.dp, end = 20.dp)
+            .width(300.dp),
             placeholder = stringResource(id = R.string.insertPassword),
             label = stringResource(id = R.string.password)
         )

@@ -16,17 +16,17 @@
     <!-- ABOUT -->
     <string name="aboutTitle">Sobre</string>
     <string name="contentAbout">
-        Este Trabalho foi proposto ao grupo pelo Docente Fábio Silva, no âmbito +
-                            da Unidade Curricular de Computação Móvel e Ubíqua.\n\n +
-                            O projeto MySmartHome foi idealizado, tendo como objetivo facilitar a gestão +
-                            de uma Casa Inteligente recorrendo a dispositivos móveis, tais como:  +
-                            Telemóvel e Tablet.\n\n +
-                            Tendo isso em conta, na presente aplicação está disponível um vasto leque de funcionalidades  +
-                            que vão desde a criação de uma casa , passando pelo convite de  +
-                            membros (residentes ou não) até à interação direta com dispositivos conectados no sistema.\n\n  +
-                            O grupo que concebeu e idealizou este projeto, é composto pelos elementos:\n\n +
-                            - Luís Oliveira; \n +
-                            - Rafael Costa; \n +
+        Este Trabalho foi proposto ao grupo pelo Docente Fábio Silva, no âmbito
+                            da Unidade Curricular de Computação Móvel e Ubíqua.\n\n
+                            O projeto MySmartHome foi idealizado, tendo como objetivo facilitar a gestão
+                            de uma Casa Inteligente recorrendo a dispositivos móveis, tais como:
+                            Telemóvel e Tablet.\n\n
+                            Tendo isso em conta, na presente aplicação está disponível um vasto leque de funcionalidades
+                            que vão desde a criação de uma casa , passando pelo convite de
+                            membros (residentes ou não) até à interação direta com dispositivos conectados no sistema.\n\n
+                            O grupo que concebeu e idealizou este projeto, é composto pelos elementos:\n\n
+                            - Luís Oliveira; \n
+                            - Rafael Costa; \n
                             - Teresa Peixoto. \n
     </string>
 

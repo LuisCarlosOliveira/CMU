@@ -133,7 +133,7 @@ fun SimpleTextField(modifier: Modifier, placeholder: String, label: String): Str
 }
 
 @Composable
-fun SimplePasswordTextField(placeholder: String, label: String): String {
+fun SimplePasswordTextField(modifier: Modifier, placeholder: String, label: String): String {
     var password by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -169,6 +169,38 @@ fun SimplePasswordTextField(placeholder: String, label: String): String {
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
     )
     return password.text
+}
+
+@Composable
+fun SimpleNumberTextField(modifier: Modifier, title: String, placeholder: String, label: String): String {
+    var field by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    Text(
+        modifier = Modifier.padding(start = 20.dp, top = 20.dp),
+        fontWeight = FontWeight.Bold,
+        text = title
+    )
+
+    TextField(
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Blue,
+            unfocusedIndicatorColor = Color.Blue,
+            disabledIndicatorColor = Color.Blue
+        ),
+        modifier = Modifier
+            .padding(start = 20.dp, top = 10.dp, end = 20.dp)
+            .fillMaxWidth(),
+        value = field,
+        shape = RoundedCornerShape(7.dp),
+        onValueChange = { field = it },
+        placeholder = { Text(text = placeholder) },
+        label = { Text(text = label) },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        )
+    )
+    return field.text
 }
 
 @Composable

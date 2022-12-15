@@ -145,7 +145,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     backgroundColor = colorArray.random(),
                                     modifier = Modifier
                                         .aspectRatio(1f)
-                                        .padding(end = 5.dp)
+                                        .padding(5.dp)
                                         .clickable(onClick = {
                                             navController.navigate("DivisionDetailsScreen")
                                         })

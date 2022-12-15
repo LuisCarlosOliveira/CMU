@@ -14,4 +14,10 @@ fun AddImage(modifier: Modifier?, painter: Painter){
             modifier = modifier
         )
     }
+    else{
+        Image(
+            painter = painter,
+            contentDescription = "",
+        )
+    }
 }

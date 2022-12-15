@@ -93,7 +93,7 @@ fun TopBarBackForward(
             fontFamily = FontFamily.Serif,
             color = Color.Black,
             modifier = Modifier.padding(top = 7.dp, start = 10.dp),
-            fontSize = 22.sp,
+            fontSize = 20.sp,
             text = title
         )
         IconButton(
