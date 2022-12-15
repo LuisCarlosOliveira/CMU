@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.ChooseButton
+import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
 fun ChooseTypeHomeScreen(navController: NavController) {
@@ -30,96 +32,30 @@ fun ChooseTypeHomeScreen(navController: NavController) {
         ) {
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-            val configuration = LocalConfiguration.current
-            val screenWidth = configuration.screenWidthDp.dp
-            var letterSpacing by remember {
-                mutableStateOf(1.sp)
-            }
 
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp)
-                    ) {
-                        IconButton(
-                            onClick = {
-                                navController.popBackStack()
-                            }
-                        ) {
-                            Icon(
-                                Icons.Rounded.ArrowBack, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .padding(start = 5.dp),
-                            )
-                        }
-                        Text(
-                            fontWeight = FontWeight.Medium,
-                            letterSpacing = letterSpacing,
-                            fontFamily = FontFamily.Serif,
-                            color = Color.Black,
-                            modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                            fontSize = 22.sp,
-                            text = stringResource(id = R.string.chooseHomeTitle)
-                        )
-                    }
-
-                    Divider(
-                        startIndent = 20.dp,
-                        thickness = 1.dp,
-                        color = Color.Black,
-                        modifier = Modifier
-                            .padding(top = 70.dp)
-                            .width(screenWidth - 20.dp)
+                    TopbarBack(
+                        title = stringResource(id = R.string.chooseHomeTitle),
+                        navController = navController
                     )
-
                 },
                 content = {
                     Column(
                         Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
-                            border = BorderStroke(1.dp, Color.Blue),
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier
-                                .width(250.dp)
-                                .height(80.dp),
-                            onClick = {
-                                navController.navigate("NewHomeScreen")
-                            }) {
-                            Text(
-                                text = stringResource(id = R.string.newHomeTitle),
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
+                        ChooseButton(
+                            title = stringResource(id = R.string.newHomeTitle),
+                            action = { navController.navigate("NewHomeScreen") })
 
                         Spacer(Modifier.padding(60.dp))
 
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
-                            border = BorderStroke(1.dp, Color.Blue),
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier
-                                .width(250.dp)
-                                .height(80.dp),
-                            onClick = {
-                                navController.navigate("AssociateHouseScreen")
-                            }) {
-                            Text(
-                                text = stringResource(id = R.string.add_home),
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
+                        ChooseButton(
+                            title = stringResource(id = R.string.add_home),
+                            action = { navController.navigate("AssociateHouseScreen") })
                     }
-
                 },
             )
         }

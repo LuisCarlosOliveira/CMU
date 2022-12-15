@@ -55,6 +55,7 @@ fun TopbarBack(
             text = title
         )
     }
+    DividerTopBar()
 }
 
 @Composable
@@ -91,8 +92,8 @@ fun TopBarBackForward(
             letterSpacing = letterSpacing,
             fontFamily = FontFamily.Serif,
             color = Color.Black,
-            modifier = Modifier.padding(top = 7.dp),
-            fontSize = 24.sp,
+            modifier = Modifier.padding(top = 7.dp, start = 10.dp),
+            fontSize = 22.sp,
             text = title
         )
         IconButton(

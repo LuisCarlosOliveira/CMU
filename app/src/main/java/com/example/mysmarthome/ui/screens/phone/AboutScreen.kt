@@ -20,78 +20,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.AddImage
+import com.example.mysmarthome.ui.components.BottombarWithHome
+import com.example.mysmarthome.ui.components.TopBarBackForward
 
 @Composable
 fun AboutScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
 
     Scaffold(
-
         scaffoldState = scaffoldState,
         topBar = {
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
-
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
-                    )
-                }
-
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 10.dp, end = 10.dp),
-                    fontSize = 22.sp,
-                    text = stringResource(id = R.string.aboutTitle)
-                )
-
-                IconButton(
-                    onClick = {
-                        navController.navigate("HelpScreen")
-                    }
-                ) {
-                    Icon(
-                        Icons.Filled.Help, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(end = 5.dp),
-                    )
-                }
-            }
-
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
-            )
+            TopBarBackForward(
+                Icons.Filled.Help,
+                stringResource(id = R.string.aboutTitle),
+                { navController.popBackStack() },
+                { navController.navigate("HelpScreen") })
         },
 
         content = {
-
             Column(
                 Modifier
                     .fillMaxSize()
@@ -102,14 +53,11 @@ fun AboutScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "",
-                        modifier = Modifier.size(100.dp)
+                    AddImage(
+                        modifier = Modifier.size(100.dp),
+                        painter = painterResource(id = R.drawable.logo)
                     )
                 }
-
                 Text(
                     letterSpacing = letterSpacing,
                     fontFamily = FontFamily.SansSerif,
@@ -118,21 +66,12 @@ fun AboutScreen(navController: NavController) {
                         .verticalScroll(rememberScrollState())
                         .padding(top = 20.dp, start = 15.dp, bottom = 15.dp),
                     fontSize = 15.sp,
-                    text =
-                    "Este Trabalho foi proposto ao grupo pelo Docente Fábio Silva, no âmbito " +
-                            "da Unidade Curricular de Computação Móvel e Ubíqua.\n\n" +
-                            "O projeto MySmartHome foi idealizado, tendo como objetivo facilitar a gestão" +
-                            " de uma Casa Inteligente recorrendo a dispositivos móveis, tais como: " +
-                            "Telemóvel e Tablet.\n\n" +
-                            "Tendo isso em conta, na presente aplicação está disponível um vasto leque de funcionalidades " +
-                            "que vão desde a criação de uma casa , passando pelo convite de " +
-                            "membros (residentes ou não) até à interação direta com dispositivos conectados no sistema.\n\n " +
-                            "O grupo que concebeu e idealizou este projeto, é composto pelos elementos:\n\n" +
-                            "- Luís Oliveira; \n" +
-                            "- Rafael Costa; \n" +
-                            "- Teresa Peixoto. \n "
+                    text = stringResource(id = R.string.contentAbout)
                 )
             }
         },
+        bottomBar = {
+            BottombarWithHome(navController = navController)
+        }
     )
 }
