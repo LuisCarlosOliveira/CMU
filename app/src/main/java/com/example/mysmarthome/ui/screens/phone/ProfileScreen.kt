@@ -43,10 +43,6 @@ fun ProfileScreen(navController: NavController) {
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
-            val configuration = LocalConfiguration.current
-
-            val screenWidth = configuration.screenWidthDp.dp
-
             var letterSpacing by remember {
                 mutableStateOf(1.sp)
             }

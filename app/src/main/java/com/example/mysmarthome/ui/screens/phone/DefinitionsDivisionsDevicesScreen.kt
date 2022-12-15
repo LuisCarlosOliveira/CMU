@@ -295,7 +295,7 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                             )
                         }
                         NormalButton(
-                            Modifier
+                            modifier = Modifier
                                 .width(150.dp)
                                 .height(50.dp),
                             action = { dialogOpen = true },
@@ -364,7 +364,7 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                             )
                         }
                         NormalButton(
-                            Modifier
+                           modifier= Modifier
                                 .width(160.dp)
                                 .height(50.dp),
                             action = { },

@@ -1,24 +1,18 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.*
@@ -27,11 +21,6 @@ import com.example.mysmarthome.ui.components.*
 fun NewDeviceScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    var letterSpacing by remember {
-        mutableStateOf(1.sp)
-    }
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
 
     var name by remember {
         mutableStateOf("")
@@ -108,5 +97,5 @@ fun NewDeviceScreen(navController: NavController) {
 @Preview()
 @Composable
 fun PreviewNewDeviceScreen() {
-    NewDeviceScreen(navController= NavController(LocalContext.current))
+    NewDeviceScreen(navController = NavController(LocalContext.current))
 }

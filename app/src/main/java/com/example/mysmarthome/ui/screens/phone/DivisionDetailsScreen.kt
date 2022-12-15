@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -25,7 +24,7 @@ import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.*
 
 @Composable
-fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavController) {
+fun DivisionDetailsScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -166,7 +165,6 @@ fun DivisionDetailsScreen(mainActivity: MainActivity, navController: NavControll
 @Composable
 fun PreviewDivisionDetailsScreen() {
     DivisionDetailsScreen(
-        mainActivity = MainActivity(),
         navController = NavController(LocalContext.current)
     )
 }

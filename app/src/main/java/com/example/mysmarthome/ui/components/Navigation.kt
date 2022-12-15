@@ -62,7 +62,7 @@ fun Navigation(mainActivity: MainActivity) {
             InviteMemberScreen( mainActivity, navController=  navController)
         }
         composable("DivisionDetailsScreen") {
-            DivisionDetailsScreen( mainActivity, navController=  navController)
+            DivisionDetailsScreen(navController=  navController)
         }
         composable("VirtualPersonalAssistantScreen") {
             VirtualPersonalAssistantScreen( navController=  navController)

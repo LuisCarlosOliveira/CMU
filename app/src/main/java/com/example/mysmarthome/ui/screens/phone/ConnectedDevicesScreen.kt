@@ -90,9 +90,9 @@ fun ConnectedDevicesScreen(navController: NavController) {
 
         floatingActionButton = {
             FloatingButton(
-                Icons.Rounded.Add,
-                stringResource(id = R.string.addConnectedDevice),
-                { navController.navigate("UnconnectedDevicesScreen") }
+                icon= Icons.Rounded.Add,
+                title = stringResource(id = R.string.addConnectedDevice),
+                action = { navController.navigate("UnconnectedDevicesScreen") }
             )
         },
     )
