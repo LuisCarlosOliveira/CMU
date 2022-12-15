@@ -1,7 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,12 +19,15 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.BottombarWithHome
+import com.example.mysmarthome.ui.components.TopBarBackForward
 
 @Composable
 fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
@@ -61,64 +63,19 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp)
-                    ) {
-                        IconButton(
-                            onClick = {
-                                navController.popBackStack()
-                            }
-                        ) {
-                            Icon(
-                                Icons.Rounded.ArrowBack, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .padding(start = 5.dp)
-                            )
-                        }
-                        Text(
-                            fontWeight = FontWeight.Medium,
-                            letterSpacing = letterSpacing,
-                            fontFamily = FontFamily.Serif,
-                            color = Color.Black,
-                            modifier = Modifier.padding(top = 7.dp),
-                            fontSize = 22.sp,
-                            text = "João " + stringResource(id = R.string.members)
-                        )
-                        IconButton(
-                            onClick = {
-                                navController.navigate("InviteMemberScreen")
-                            }
-                        ) {
-                            Icon(
-                                Icons.Rounded.PersonAddAlt, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .padding(end = 5.dp)
-                            )
-                        }
-                    }
-
-                    Divider(
-                        startIndent = 20.dp,
-                        thickness = 1.dp,
-                        color = Color.Black,
-                        modifier = Modifier
-                            .padding(top = 70.dp)
-                            .width(screenWidth - 20.dp)
-                    )
+                    TopBarBackForward(
+                        iconForward = Icons.Rounded.PersonAddAlt,
+                        title = "João " + stringResource(id = R.string.members),
+                        actionBack = { navController.popBackStack() },
+                        actionForward = { navController.navigate("InviteMemberScreen") })
                 },
                 content = {
-
                     Column(
                         Modifier
                             .padding(bottom = 60.dp)
                             .fillMaxSize()
                     ) {
+                        
                         LazyColumn {
                             items(4) {
                                 Row(
@@ -145,7 +102,6 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                             Icons.Rounded.Edit,
                                             "",
                                             tint = Color.Black,
-
                                             )
                                     }
 
@@ -330,71 +286,12 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                     }
                 },
                 bottomBar = {
-                    Row(
-                        modifier = Modifier
-                            .background(Color.LightGray)
-                            .fillMaxWidth()
-                            .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        IconButton(
-                            onClick = {
-                                navController.navigate("HomePageScreen")
-                            }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Home, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                navController.navigate("ConnectedDevicesScreen")
-                            }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Devices, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                navController.navigate("ConsumptionsScreen")
-                            }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Timeline, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                navController.navigate("DefinitionsScreen")
-                            }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Settings, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                    }
+                   BottombarWithHome(navController = navController)
                 }
             )
         }
     }
 }
-
 
 @SuppressLint("ResourceType")
 @Composable
@@ -428,7 +325,6 @@ fun dropDownMenuMembers2(navController: NavController) {
                         Modifier.clickable { expanded = !expanded })
                 }
             )
-
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
@@ -459,4 +355,10 @@ fun dropDownMenuMembers2(navController: NavController) {
             }
         }
     }
+}
+
+@Preview()
+@Composable
+fun PreviewMembersScreen() {
+    MembersScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
 }
