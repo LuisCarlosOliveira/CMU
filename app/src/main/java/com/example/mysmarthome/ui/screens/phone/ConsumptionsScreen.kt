@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.AddImage
+import com.example.mysmarthome.ui.components.DropDownMenu
+import com.example.mysmarthome.ui.components.TopbarBack
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -35,14 +39,6 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun ConsumptionsScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-
-    val park = LatLng(40.888277915243826, -8.485999037385369)
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(park, 15f)
-    }
-
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
@@ -50,42 +46,10 @@ fun ConsumptionsScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
-                    )
-                }
-
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                    fontSize = 22.sp,
-                    text = stringResource(id = R.string.consumptionsTitle)
-                )
-            }
-
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
+            TopbarBack(
+                title = stringResource(id = R.string.consumptionsTitle),
+                navController = navController
             )
-
         },
         content = {
             Column(
@@ -104,9 +68,13 @@ fun ConsumptionsScreen(navController: NavController) {
                         color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 17.sp,
-                        text = "Dispositivos que:  "
+                        text = stringResource(id = R.string.devicesThat)
                     )
-                    dropDownMenuConsumptions()
+                    DropDownMenu(
+                        stringArrayResource(id = R.array.dropdownConsumptions), stringResource(
+                            id = R.string.optionSelectedConsumption
+                        )
+                    )
                 }
 
                 Column(
@@ -115,11 +83,9 @@ fun ConsumptionsScreen(navController: NavController) {
                         .padding(top = 20.dp)
                         .height(400.dp)
                 ) {
-
-                    Image(
-                        painterResource(id = R.drawable.consumos),
-                        contentDescription = "",
-                        modifier = Modifier.fillMaxSize()
+                    AddImage(
+                        modifier = Modifier.fillMaxSize(),
+                        painter = painterResource(id = R.drawable.consumos)
                     )
                 }
             }
@@ -127,62 +93,8 @@ fun ConsumptionsScreen(navController: NavController) {
     )
 }
 
-@Composable
-fun dropDownMenuConsumptions() {
-
-    var expanded by remember { mutableStateOf(false) }
-    val suggestions: Array<String> = arrayOf("Todos", "Mais Consomem", "Menos Consomem")
-    var selectedText by remember { mutableStateOf(suggestions[0]) }
-
-    val icon = if (expanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-    Column(
-        Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(20.dp)) {
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                text = selectedText,
-                maxLines = 2,
-                letterSpacing = 1.sp
-            )
-            Icon(icon, "contentDescription",
-                Modifier
-                    .clickable { expanded = !expanded })
-            Box(modifier = Modifier.padding(top = 15.dp)) {
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                ) {
-                    suggestions.forEach { label ->
-                        DropdownMenuItem(onClick = {
-                            selectedText = label
-                            expanded = false
-                        }) {
-                            Text(text = label)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-
 @Preview()
 @Composable
-fun tentarVer() {
+fun Consumptions() {
     ConsumptionsScreen(navController = NavController(LocalContext.current))
 }

@@ -6,27 +6,35 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
@@ -35,8 +43,19 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val onOff = remember { mutableStateOf(true) }
+    var hasTimer by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var beginTimer by rememberSaveable {
+        mutableStateOf("")
+    }
+    var durationTimer by rememberSaveable {
+        mutableStateOf("")
+    }
+    var dialogInfo by remember { mutableStateOf(false) }
+    var dialogOpen by remember { mutableStateOf(false) }
     var sliderPositionBrilho by remember { mutableStateOf(0f) }
-    var sliderPositionPotencia by remember { mutableStateOf(0f) }
+    var sliderPositionRefletividade by remember { mutableStateOf(0f) }
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
@@ -44,11 +63,7 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
+            Topbar2EndIcons(content = {
                 IconButton(
                     onClick = {
                         navController.popBackStack()
@@ -70,8 +85,21 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                     color = Color.Black,
                     modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                     fontSize = 22.sp,
-                    text = "Luz Direita Teto"
+                    text = stringResource(id = R.string.nameDevice)
                 )
+
+                IconButton(
+                    onClick = {
+                        dialogInfo = true
+                    }
+                ) {
+                    Icon(
+                        Icons.Rounded.Info, "",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .width(50.dp)
+                    )
+                }
 
                 IconButton(
                     onClick = {
@@ -86,211 +114,271 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                             .padding(end = 15.dp),
                     )
                 }
-            }
+            })
 
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
-            )
-            Spacer(Modifier.padding(60.dp))
+            if (hasTimer && !dialogOpen) {
+                if (dialogInfo) {
+                    AlertPopup(
+                        state = dialogInfo,
+                        btn1Text = "Ok",
+                        btn2Text = "Cancelar",
+                        content = {
+
+                            Column(
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                PersonalText(Color.Red, null, "Início Temporizador: ")
+                                PersonalText(Color.Black, null, "10:00h ")
+
+                                PersonalText(Color.Red, null, "Fim Temporizador: ")
+                                PersonalText(Color.Black, null, "10:30h ")
+
+                                PersonalText(Color.Red, null, "Tempo Restante: ")
+                                PersonalText(Color.Black, null, "30 min ")
+                            }
+                        },
+                        actionBtn = { dialogInfo = false },
+                        actionBtn2 = { dialogInfo = false })
+                }
+            } else {
+                null
+            }
         },
         content = {
             Column(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
-                    .padding(start = 20.dp)
+                    .fillMaxSize()
+                    .padding(start = 20.dp, top = 40.dp)
             ) {
-                Row(
-                    modifier = Modifier
-                        .height(80.dp)
-                        .padding(start = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
-                        modifier = Modifier.padding(top = 7.dp),
-                        fontSize = 17.sp,
-                        text = "On/Off:  "
-                    )
-                    Switch(
-                        checked = onOff.value,
-                        onCheckedChange = { onOff.value = it },
-                        modifier = Modifier.padding(top = 7.dp),
-                    )
-                }
 
                 Row(
-                    modifier = Modifier
-                        .height(80.dp)
-                        .padding(start = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
-                        modifier = Modifier.padding(top = 6.dp),
-                        fontSize = 17.sp,
-                        text = "Cor:         "
-                    )
-                    dropDownMenuColors()
-                }
-                Row(
-                    modifier = Modifier
-                        .height(80.dp)
-                        .padding(start = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
-                        modifier = Modifier.padding(top = 7.dp),
-                        fontSize = 17.sp,
-                        text = "Brilho:        "
-                    )
-                    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        Slider(
-                            modifier = Modifier.padding(end = 70.dp),
-                            value = sliderPositionBrilho,
-                            onValueChange = { sliderPositionBrilho = it },
-                            valueRange = 0f..10f,
-                            onValueChangeFinished = {
-                                // launch some business logic update with the state you hold
-                                // viewModel.updateSelectedSliderValue(sliderPosition)
-                            },
-                            steps = 9
+                    Column() {
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.onOff)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.colorOfLight)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.britnessOfLight)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.gainOfLight)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.temperatureOfLight)
+                            )
+                        }
+                        if (dialogOpen) {
+                            AlertDialog(
+                                onDismissRequest = { dialogOpen = false },
+                                buttons = {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(bottom = 5.dp),
+                                        horizontalArrangement = Arrangement.SpaceEvenly
+                                    ) {
+                                        Button(colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = Color.Blue
+                                        ),
+                                            onClick = {
+                                                dialogOpen = false
+                                                hasTimer = true
+                                            }) {
+                                            Text(color = Color.White, text = "Guardar")
+                                        }
+                                        Button(colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = Color.Blue
+                                        ),
+                                            onClick = { dialogOpen = false }) {
+                                            Text(color = Color.White, text = "Cancelar")
+                                        }
+                                    }
+                                },
+
+                                title = { },
+
+                                text = {
+                                    Column(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight()
+                                    ) {
+
+                                        TextField(
+                                            colors = TextFieldDefaults.textFieldColors(
+                                                focusedIndicatorColor = Color.Blue,
+                                                unfocusedIndicatorColor = Color.Blue,
+                                                disabledIndicatorColor = Color.Blue
+                                            ),
+                                            modifier = Modifier
+                                                .padding(top = 10.dp)
+                                                .fillMaxWidth(),
+                                            value = beginTimer,
+                                            shape = RoundedCornerShape(7.dp),
+                                            onValueChange = { beginTimer = it },
+                                            placeholder = { Text(text = "Início Temporizador") },
+                                            label = { Text(text = "Início") },
+                                            keyboardOptions = KeyboardOptions(
+                                                keyboardType = KeyboardType.Number
+                                            )
+                                        )
+
+                                        TextField(
+                                            colors = TextFieldDefaults.textFieldColors(
+                                                focusedIndicatorColor = Color.Blue,
+                                                unfocusedIndicatorColor = Color.Blue,
+                                                disabledIndicatorColor = Color.Blue
+                                            ),
+                                            modifier = Modifier
+                                                .padding(top = 30.dp, bottom = 10.dp)
+                                                .fillMaxWidth(),
+                                            value = durationTimer,
+                                            shape = RoundedCornerShape(7.dp),
+                                            onValueChange = { durationTimer = it },
+                                            placeholder = { Text(text = "Duração Temporizador") },
+                                            label = { Text(text = "Duração") },
+                                            keyboardOptions = KeyboardOptions(
+                                                keyboardType = KeyboardType.Number
+                                            )
+                                        )
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(300.dp)
+                                    .padding(2.dp),
+                                shape = RoundedCornerShape(10.dp),
+                                backgroundColor = Color.White,
+                                properties = DialogProperties(
+                                    dismissOnBackPress = true,
+                                    dismissOnClickOutside = true
+                                )
+                            )
+                        }
+                        NormalButton(
+                            modifier = Modifier
+                                .width(150.dp)
+                                .height(50.dp),
+                            action = { dialogOpen = true },
+                            title = stringResource(id = R.string.timerOfLight)
                         )
-                    } else {
-                        Slider(
-                            modifier = Modifier.padding(end = 35.dp),
-                            value = sliderPositionBrilho,
-                            onValueChange = { sliderPositionBrilho = it },
-                            valueRange = 0f..10f,
-                            onValueChangeFinished = {
-                                // launch some business logic update with the state you hold
-                                // viewModel.updateSelectedSliderValue(sliderPosition)
-                            },
-                            steps = 9
-                        )
+
+                        Spacer(Modifier.padding(10.dp))
                     }
-
-                }
-                Row(
-                    modifier = Modifier
-                        .height(80.dp)
-                        .padding(start = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
-                        modifier = Modifier.padding(top = 7.dp),
-                        fontSize = 17.sp,
-                        text = "Potencia:    "
-                    )
-
-                    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        Slider(
-                            modifier = Modifier.padding(end = 70.dp),
-                            value = sliderPositionPotencia,
-                            onValueChange = { sliderPositionPotencia = it },
-                            valueRange = 0f..10f,
-                            onValueChangeFinished = {
-                                // launch some business logic update with the state you hold
-                                // viewModel.updateSelectedSliderValue(sliderPosition)
-                            },
-                            steps = 9
-                        )
-                    } else {
-                        Slider(
-                            modifier = Modifier.padding(end = 35.dp),
-                            value = sliderPositionPotencia,
-                            onValueChange = { sliderPositionPotencia = it },
-                            valueRange = 0f..10f,
-                            onValueChangeFinished = {
-                                // launch some business logic update with the state you hold
-                                // viewModel.updateSelectedSliderValue(sliderPosition)
-                            },
-                            steps = 9
-                        )
-                    }
-
-                }
-                Spacer(Modifier.padding(20.dp))
-                Box(modifier = Modifier.padding(80.dp)) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray),
-                        shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier
-                            .width(200.dp)
-                            .height(50.dp),
-                        onClick = {
-
-                        }) {
-                        Text(
-                            text = "Guardar Alterações",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold
+                    Column() {
+                        Row(Modifier.height(80.dp)) {
+                            Switch(
+                                checked = onOff.value,
+                                onCheckedChange = { onOff.value = it },
+                                modifier = Modifier
+                                    .padding(end = 160.dp)
+                                    .width(screenWidth / 2),
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            DropDownMenuOutlined(
+                                modifier1 = Modifier
+                                    .width(300.dp)
+                                    .padding(end = 20.dp),
+                                modifier2 = Modifier.padding(top = 50.dp),
+                                options = stringArrayResource(
+                                    id = R.array.colorsOptions
+                                )
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            Slider(
+                                modifier = Modifier.padding(end = 20.dp),
+                                value = sliderPositionBrilho,
+                                onValueChange = { sliderPositionBrilho = it },
+                                valueRange = 0f..10f,
+                                onValueChangeFinished = {
+                                    // launch some business logic update with the state you hold
+                                    // viewModel.updateSelectedSliderValue(sliderPosition)
+                                },
+                                steps = 9
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            Slider(
+                                modifier = Modifier.padding(end = 20.dp),
+                                value = sliderPositionRefletividade,
+                                onValueChange = { sliderPositionRefletividade = it },
+                                valueRange = 0f..10f,
+                                onValueChangeFinished = {
+                                    // launch some business logic update with the state you hold
+                                    // viewModel.updateSelectedSliderValue(sliderPosition)
+                                },
+                                steps = 9
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(top = 7.dp),
+                                text = "20ºC"
+                            )
+                        }
+                        NormalButton(
+                           modifier= Modifier
+                                .width(160.dp)
+                                .height(50.dp),
+                            action = { },
+                            title = stringResource(id = R.string.saveLight)
                         )
                     }
                 }
             }
-        }
+        },
     )
 }
 
-@SuppressLint("ResourceType")
+@Preview()
 @Composable
-fun dropDownMenuColors() {
-    var expanded by remember { mutableStateOf(false) }
-    val select: String = stringResource(id = R.string.select)
-    var selectedText by remember { mutableStateOf(select) }
-    val colorType: Array<String> = arrayOf("Azul", "Branco", "Verde", "Vermelho")
-
-    val icon = if (expanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-    Column(Modifier.padding(start = 15.dp)) {
-        OutlinedTextField(
-            value = selectedText,
-            onValueChange = { selectedText = it },
-            modifier = Modifier
-                .width(300.dp)
-                .padding(end = 20.dp),
-            trailingIcon = {
-                Icon(icon, "contentDescription",
-                    Modifier.clickable { expanded = !expanded })
-            }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .width(220.dp)
-        ) {
-            colorType.forEach { label ->
-                DropdownMenuItem(onClick = {
-                    selectedText = label
-                    expanded = false
-                }) {
-                    Text(text = label)
-                }
-            }
-        }
-    }
+fun PreviewDefinitionsDivisionsDevicesScreen() {
+    DefinitionsDivisionsDevicesScreen(navController = NavController(LocalContext.current))
 }

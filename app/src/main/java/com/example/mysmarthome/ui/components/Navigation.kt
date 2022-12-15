@@ -43,6 +43,9 @@ fun Navigation(mainActivity: MainActivity) {
         composable("NewDivisionScreen") {
             NewDivisionScreen( navController=  navController)
         }
+        composable("NewDeviceScreen") {
+            NewDeviceScreen( navController=  navController)
+        }
         composable("UnconnectedDevicesScreen") {
             UnconnectedDevicesScreen(mainActivity ,navController=  navController)
         }
@@ -59,7 +62,7 @@ fun Navigation(mainActivity: MainActivity) {
             InviteMemberScreen( mainActivity, navController=  navController)
         }
         composable("DivisionDetailsScreen") {
-            DivisionDetailsScreen( mainActivity, navController=  navController)
+            DivisionDetailsScreen(navController=  navController)
         }
         composable("VirtualPersonalAssistantScreen") {
             VirtualPersonalAssistantScreen( navController=  navController)

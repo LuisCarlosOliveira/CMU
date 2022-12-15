@@ -11,15 +11,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.AlertPopup
+import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
 fun DefinitionsScreen(navController: NavController) {
@@ -27,8 +31,6 @@ fun DefinitionsScreen(navController: NavController) {
     val nocturnMode = remember { mutableStateOf(true) }
     val savingEnergyMode = remember { mutableStateOf(true) }
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
 
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -38,52 +40,21 @@ fun DefinitionsScreen(navController: NavController) {
 
     Scaffold(
         scaffoldState = scaffoldState,
+
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
-                    )
-                }
-
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                    fontSize = 22.sp,
-                    text = stringResource(id = R.string.definitionsTitle)
-                )
-            }
-
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
+            TopbarBack(
+                title = stringResource(id = R.string.definitionsTitle),
+                navController = navController
             )
-
         },
         content = {
-
             Column(
                 Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize()
                     .padding(top = 20.dp, bottom = 10.dp)
             ) {
+
                 val definitions: Array<String> = stringArrayResource(id = R.array.definitions)
 
                 definitions.forEach { definition ->
@@ -140,72 +111,29 @@ fun DefinitionsScreen(navController: NavController) {
                                 onCheckedChange = { savingEnergyMode.value = it },
                                 modifier = Modifier.padding(end = 20.dp)
                             )
-
                         }
 
                     } else {
-                        if (dialogOpen) {
-                            AlertDialog(
-                                onDismissRequest = { dialogOpen = false },
-                                buttons = {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(bottom = 5.dp),
-                                        horizontalArrangement = Arrangement.SpaceEvenly
-                                    ) {
-                                        Button(colors = ButtonDefaults.buttonColors(
-                                            backgroundColor = Color.Blue
-                                        ),
-                                            onClick = {
+                        AlertPopup(
+                            state = dialogOpen,
+                            btn1Text = "Sim", btn2Text = "Não",
+                            content = {
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight()
+                                ) {
+                                    Text(
+                                        fontWeight = FontWeight.Bold,
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontSize = 20.sp,
+                                        color = Color.Black,
+                                        text = "Pretende Verdadeiramente Eliminar esta Casa?"
+                                    )
+                                }
+                            },
+                            actionBtn = { }, actionBtn2 = { dialogOpen = false })
 
-                                            }) {
-                                            Text(
-                                                color = Color.White,
-                                                text = "Sim"
-                                            )
-                                        }
-                                        Button(colors = ButtonDefaults.buttonColors(
-                                            backgroundColor = Color.Blue
-                                        ),
-                                            onClick = { dialogOpen = false }) {
-                                            Text(
-                                                color = Color.White,
-                                                text = "Não"
-                                            )
-                                        }
-                                    }
-                                },
-
-                                title = { },
-
-                                text = {
-                                    Column(
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .fillMaxHeight()
-                                    ) {
-                                        Text(
-                                            fontWeight = FontWeight.Bold,
-                                            fontFamily = FontFamily.SansSerif,
-                                            fontSize = 20.sp,
-                                            color = Color.Black,
-                                            text = "Pretende Verdadeiramente Eliminar esta Casa?"
-                                        )
-                                    }
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp)
-                                    .padding(2.dp),
-                                shape = RoundedCornerShape(10.dp),
-                                backgroundColor = Color.White,
-                                properties = DialogProperties(
-                                    dismissOnBackPress = true,
-                                    dismissOnClickOutside = true
-                                )
-                            )
-                        }
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -239,4 +167,10 @@ fun DefinitionsScreen(navController: NavController) {
             }
         },
     )
+}
+
+@Preview()
+@Composable
+fun PreviewDefinitionsScreen() {
+    DefinitionsScreen(navController = NavController(LocalContext.current))
 }

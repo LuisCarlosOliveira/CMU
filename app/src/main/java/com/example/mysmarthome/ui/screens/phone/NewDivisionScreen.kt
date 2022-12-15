@@ -11,24 +11,26 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.FloatingButton
+import com.example.mysmarthome.ui.components.SimpleTextField
+import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
 fun NewDivisionScreen(navController: NavController) {
@@ -38,9 +40,9 @@ fun NewDivisionScreen(navController: NavController) {
     ) {
 
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-        val configuration = LocalConfiguration.current
-        val screenWidth = configuration.screenWidthDp.dp
-
+        var divisionName by rememberSaveable {
+            mutableStateOf("")
+        }
         val result = remember { mutableStateOf<Bitmap?>(null) }
         val launcher =
             rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) {
@@ -64,55 +66,24 @@ fun NewDivisionScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp)
-                ) {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(
-                            Icons.Rounded.ArrowBack, "",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .width(50.dp)
-                                .padding(start = 5.dp),
-                        )
-                    }
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 7.dp, end = 150.dp),
-                        fontSize = 22.sp,
-                        text = stringResource(id = R.string.newDivisionTitle)
-                    )
-
-                }
-
-                Divider(
-                    startIndent = 20.dp,
-                    thickness = 1.dp,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(top = 70.dp)
-                        .width(screenWidth - 20.dp)
+                TopbarBack(
+                    title = stringResource(id = R.string.newDivisionTitle),
+                    navController = navController
                 )
-
             },
-            content = {
 
+            content = {
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
                         .fillMaxSize()
                 ) {
-                    OutLineTextField()
+                    divisionName = SimpleTextField(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, bottom = 20.dp, start = 20.dp, end = 20.dp),
+                        "Inserir Nova Divisão", "Divisão"
+                    )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -174,47 +145,16 @@ fun NewDivisionScreen(navController: NavController) {
                         )
                     }
                 }
-
             },
             floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    icon = {
-                        Icon(
-                            Icons.Rounded.DevicesOther, "",
-                            modifier = Modifier.size(40.dp),
-                            tint = Color.Black
-                        )
-                    },
-                    text = { Text("Associar Dispositivos", fontSize = 18.sp) },
-                    backgroundColor = Color.Gray,
-                    onClick = {
-                        navController.navigate("UnconnectedDevicesScreen")
-                    },
-                    modifier = Modifier.padding(bottom = 10.dp),
-                    elevation = FloatingActionButtonDefaults.elevation(8.dp)
-                )
-
+                FloatingButton(
+                    icon = Icons.Rounded.DevicesOther,
+                    title = stringResource(id = R.string.associateDevicesBtn),
+                    action = { navController.navigate("UnconnectedDevicesScreen") })
             },
             floatingActionButtonPosition = FabPosition.Center
         )
-
     }
-}
-
-@Composable
-fun OutLineTextField() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp, bottom = 20.dp, start = 20.dp, end = 20.dp),
-        value = text,
-        label = { Text(text = "Nova Divisão") },
-        placeholder = { Text(text = "Inserir Nova Divisão") },
-        onValueChange = {
-            text = it
-        }
-    )
 }
 
 @Composable
