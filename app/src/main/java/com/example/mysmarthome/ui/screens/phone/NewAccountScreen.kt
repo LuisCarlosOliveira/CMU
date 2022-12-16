@@ -77,7 +77,7 @@ fun NewAccountScreen(navController: NavController) {
                             } else {
                                 Toast.makeText(
                                     localCtx,
-                                    "O Contacto deve ter 9 números!",
+                                    "O Contacto tem de ter 9 números e as Passwords devem ser iguais!",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }

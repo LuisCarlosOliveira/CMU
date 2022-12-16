@@ -62,10 +62,12 @@ fun ConnectedDevicesScreen(navController: NavController) {
                     modifier = Modifier.padding(start = 20.dp, top = 20.dp)
 
                 )
-                DropDownMenu(
-                    stringArrayResource(id = R.array.home_divisions),
-                    stringResource(id = R.string.selectedOptionDivision)
-                )
+                Column(Modifier.padding(5.dp)) {
+                    DropDownMenu(
+                        stringArrayResource(id = R.array.home_divisions),
+                        stringResource(id = R.string.selectedOptionDivision)
+                    )
+                }
             }
 
             Column(

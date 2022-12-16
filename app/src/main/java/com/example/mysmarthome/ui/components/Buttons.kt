@@ -37,23 +37,42 @@ fun ChooseButton(title: String, action: () -> Unit) {
 }
 
 @Composable
-fun NormalButton(modifier: Modifier, action: () -> Unit, title: String) {
-    Button(
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
-        border = BorderStroke(1.dp, Color.Black),
-        shape = RoundedCornerShape(10.dp),
-        onClick = {
-            action()
-        },
-        modifier = modifier
-    ) {
-        Text(
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.SansSerif,
-            fontSize = 16.sp,
-            color = Color.White,
-            text = title
-        )
+fun NormalButton(modifier: Modifier?, action: () -> Unit, title: String) {
+    if (modifier != null) {
+        Button(
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
+            border = BorderStroke(1.dp, Color.Black),
+            shape = RoundedCornerShape(10.dp),
+            onClick = {
+                action()
+            },
+            modifier = modifier
+        ) {
+            Text(
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 16.sp,
+                color = Color.White,
+                text = title
+            )
+        }
+    } else {
+        Button(
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
+            border = BorderStroke(1.dp, Color.Black),
+            shape = RoundedCornerShape(10.dp),
+            onClick = {
+                action()
+            }
+        ) {
+            Text(
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 16.sp,
+                color = Color.White,
+                text = title
+            )
+        }
     }
 }
 

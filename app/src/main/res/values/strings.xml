@@ -1,5 +1,4 @@
 <resources>
-
     <!-- LOGIN -->
     <string name="app_name">MySmartHome</string>
     <string name="insertEmail">Insira o Email</string>

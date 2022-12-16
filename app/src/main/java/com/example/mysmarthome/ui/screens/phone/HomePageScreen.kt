@@ -118,12 +118,15 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        DropDownMenu(
-                            options = stringArrayResource(id = R.array.homesOptions),
-                            optionSelected = stringResource(
-                                id = R.string.homesOptionSelected
+                        Spacer(Modifier.padding(10.dp))
+                        Column(Modifier.padding(20.dp)) {
+                            DropDownMenu(
+                                options = stringArrayResource(id = R.array.homesOptions),
+                                optionSelected = stringResource(
+                                    id = R.string.homesOptionSelected
+                                )
                             )
-                        )
+                        }
                     }
                     Column(
                         modifier = Modifier.padding(
@@ -502,5 +505,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
 @Preview()
 @Composable
 fun PreviewHomeScreen() {
-    HomePageScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
+    HomePageScreen(
+        mainActivity = MainActivity(),
+        navController = NavController(LocalContext.current)
+    )
 }

@@ -109,14 +109,16 @@ fun NewHomeScreen(navController: NavController) {
                         )
 
                     }
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        FloatingButton(
-                            icon = Icons.Rounded.ArrowForward,
-                            title = stringResource(id = R.string.continueBtn),
-                            action = { navController.navigate("NewDivisionScreen") })
+                    Column(Modifier.padding(top=35.dp)) {
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            FloatingButton(
+                                icon = Icons.Rounded.ArrowForward,
+                                title = stringResource(id = R.string.continueBtn),
+                                action = { navController.navigate("NewDivisionScreen") })
+                        }
                     }
                 }
             },

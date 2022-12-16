@@ -70,11 +70,16 @@ fun ConsumptionsScreen(navController: NavController) {
                         fontSize = 17.sp,
                         text = stringResource(id = R.string.devicesThat)
                     )
-                    DropDownMenu(
-                        stringArrayResource(id = R.array.dropdownConsumptions), stringResource(
-                            id = R.string.optionSelectedConsumption
+                    Column(
+                        Modifier
+                            .verticalScroll(rememberScrollState())
+                            .padding(6.dp)) {
+                        DropDownMenu(
+                            stringArrayResource(id = R.array.dropdownConsumptions), stringResource(
+                                id = R.string.optionSelectedConsumption
+                            )
                         )
-                    )
+                    }
                 }
 
                 Column(

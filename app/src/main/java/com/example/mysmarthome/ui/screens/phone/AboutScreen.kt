@@ -48,7 +48,7 @@ fun AboutScreen(navController: NavController) {
             Column(
                 Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+                    .padding(start = 7.dp, end = 7.dp, top = 10.dp, bottom = 50.dp)
             ) {
 
                 Row(
@@ -66,7 +66,7 @@ fun AboutScreen(navController: NavController) {
                     color = Color.Black,
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
-                        .padding(top = 20.dp, start = 15.dp, bottom = 15.dp),
+                        .padding(top = 10.dp, start = 15.dp, bottom = 15.dp),
                     fontSize = 15.sp,
                     text = stringResource(id = R.string.contentAbout)
                 )
