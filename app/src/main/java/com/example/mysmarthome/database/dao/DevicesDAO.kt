@@ -27,9 +27,14 @@ interface DevicesDAO {
         @Query("select * from Device where idDivisionDevice = 0")
         fun getUnconnectedDevices(): LiveData<List<Device>>
 
-        @Query("select * from Device where idDivisionDevice = :idDivision")
-        fun getConnectedDevicesByDivision(idDivision: Int): LiveData<List<Device>>
+        @Transaction
+        @Query("select * from Division where idDivision = :idDivision")
+        fun getConectedDevicesByDivision(idDivision: Int): LiveData<DivisionWithDevices>
 
         @Query("select * from Device where type = :typeDevice")
         fun getDevicesByTypeDevice(typeDevice:String): LiveData<List<Device>>
+
+        @Query("select * from Device where porta = :port")
+        fun getDeviceByPort(port: Int): LiveData<Device>
+
 }

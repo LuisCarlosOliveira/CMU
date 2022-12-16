@@ -17,14 +17,6 @@ class UserRepository(val userDao: UsersDAO) {
         return userDao.getOneUser(id)
     }
 
-  /*  fun getHomeByUser(id: Int): LiveData<Home>{
-        return userDao.getHomeByUser(id)
-    }
-
-    fun getHomesByUser(id: Int): LiveData<List<Home>> {
-        return userDao.getHomesByUser(id)
-    }*/
-
     fun getUsersByTypeMember(typeMember: TypeMember): LiveData<List<User>> {
         return userDao.getUsersByTypeMember(typeMember)
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Device
+import com.example.mysmarthome.database.entities.relations.device_division.DivisionWithDevices
 import com.example.mysmarthome.database.repositories.DeviceRepository
 import com.example.mysmarthome.enums.TypeDevice
 import kotlinx.coroutines.Dispatchers
@@ -50,11 +51,15 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         return repository.getUnconnectedDevices()
     }
 
-    fun getConectedDevicesByDevision(id:Int): LiveData<List<Device>> {
-        return repository.getConnectedDevicesByDivision(id)
+    fun getConectedDevicesByDivision(id:Int): LiveData<DivisionWithDevices> {
+        return repository.getConectedDevicesByDivision(id)
     }
 
-    fun  getDevicesByTypeDevice(typeDevice:String): LiveData<List<Device>>{
+    fun getDevicesByTypeDevice(typeDevice:String): LiveData<List<Device>>{
         return repository.getDevicesByTypeDevice(typeDevice)
+    }
+
+    fun getDeviceByPort(port: Int): LiveData<Device>{
+        return repository.getDeviceByPort(port)
     }
 }

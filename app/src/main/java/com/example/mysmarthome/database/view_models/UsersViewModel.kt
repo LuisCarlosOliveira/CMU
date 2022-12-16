@@ -45,19 +45,10 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     fun getOneUser(id: Int): LiveData<User> {
         return repository.getOneUser(id)
     }
-/*
-    fun getHomeByUser(id: Int): LiveData<Home> {
-        return repository.getHomeByUser(id)
-    }
 
-    fun getHomesByUser(id: Int): LiveData<List<Home>> {
-        return repository.getHomesByUser(id)
-    }
-*/
     fun getUsersByTypeMember(typeMember: TypeMember): LiveData<List<User>> {
         return repository.getUsersByTypeMember(typeMember)
     }

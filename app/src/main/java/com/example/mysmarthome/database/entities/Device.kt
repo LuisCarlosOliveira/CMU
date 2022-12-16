@@ -9,9 +9,9 @@ data class Device(
 
     val idDivisionDevice: Int,
 
-    val wifiConnection: Boolean,
-//trocar pela porta
-    val ip: String,
+    val porta: Int,
+
+    val nome: String,
 
     val type: String,
 

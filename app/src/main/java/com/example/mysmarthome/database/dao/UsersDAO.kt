@@ -15,13 +15,6 @@ interface UsersDAO {
     @Query("select * from User where idUser = :user_id")
     fun getOneUser(user_id: Int):LiveData<User>
 
-    //?????????????????
-   // @Query("select * from User user, User_Home uh where user.idUser = uh.idUser and uh.idHome = :home_id")
-//    fun getHomeByUser(home_id: Int):LiveData<Home>
-
- //   @Query("select * from User user, User_Home uh where user.idUser = uh.idUser and uh.idUser = :user_id")
-  //  fun getHomesByUser(user_id: Int):LiveData<List<Home>>
-
     @Query("select * from User where typeMember = :typeMember")
     fun getUsersByTypeMember(typeMember: TypeMember): LiveData<List<User>>
 

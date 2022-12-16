@@ -16,7 +16,7 @@ class DeviceRepository(val deviceDao: DevicesDAO) {
         return deviceDao.getUnconnectedDevices()
     }
 
-    fun getOneDevice(idDevice:Int): LiveData<Device>{
+    fun getOneDevice(idDevice: Int): LiveData<Device> {
         return deviceDao.getOneDevice(idDevice)
     }
 
@@ -24,12 +24,16 @@ class DeviceRepository(val deviceDao: DevicesDAO) {
         return deviceDao.getDevices()
     }
 
-    fun getConnectedDevicesByDivision(idDivision: Int): LiveData<List<Device>>{
-        return deviceDao.getConnectedDevicesByDivision(idDivision)
+    fun getConectedDevicesByDivision(idDivision: Int): LiveData<DivisionWithDevices> {
+        return deviceDao.getConectedDevicesByDivision(idDivision)
     }
 
-    fun  getDevicesByTypeDevice(typeDevice:String): LiveData<List<Device>>{
+    fun getDevicesByTypeDevice(typeDevice: String): LiveData<List<Device>> {
         return deviceDao.getDevicesByTypeDevice(typeDevice)
+    }
+
+    fun getDeviceByPort(port: Int): LiveData<Device> {
+        return deviceDao.getDeviceByPort(port)
     }
 
     suspend fun insert(device: Device) {
