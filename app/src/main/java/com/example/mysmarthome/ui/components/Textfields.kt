@@ -43,7 +43,7 @@ fun DropDownMenu(options: Array<String>, optionSelected: String): String {
         Text(
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp,
+            fontSize = 17.sp,
             text = selectedText,
             maxLines = 2,
             letterSpacing = 1.sp,
