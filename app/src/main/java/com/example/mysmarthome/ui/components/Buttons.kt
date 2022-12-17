@@ -113,7 +113,7 @@ fun LoginSigninButton(title: String, action: () -> Unit) {
         },
 
         modifier = Modifier
-            .fillMaxWidth()
+            .width(300.dp)
             .height(50.dp)
     ) {
         Text(
