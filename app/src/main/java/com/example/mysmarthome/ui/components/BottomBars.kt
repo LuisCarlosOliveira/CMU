@@ -16,7 +16,7 @@ import androidx.navigation.NavController
 fun BottombarWithoutHome(navController: NavController) {
     Row(
         modifier = Modifier
-            .background(Color.LightGray)
+            .background(Color.DarkGray)
             .fillMaxWidth()
             .height(60.dp),
         horizontalArrangement = Arrangement.SpaceAround
@@ -29,7 +29,7 @@ fun BottombarWithoutHome(navController: NavController) {
         ) {
             Icon(
                 Icons.Rounded.Devices, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
@@ -42,7 +42,7 @@ fun BottombarWithoutHome(navController: NavController) {
         ) {
             Icon(
                 Icons.Rounded.AccountCircle, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
@@ -55,7 +55,7 @@ fun BottombarWithoutHome(navController: NavController) {
         ) {
             Icon(
                 Icons.Rounded.Timeline, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
@@ -69,7 +69,7 @@ fun BottombarWithoutHome(navController: NavController) {
             Icon(
 
                 Icons.Rounded.Settings, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
@@ -82,7 +82,7 @@ fun BottombarWithoutHome(navController: NavController) {
 fun BottombarWithHome(navController: NavController) {
     Row(
         modifier = Modifier
-            .background(Color.LightGray)
+            .background(Color.DarkGray)
             .fillMaxWidth()
             .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -93,7 +93,7 @@ fun BottombarWithHome(navController: NavController) {
         ) {
             Icon(
                 Icons.Rounded.Home, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
@@ -106,7 +106,7 @@ fun BottombarWithHome(navController: NavController) {
         ) {
             Icon(
                 Icons.Rounded.Devices, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
@@ -119,7 +119,7 @@ fun BottombarWithHome(navController: NavController) {
         ) {
             Icon(
                 Icons.Rounded.Timeline, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
@@ -132,7 +132,7 @@ fun BottombarWithHome(navController: NavController) {
         ) {
             Icon(
                 Icons.Rounded.Settings, "",
-                tint = Color.Black,
+                tint = Color.White,
                 modifier = Modifier
                     .size(50.dp)
                     .padding(top = 10.dp)
