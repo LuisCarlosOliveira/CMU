@@ -152,9 +152,7 @@ fun SimplePasswordTextField(modifier: Modifier, placeholder: String, label: Stri
             unfocusedIndicatorColor = Color.Blue,
             disabledIndicatorColor = Color.Blue
         ),
-        modifier = Modifier
-            .padding(start = 20.dp, top = 10.dp, end = 20.dp)
-            .fillMaxWidth(),
+        modifier = modifier,
         value = password,
         onValueChange = { password = it },
         shape = RoundedCornerShape(7.dp),
@@ -188,9 +186,7 @@ fun SimpleNumberTextField(modifier: Modifier, title: String, placeholder: String
             unfocusedIndicatorColor = Color.Blue,
             disabledIndicatorColor = Color.Blue
         ),
-        modifier = Modifier
-            .padding(start = 20.dp, top = 10.dp, end = 20.dp)
-            .fillMaxWidth(),
+        modifier = modifier,
         value = field,
         shape = RoundedCornerShape(7.dp),
         onValueChange = { field = it },
