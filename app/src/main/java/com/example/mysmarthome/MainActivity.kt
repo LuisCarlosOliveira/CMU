@@ -197,6 +197,46 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+fun notification_member_request() {
+        val CHANNEL_ID = "007"
+        // Create an explicit intent for an Activity in your app
+        var builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setContentTitle("Pedido de Adesão")
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("O Nelo está a pedir permissão para aceder à casa")
+
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Canal"
+            val descriptionText = "Canal para fazer notificacao"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+            //Mostrar
+            with(NotificationManagerCompat.from(this)) {
+                // notificationId is a unique int for each notification that you must define
+                val notificationId = 111
+                notify(notificationId, builder.build())
+            }
+
+        }
+    }
+
+
+
+
+
 }
 
 @Preview(showBackground = true)
