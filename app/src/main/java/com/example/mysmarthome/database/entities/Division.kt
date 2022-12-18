@@ -10,7 +10,7 @@ data class Division(
 
     val name: String,
 
-    val image: ByteArray,
+    val image: String,
 ){
     @PrimaryKey (autoGenerate = true)
     var idDivision: Int=0

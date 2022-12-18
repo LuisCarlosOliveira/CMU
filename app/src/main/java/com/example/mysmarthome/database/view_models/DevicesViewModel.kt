@@ -33,7 +33,7 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         return repository.getOneDevice(id)
     }
 
-    fun getallDevices(): LiveData<List<Device>> {
+    fun getDevices(): LiveData<List<Device>> {
         return repository.getDevices()
     }
 
@@ -43,11 +43,11 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun getConectedDevices(): LiveData<List<Device>> {
+    fun getConnectedDevices(): LiveData<List<Device>> {
         return repository.getConnectedDevices()
     }
 
-    fun getunconectedDevices(): LiveData<List<Device>> {
+    fun getUnconnectedDevices(): LiveData<List<Device>> {
         return repository.getUnconnectedDevices()
     }
 

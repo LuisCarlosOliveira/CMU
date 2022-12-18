@@ -10,11 +10,13 @@ data class User(
 
         val email: String,
 
-        val typeMember: TypeMember,
+        val typeMember: String,
 
         val password: String,
 
-        val contact: Int
+        val contact: Int,
+
+        var idUserHome: Int
 
 ){
         @PrimaryKey (autoGenerate = true)

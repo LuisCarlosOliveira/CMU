@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.entities.relations.home_division.HomeWithDivisions
 import com.example.mysmarthome.database.repositories.DivisionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,14 +23,23 @@ class DivisionsViewModel(application: Application) : AndroidViewModel(applicatio
         allDivisions = repository.getDivisions()
     }
 
-    fun getDivisions(): LiveData<List<Division>> {
+
+    fun insertDivision(division: Division){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.insert(division)
+        }
+    }
+
+    fun getOneDivision(id:Int): LiveData<Division> {
+        return repository.getDivision(id)
+    }
+
+    fun getDivisions():LiveData<List<Division>>{
         return repository.getDivisions()
     }
 
-    fun insertDivision(division: Division) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(division)
-        }
+    fun getDivisionByHome(idHome: Int): LiveData<HomeWithDivisions> {
+        return repository.getDivisionByHome(idHome)
     }
 
     fun updateDivision(division: Division) {
@@ -43,15 +53,5 @@ class DivisionsViewModel(application: Application) : AndroidViewModel(applicatio
             repository.delete(division)
         }
     }
-
-    fun getOneDivision(id: Int): LiveData<Division> {
-        return repository.getDivision(id)
-    }
-
-   /* fun getDivisionByHome(id: Int): LiveData<List<Division>> {
-        return repository.getDivisionByHome(id)
-    }
-*/
-
 
 }

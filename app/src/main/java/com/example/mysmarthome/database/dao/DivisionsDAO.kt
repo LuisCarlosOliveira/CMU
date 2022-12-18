@@ -3,18 +3,21 @@ package com.example.mysmarthome.database.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.entities.relations.home_division.HomeWithDivisions
 
 @Dao
 interface DivisionsDAO {
 
+
+        @Query("select * from Division where idDivision = :idDivision")
+        fun getOneDivision(idDivision:Int): LiveData<Division>
+
         @Query("select * from Division")
-        fun getDivisions(): LiveData<List<Division>>
+        fun getDivisions():LiveData<List<Division>>
 
-        @Query("select * from Division where idDivision = :division_id")
-        fun getOneDivision(division_id:Int):LiveData<Division>
-
-       // @Query("select * from Division div, HomeWithDivisions hwd where div.idDivisionHome = :home_id and div.idDivisionHome = hwd.idHome")
-        //fun getDivisionByHome(home_id: Int): LiveData<List<Division>>
+        @Transaction
+        @Query("select * from Home where idHome = :idHome ")
+        fun getDivisionByHome(idHome: Int): LiveData<HomeWithDivisions>
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insert(division:Division)

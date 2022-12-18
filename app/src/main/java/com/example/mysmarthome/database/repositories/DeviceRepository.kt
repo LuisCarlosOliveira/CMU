@@ -8,20 +8,28 @@ import com.example.mysmarthome.enums.TypeDevice
 
 class DeviceRepository(val deviceDao: DevicesDAO) {
 
+    fun getOneDevice(idDevice: Int): LiveData<Device> {
+        return deviceDao.getOneDevice(idDevice)
+    }
+
+    suspend fun insert(device: Device) {
+        deviceDao.insert(device)
+    }
+
+    fun getDevices(): LiveData<List<Device>> {
+        return deviceDao.getDevices()
+    }
+
+    suspend fun update(device: Device) {
+        deviceDao.update(device)
+    }
+
     fun getConnectedDevices(): LiveData<List<Device>> {
         return deviceDao.getConnectedDevices()
     }
 
     fun getUnconnectedDevices(): LiveData<List<Device>> {
         return deviceDao.getUnconnectedDevices()
-    }
-
-    fun getOneDevice(idDevice: Int): LiveData<Device> {
-        return deviceDao.getOneDevice(idDevice)
-    }
-
-    fun getDevices(): LiveData<List<Device>> {
-        return deviceDao.getDevices()
     }
 
     fun getConectedDevicesByDivision(idDivision: Int): LiveData<DivisionWithDevices> {
@@ -36,11 +44,5 @@ class DeviceRepository(val deviceDao: DevicesDAO) {
         return deviceDao.getDeviceByPort(port)
     }
 
-    suspend fun insert(device: Device) {
-        deviceDao.insert(device)
-    }
 
-    suspend fun update(device: Device) {
-        deviceDao.update(device)
-    }
 }

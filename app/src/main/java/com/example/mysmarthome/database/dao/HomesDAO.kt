@@ -3,14 +3,14 @@ package com.example.mysmarthome.database.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mysmarthome.database.entities.Home
+import com.example.mysmarthome.database.entities.relations.device_division.DivisionWithDevices
 
 @Dao
 interface
 HomesDAO {
 
-    //????????????????????????????
-  //  @Query("select * from Home home, User_Home uh where uh.idUser = :user_id and home.idHome = uh.idHome")
-  //  fun getHomes(user_id: Int): LiveData<List<Home>>
+    @Query("select * from Home")
+    fun getHomes(): LiveData<List<Home>>
 
     @Query("select * from Home where idHome = :home_id")
     fun getOneHome(home_id: Int): LiveData<Home>
@@ -20,5 +20,10 @@ HomesDAO {
 
     @Delete
     suspend fun delete(home: Home)
+
+    //por enquanto esta 1 casa por user
+    @Transaction
+    @Query("select * from Home where idHome in (select idUserHome from User where idUser = :user_id)")
+    fun getHomeByUser(user_id:Int): LiveData<Home>
 
 }

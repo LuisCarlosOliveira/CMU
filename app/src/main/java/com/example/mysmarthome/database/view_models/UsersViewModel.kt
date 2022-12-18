@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.entities.User
+import com.example.mysmarthome.database.entities.relations.home_user.HomeWithUsers
 import com.example.mysmarthome.database.repositories.UserRepository
 import com.example.mysmarthome.enums.TypeMember
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +50,14 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getOneUser(id)
     }
 
-    fun getUsersByTypeMember(typeMember: TypeMember): LiveData<List<User>> {
+    fun getUserByEmail(email: String): LiveData<User> {
+        return repository.getUserByEmail(email)
+    }
+
+    fun getUsersByHome(idHome: Int): LiveData<HomeWithUsers>{
+        return repository.getUsersByHome(idHome)
+    }
+    fun getUsersByTypeMember(typeMember: String): LiveData<List<User>> {
         return repository.getUsersByTypeMember(typeMember)
     }
 }

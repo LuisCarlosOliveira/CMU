@@ -3,6 +3,7 @@ package com.example.mysmarthome.database.repositories
 import androidx.lifecycle.LiveData
 import com.example.mysmarthome.database.dao.DivisionsDAO
 import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.entities.relations.home_division.HomeWithDivisions
 
 class DivisionRepository(val divisionDao: DivisionsDAO) {
 
@@ -14,9 +15,9 @@ class DivisionRepository(val divisionDao: DivisionsDAO) {
         return divisionDao.getOneDivision(id)
     }
 
-  /*  fun getDivisionByHome(id: Int): LiveData<List<Division>> {
-        return divisionDao.getDivisionByHome(id)
-    }*/
+    fun getDivisionByHome(idHome: Int): LiveData<HomeWithDivisions>{
+        return divisionDao.getDivisionByHome(idHome)
+    }
 
     suspend fun insert(division: Division) {
         divisionDao.insert(division)
