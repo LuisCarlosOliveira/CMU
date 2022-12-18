@@ -222,7 +222,7 @@ fun InviteMemberScreen(mainActivity: MainActivity) {
                     .padding(top = 20.dp, bottom = 50.dp)
             ) {
                 Image(
-                    painterResource(id = mainActivity.imgQRCode()),
+                    painterResource(id = R.drawable.ic_baseline_qr_code_2_24),
                     contentDescription = "",
                     modifier = Modifier.fillMaxSize()
                 )

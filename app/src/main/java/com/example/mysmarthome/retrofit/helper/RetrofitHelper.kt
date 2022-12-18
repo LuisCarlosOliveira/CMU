@@ -5,10 +5,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
 
-    val base_url = "http://tour-pedia.org/api/"
+    val base_url = "http://10.0.2.2:"
 
-    fun getInstance(): Retrofit {
-        return Retrofit.Builder().baseUrl(base_url)
+    fun getInstance(port:Int): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(base_url+port+"/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

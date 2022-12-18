@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.entities.relations.home_division
 
 import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Relation
 import com.example.mysmarthome.database.entities.Division
 import com.example.mysmarthome.database.entities.Home

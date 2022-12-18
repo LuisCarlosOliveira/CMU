@@ -15,4 +15,4 @@ data class DivisionWithDevices(
     )
     val devices: List<Device>
 
-) { }
+)

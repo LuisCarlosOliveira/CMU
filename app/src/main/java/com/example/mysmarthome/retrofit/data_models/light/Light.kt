@@ -1,19 +1,8 @@
 package com.example.mysmarthome.retrofit.data_models.light
 
 data class Light (
-
-    val wifiConnection: Boolean,
-
-    val lightID: String,
-
-    val lightIP: String,
-
     val lights: List<LightsData>,
-
-    val meters: List<LightMeters>,
-
+    val wifi_sta: WifiSta,
     val temperature: Float,
-
-    val overTemperature: Boolean
-
+    val overtemperature: Boolean
 ) { }

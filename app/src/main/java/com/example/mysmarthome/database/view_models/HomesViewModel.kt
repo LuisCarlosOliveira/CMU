@@ -13,16 +13,11 @@ import kotlinx.coroutines.launch
 class HomesViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: HomeRepository
-    val allHomes: LiveData<List<Home>>
 
     init {
         val db = MySmartHomeDatabase.getDatabase(application)
         repository = HomeRepository(db.getHomeDao())
-        allHomes = repository.getHomes()
-    }
 
-    fun getHomes(): LiveData<List<Home>> {
-        return repository.getHomes()
     }
 
     fun insertHome(home: Home) {
@@ -37,8 +32,17 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getOneHome(id: Int): LiveData<Home> {
-        return repository.getHome(id)
+    fun getOneHome(home_id: Int): LiveData<Home> {
+        return repository.getHome(home_id)
+    }
+
+    fun getHomeByUser(user_id: Int): LiveData<Home> {
+        return repository.getHomeByUser(user_id)
+    }
+
+
+    fun getHomes(): LiveData<List<Home>> {
+        return repository.getHomes()
     }
 
 }

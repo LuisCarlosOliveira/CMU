@@ -6,12 +6,19 @@ import com.example.mysmarthome.enums.TypeMember
 
 @Entity
 data class User(
-
-        @PrimaryKey val idUser: Int,
         val name: String,
-        val email: String,
-        val typeMember: TypeMember,
-        val password: String,
-        val contact: Int
 
-)
+        val email: String,
+
+        val typeMember: String,
+
+        val password: String,
+
+        val contact: Int,
+
+        var idUserHome: Int
+
+){
+        @PrimaryKey (autoGenerate = true)
+        var idUser: Int=0
+}
