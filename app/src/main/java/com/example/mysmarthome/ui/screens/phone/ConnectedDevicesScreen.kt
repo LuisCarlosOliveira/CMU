@@ -12,104 +12,62 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.DropDownMenu
+import com.example.mysmarthome.ui.components.FloatingButton
+import com.example.mysmarthome.ui.components.ListRowWithIcon
+import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
-fun ConnectedDevicesScreen() {
+fun ConnectedDevicesScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-
-    var letterSpacing by remember {
-        mutableStateOf(1.sp)
-    }
-
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
-            ) {
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
-                    )
-                }
-
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                    fontSize = 22.sp,
-                    text = "Dispositivos Conectados"
-                )
-            }
-
-            Divider(
-                startIndent = 20.dp, thickness = 1.dp, color = Color.Black, modifier = Modifier
-                    .padding(top = 70.dp)
-                    .width(screenWidth - 20.dp)
-            )
-
-        },
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                icon = {
-                    Icon(
-                        Icons.Rounded.Add, "",
-                        modifier = Modifier.size(40.dp),
-                        tint = Color.Black
-                    )
-                },
-                text = { Text("Adicionar", fontSize = 18.sp) },
-                backgroundColor = Color.Gray,
-                onClick = { },
-                elevation = FloatingActionButtonDefaults.elevation(8.dp)
+            TopbarBack(
+                title = stringResource(id = R.string.connectedDevicesTitle),
+                navController = navController
             )
         },
+
         content = {
-
             Row(
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
 
                 Text(
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,
-                    text = "Filtrar por divisão:",
+                    fontSize = 16.sp,
+                    text = stringResource(R.string.filterByDivision),
                     maxLines = 2,
                     letterSpacing = 1.sp,
                     modifier = Modifier.padding(start = 20.dp, top = 20.dp)
 
                 )
-                dropFilterByDivision()
+                Column(Modifier.padding(5.dp)) {
+                    DropDownMenu(
+                        stringArrayResource(id = R.array.home_divisions),
+                        stringResource(id = R.string.selectedOptionDivision)
+                    )
+                }
             }
 
             Column(
@@ -119,103 +77,31 @@ fun ConnectedDevicesScreen() {
             ) {
 
                 Spacer(modifier = Modifier.height(50.dp))
-                // Em vez de items(x) mete-se foreach ...
+
                 LazyColumn {
-
                     items(15) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(80.dp)
-                                .padding(bottom = 20.dp, start = 20.dp, end = 20.dp)
-                                .border(
-                                    border =
-                                    BorderStroke(width = 1.dp, Color.LightGray)
-                                )
-                        ) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                letterSpacing = letterSpacing,
-                                fontFamily = FontFamily.Serif,
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 15.dp, start = 20.dp),
-                                fontSize = 18.sp,
-                                text = "Dispositivo "
-                            )
-
-                            Icon(
-                                Icons.Rounded.Delete, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .padding(top = 15.dp, end = 20.dp)
-                                    .clickable { },
-                            )
-
-                        }
+                        ListRowWithIcon(
+                            title = stringResource(id = R.string.titleRow),
+                            icon = Icons.Rounded.Delete,
+                            action = { }
+                        )
                     }
                 }
             }
         },
+
+        floatingActionButton = {
+            FloatingButton(
+                icon= Icons.Rounded.Add,
+                title = stringResource(id = R.string.addConnectedDevice),
+                action = { navController.navigate("UnconnectedDevicesScreen") }
+            )
+        },
     )
 }
-
-@Composable
-fun dropFilterByDivision() {
-
-    var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("Cozinha", "WC", "Sala de Jantar", "Garagem")
-    var selectedText by remember { mutableStateOf("Cozinha") }
-
-    val icon = if (expanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-    Column(Modifier.padding(5.dp)) {
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
-                text = selectedText,
-                maxLines = 2,
-                letterSpacing = 1.sp,
-                modifier = Modifier.padding(end = 20.dp)
-            )
-            Icon(icon, "contentDescription",
-                Modifier
-                    .clickable { expanded = !expanded })
-            Box(modifier = Modifier.padding(top = 50.dp)) {
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                ) {
-                    suggestions.forEach { label ->
-                        DropdownMenuItem(onClick = {
-                            selectedText = label
-                            expanded = false
-                        }) {
-                            Text(text = label)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable
 fun ConnectedDevicesScreenPreview() {
-    ConnectedDevicesScreen()
+    ConnectedDevicesScreen(navController = NavController(LocalContext.current))
 }

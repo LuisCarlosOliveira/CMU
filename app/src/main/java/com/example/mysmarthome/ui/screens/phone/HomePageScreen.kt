@@ -8,19 +8,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.BottombarWithoutHome
+import com.example.mysmarthome.ui.components.DropDownMenu
+import com.example.mysmarthome.ui.components.FloatingButton
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -66,6 +70,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
             var description by rememberSaveable {
                 mutableStateOf("")
             }
+            val colorArray: Array<Color> =
+                arrayOf(Color.Blue, Color.Red, Color.Black, Color.Green)
 
             Box() {
                 Spacer(modifier = Modifier.padding(start = 5.dp))
@@ -86,7 +92,6 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                     )
                 }
             }
-
             Scaffold(
                 scaffoldState = scaffoldState,
                 modifier = Modifier.fillMaxWidth(),
@@ -113,7 +118,15 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        dropDownMenu()
+                        Spacer(Modifier.padding(10.dp))
+                        Column(Modifier.padding(20.dp)) {
+                            DropDownMenu(
+                                options = stringArrayResource(id = R.array.homesOptions),
+                                optionSelected = stringResource(
+                                    id = R.string.homesOptionSelected
+                                )
+                            )
+                        }
                     }
                     Column(
                         modifier = Modifier.padding(
@@ -122,6 +135,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             bottom = 70.dp
                         )
                     ) {
+
                         val list = arrayOfNulls<Number>(25)
 
                         LazyVerticalGrid(
@@ -131,11 +145,24 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 Card(
                                     elevation = 10.dp,
                                     border = BorderStroke(1.dp, Color.Blue),
+                                    backgroundColor = colorArray.random(),
                                     modifier = Modifier
                                         .aspectRatio(1f)
-                                        .padding(end = 5.dp)
+                                        .padding(5.dp)
+                                        .clickable(onClick = {
+                                            navController.navigate("DivisionDetailsScreen")
+                                        })
                                 ) {
-                                    Text(text = l.toString(), Modifier.padding(10.dp))
+                                    Text(
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(top = 50.dp),
+                                        fontSize = 20.sp,
+                                        letterSpacing = 1.sp,
+                                        text = "Garagem"
+                                    )
                                 }
                             }
                         }
@@ -161,7 +188,12 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                         Divider()
                         Column(modifier = Modifier.padding(top = 15.dp)) {
                             Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(modifier = Modifier.fillMaxWidth()) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable(onClick = { dialogOpenAlarm = true })
+                            ) {
+
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
 
                                 if (dialogOpenAlarm) {
@@ -233,9 +265,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                     onValueChange = { hour = it },
                                                     placeholder = { Text(text = "Insira a Hora") },
                                                     label = { Text(text = "Hora") },
-                                                    /* keyboardOptions = KeyboardOptions(
-                                                         keyboardType = KeyboardType.Number
-                                                     )),*/
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    )
                                                 )
 
                                                 TextField(
@@ -252,11 +284,10 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                     onValueChange = { minute = it },
                                                     placeholder = { Text(text = "Insira os Minutos") },
                                                     label = { Text(text = "Minutos") },
-                                                    /*   keyboardOptions = KeyboardOptions(
-                                                           keyboardType = KeyboardType.Number
-                                                       )  ), */
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    )
                                                 )
-
                                             }
                                         },
                                         modifier = Modifier
@@ -272,9 +303,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     )
                                 }
                                 IconButton(
-                                    onClick = {
-                                        dialogOpenAlarm = true
-                                    }
+                                    onClick = { }
                                 ) {
                                     Icon(
                                         Icons.Rounded.Timer, "",
@@ -295,8 +324,14 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 )
                             }
                             Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(Modifier.fillMaxWidth()) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clickable(onClick = { dialogOpenAgenda = true })
+                            ) {
+
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
+
                                 if (dialogOpenAgenda) {
                                     AlertDialog(
                                         onDismissRequest = { dialogOpenAgenda = false },
@@ -311,7 +346,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                     backgroundColor = Color.Blue
                                                 ),
                                                     onClick = {
-                                                        dialogOpenAlarm = false
+                                                        dialogOpenAgenda = false
                                                         mainActivity.addEvent(
                                                             title,
                                                             locationEvent,
@@ -402,9 +437,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     )
                                 }
                                 IconButton(
-                                    onClick = {
-                                        dialogOpenAgenda = true
-                                    }
+                                    onClick = { }
                                 ) {
                                     Icon(
                                         Icons.Rounded.CalendarToday, "",
@@ -421,15 +454,18 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     color = Color.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = 1.sp,
-                                    text = stringResource(id = R.string.addEvent))
+                                    text = stringResource(id = R.string.addEvent)
+                                )
                             }
                             Spacer(modifier = Modifier.padding(top = 20.dp))
-                            Row(Modifier.fillMaxWidth()) {
+                            Row(Modifier
+                                .fillMaxWidth()
+                                .clickable(
+                                    onClick = { mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal") }
+                                )) {
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
                                 IconButton(
-                                    onClick = {
-                                        mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal")
-                                    }
+                                    onClick = { }
                                 ) {
                                     Icon(
                                         Icons.Rounded.PinDrop, "",
@@ -440,143 +476,37 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                     )
                                 }
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
-                                Text(fontFamily = FontFamily.SansSerif,
+                                Text(
+                                    fontFamily = FontFamily.SansSerif,
                                     fontWeight = FontWeight.Medium,
                                     color = Color.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = 1.sp,
-                                    text = stringResource(id = R.string.homeLocation))
+                                    text = stringResource(id = R.string.homeLocation)
+                                )
                             }
-
                         }
-
                     }
-
                 },
-
                 floatingActionButton = {
-                    ExtendedFloatingActionButton(
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Add, "",
-                                modifier = Modifier.size(40.dp),
-                                tint = Color.Black
-                            )
-                        },
-                        text = { Text("Nova", fontSize = 18.sp) },
-                        backgroundColor = Color.Gray,
-                        onClick = { },
-                        elevation = FloatingActionButtonDefaults.elevation(8.dp)
-                    )
+                    FloatingButton(
+                        icon = Icons.Rounded.Add,
+                        title = stringResource(id = R.string.newDivisionHomeBtn),
+                        action = { navController.navigate("NewDivisionScreen") })
                 },
                 bottomBar = {
-
-                    Row(
-                        modifier = Modifier
-                            .background(Color.LightGray)
-                            .fillMaxWidth()
-                            .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Devices, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.AccountCircle, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Timeline, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-
-                                Icons.Rounded.Settings, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                    }
+                    BottombarWithoutHome(navController = navController)
                 }
             )
         }
     }
 }
 
+@Preview()
 @Composable
-fun dropDownMenu() {
-
-    var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("CASA SILVA", "CASA SILVA 2")
-    var selectedText by remember { mutableStateOf("CASA SILVA") }
-
-    val icon = if (expanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-    Column(Modifier.padding(20.dp)) {
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
-                text = selectedText,
-                maxLines = 2,
-                letterSpacing = 1.sp,
-                modifier = Modifier.padding(end = 20.dp)
-            )
-            Icon(icon, "contentDescription",
-                Modifier
-                    .clickable { expanded = !expanded })
-            Box(modifier = Modifier.padding(top = 50.dp)) {
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                ) {
-                    suggestions.forEach { label ->
-                        DropdownMenuItem(onClick = {
-                            selectedText = label
-                            expanded = false
-                        }) {
-                            Text(text = label)
-                        }
-                    }
-                }
-            }
-        }
-    }
+fun PreviewHomeScreen() {
+    HomePageScreen(
+        mainActivity = MainActivity(),
+        navController = NavController(LocalContext.current)
+    )
 }

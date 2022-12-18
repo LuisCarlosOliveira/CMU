@@ -1,11 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
-import android.net.Uri
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,11 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.ui.components.BottombarWithHome
+import com.example.mysmarthome.ui.components.TopBarBackForward
 
 @Composable
-fun MembersScreen(mainActivity: MainActivity) {
+fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -53,17 +51,10 @@ fun MembersScreen(mainActivity: MainActivity) {
                 mutableStateOf("912852300")
             }
 
+            var dialogOpen by remember { mutableStateOf(false) }
+            var dialogOpenEdit by remember { mutableStateOf(false) }
+
             val ctx = LocalContext.current
-
-            var hasFile by remember { mutableStateOf(false) }
-            var fileUri by remember { mutableStateOf<Uri?>(null) }
-
-            val filePicker = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.GetContent(),
-                onResult = { uri ->
-                    hasFile = uri != null
-                    fileUri = uri
-                })
 
             var letterSpacing by remember {
                 mutableStateOf(1.sp)
@@ -72,79 +63,104 @@ fun MembersScreen(mainActivity: MainActivity) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp)
-                    ) {
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.ArrowBack, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .padding(start = 5.dp)
-                            )
-                        }
-                        Text(
-                            fontWeight = FontWeight.Medium,
-                            letterSpacing = letterSpacing,
-                            fontFamily = FontFamily.Serif,
-                            color = Color.Black,
-                            modifier = Modifier.padding(top = 7.dp),
-                            fontSize = 22.sp,
-                            text = "João " + stringResource(id = R.string.members)
-                        )
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.PersonAddAlt, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .padding(end = 5.dp)
-                            )
-                        }
-                    }
-
-                    Divider(
-                        startIndent = 20.dp,
-                        thickness = 1.dp,
-                        color = Color.Black,
-                        modifier = Modifier
-                            .padding(top = 70.dp)
-                            .width(screenWidth - 20.dp)
-                    )
+                    TopBarBackForward(
+                        iconForward = Icons.Rounded.PersonAddAlt,
+                        title = "João " + stringResource(id = R.string.members),
+                        actionBack = { navController.popBackStack() },
+                        actionForward = { navController.navigate("InviteMemberScreen") })
                 },
                 content = {
-                    Column(Modifier.padding(bottom = 60.dp)){
-                    LazyColumn {
-                        items(4) {
-                            Column(
-                                Modifier
-                                    .fillMaxSize()
-                                    .padding(top = 10.dp)
-                            ) {
-                                Text(
-                                    fontWeight = FontWeight.Medium,
-                                    letterSpacing = letterSpacing,
-                                    fontFamily = FontFamily.Serif,
-                                    color = Color.Black,
-                                    modifier = Modifier
-                                        .padding(top = 7.dp, start = 20.dp)
-                                        .width(screenWidth / 3),
-                                    fontSize = 18.sp,
-                                    text = "Maria"
-                                )
+                    Column(
+                        Modifier
+                            .padding(bottom = 60.dp)
+                            .fillMaxSize()
+                    ) {
+                        
+                        LazyColumn {
+                            items(4) {
                                 Row(
-                                    horizontalArrangement = Arrangement.Start,
-                                    modifier = Modifier.fillMaxWidth()
+                                    horizontalArrangement = Arrangement.Center, modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 20.dp)
                                 ) {
-                                    dropDownMenuMembers2()
+                                    Text(
+                                        fontWeight = FontWeight.Medium,
+                                        letterSpacing = letterSpacing,
+                                        fontFamily = FontFamily.Serif,
+                                        color = Color.Black,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp, start = 10.dp)
+                                            .width(screenWidth / 3),
+                                        fontSize = 18.sp,
+                                        text = "Maria"
+                                    )
 
+                                    IconButton(
+                                        onClick = { dialogOpenEdit = true }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.Edit,
+                                            "",
+                                            tint = Color.Black,
+                                            )
+                                    }
+
+                                    if (dialogOpenEdit) {
+                                        AlertDialog(
+                                            onDismissRequest = { dialogOpenEdit = false },
+                                            buttons = {
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(bottom = 5.dp),
+                                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                                ) {
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = {
+
+                                                        }) {
+                                                        Text(
+                                                            color = Color.White,
+                                                            text = "Guardar"
+                                                        )
+                                                    }
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = { dialogOpenEdit = false }) {
+                                                        Text(
+                                                            color = Color.White,
+                                                            text = "Cancelar"
+                                                        )
+                                                    }
+                                                }
+                                            },
+
+                                            title = { Text("Alterar Permissões de Membro") },
+
+                                            text = {
+                                                Column(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .fillMaxHeight()
+                                                ) {
+                                                    dropDownMenuMembers2(navController)
+                                                }
+                                            },
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(200.dp)
+                                                .padding(2.dp),
+                                            shape = RoundedCornerShape(10.dp),
+                                            backgroundColor = Color.White,
+                                            properties = DialogProperties(
+                                                dismissOnBackPress = true,
+                                                dismissOnClickOutside = true
+                                            )
+                                        )
+                                    }
 
                                     IconButton(
                                         onClick = {
@@ -154,13 +170,9 @@ fun MembersScreen(mainActivity: MainActivity) {
                                         Icon(
                                             Icons.Rounded.Phone, "",
                                             tint = Color.Black,
-                                            modifier = Modifier
-                                                .size(55.dp)
-                                                .padding(top = 35.dp, end = 15.dp)
-                                        )
-                                    }
 
-                                    var dialogOpen by remember { mutableStateOf(false) }
+                                            )
+                                    }
 
                                     if (dialogOpen) {
                                         AlertDialog(
@@ -179,17 +191,22 @@ fun MembersScreen(mainActivity: MainActivity) {
                                                             dialogOpen = false
                                                             mainActivity.composeSMSMessage(
                                                                 message,
-                                                                contact,
-                                                                fileUri ?: Uri.EMPTY
+                                                                contact
                                                             )
                                                         }) {
-                                                        Text(color = Color.White, text = "Enviar")
+                                                        Text(
+                                                            color = Color.White,
+                                                            text = "Enviar"
+                                                        )
                                                     }
                                                     Button(colors = ButtonDefaults.buttonColors(
                                                         backgroundColor = Color.Blue
                                                     ),
                                                         onClick = { dialogOpen = false }) {
-                                                        Text(color = Color.White, text = "Cancelar")
+                                                        Text(
+                                                            color = Color.White,
+                                                            text = "Cancelar"
+                                                        )
                                                     }
                                                 }
                                             },
@@ -218,7 +235,10 @@ fun MembersScreen(mainActivity: MainActivity) {
                                                         disabledIndicatorColor = Color.Blue
                                                     ),
                                                         modifier = Modifier
-                                                            .padding(top = 10.dp, bottom = 10.dp)
+                                                            .padding(
+                                                                top = 10.dp,
+                                                                bottom = 10.dp
+                                                            )
                                                             .fillMaxWidth()
                                                             .height(120.dp),
                                                         value = message,
@@ -228,44 +248,11 @@ fun MembersScreen(mainActivity: MainActivity) {
                                                         placeholder = { Text(text = "Insira a Mensagem") },
                                                         label = { Text(text = "Mensagem") })
 
-                                                    Text(
-                                                        fontFamily = FontFamily.SansSerif,
-                                                        fontWeight = FontWeight.Medium,
-                                                        color = Color.Black,
-                                                        fontSize = 16.sp,
-                                                        letterSpacing = 1.sp,
-                                                        text = "Anexar Ficheiro: "
-                                                    )
-
-                                                    IconButton(
-                                                        onClick = {
-                                                            filePicker.launch("*/*")
-                                                        }
-                                                    ) {
-                                                        Icon(
-                                                            Icons.Filled.UploadFile, "",
-                                                            tint = Color.Black,
-                                                            modifier = Modifier
-                                                                .width(50.dp)
-                                                                .padding(top = 10.dp)
-                                                        )
-                                                    }
-                                                    if (hasFile && fileUri != null) {
-                                                        Toast.makeText(
-                                                            ctx,
-                                                            "Ficheiro Selecionado com Sucesso",
-                                                            Toast
-                                                                .LENGTH_SHORT
-                                                        ).show()
-                                                    } else {
-                                                        null
-                                                    }
-
                                                 }
                                             },
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .height(350.dp)
+                                                .height(200.dp)
                                                 .padding(2.dp),
                                             shape = RoundedCornerShape(10.dp),
                                             backgroundColor = Color.White,
@@ -282,90 +269,33 @@ fun MembersScreen(mainActivity: MainActivity) {
                                         Icon(
                                             Icons.Rounded.Sms, "",
                                             tint = Color.Black,
-                                            modifier = Modifier
-                                                .size(55.dp)
-                                                .padding(top = 35.dp, end = 15.dp)
                                         )
                                     }
                                     IconButton(
-                                        onClick = { }
-                                    ) {
+                                        onClick = { },
+
+                                        ) {
                                         Icon(
                                             Icons.Rounded.DeleteForever, "",
                                             tint = Color.Black,
-                                            modifier = Modifier
-                                                .size(65.dp)
-                                                .padding(top = 35.dp, end = 15.dp)
                                         )
                                     }
                                 }
                             }
                         }
                     }
-                }
                 },
                 bottomBar = {
-                    Row(
-                        modifier = Modifier
-                            .background(Color.LightGray)
-                            .fillMaxWidth()
-                            .height(60.dp), horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Home, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Devices, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Timeline, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        IconButton(
-                            onClick = { }
-                        ) {
-                            Icon(
-                                Icons.Rounded.Settings, "",
-                                tint = Color.Black,
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                    }
+                   BottombarWithHome(navController = navController)
                 }
             )
         }
     }
 }
 
-
 @SuppressLint("ResourceType")
 @Composable
-fun dropDownMenuMembers2() {
+fun dropDownMenuMembers2(navController: NavController) {
     var expanded by remember { mutableStateOf(false) }
     val memberType: Array<String> = stringArrayResource(id = R.array.membersType)
     val select: String = memberType[0]
@@ -387,7 +317,7 @@ fun dropDownMenuMembers2() {
                 value = selectedText,
                 onValueChange = { selectedText = it },
                 modifier = Modifier
-                    .width(180.dp)
+                    .width(200.dp)
                     .padding(end = 20.dp),
                 label = { Text(stringResource(id = R.string.memberType)) },
                 trailingIcon = {
@@ -395,7 +325,6 @@ fun dropDownMenuMembers2() {
                         Modifier.clickable { expanded = !expanded })
                 }
             )
-
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
@@ -420,9 +349,16 @@ fun dropDownMenuMembers2() {
                         modifier = Modifier
                             .size(50.dp)
                             .padding(top = 20.dp)
+                            .clickable(onClick = { navController.navigate("LocationScreen") })
                     )
                 }
             }
         }
     }
+}
+
+@Preview()
+@Composable
+fun PreviewMembersScreen() {
+    MembersScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
 }

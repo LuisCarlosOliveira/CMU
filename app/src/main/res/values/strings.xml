@@ -1,23 +1,87 @@
 <resources>
+    <!-- LOGIN -->
     <string name="app_name">MySmartHome</string>
+    <string name="insertEmail">Insira o Email</string>
+    <string name="email">Email</string>
+    <string name="insertPassword">Insira a Password</string>
+    <string name="password">Password</string>
+    <string name="login">Iniciar Sessão</string>
+    <string name="signin">Criar Conta</string>
+
+    <!-- ASSOCIATE HOME -->
     <string name="add_home">Associar Casa</string>
+    <string name="readQRCode">Ler QR Code</string>
 
-    <!-- NEW HOME -->
-    <string name="newHomeTitle">Nova Casa</string>
+    <!-- ABOUT -->
+    <string name="aboutTitle">Sobre</string>
+    <string name="contentAbout">
+        Este Trabalho foi proposto ao grupo pelo Docente Fábio Silva, no âmbito
+                            da Unidade Curricular de Computação Móvel e Ubíqua.\n\n
+                            O projeto MySmartHome foi idealizado, tendo como objetivo facilitar a gestão
+                            de uma Casa Inteligente recorrendo a dispositivos móveis, tais como:
+                            Telemóvel e Tablet.\n\n
+                            Tendo isso em conta, na presente aplicação está disponível um vasto leque de funcionalidades
+                            que vão desde a criação de uma casa , passando pelo convite de
+                            membros (residentes ou não) até à interação direta com dispositivos conectados no sistema.\n\n
+                            O grupo que concebeu e idealizou este projeto, é composto pelos elementos:\n\n
+                            - Luís Oliveira; \n
+                            - Rafael Costa; \n
+                            - Teresa Peixoto. \n
+    </string>
 
-    <!-- NEW ACCOUNT -->
-    <string name="newAccountTitle">Criar Conta</string>
+    <!-- CHOOSE TYPE HOME -->
+    <string name="chooseHomeTitle">Casa</string>
 
-    <!-- News -->
+    <!-- CONNECTED DEVICES -->
+    <string name="connectedDevicesTitle">Dispositivos Conectados</string>
     <string name="filterByDivision">  Filtrar pela Divisão:  </string>
-    <string name="aboutTitle"> Sobre </string>
+    <string name="selectedOptionDivision">Todos</string>
+    <string name="addConnectedDevice">Adicionar</string>
     <string-array name="home_divisions">
+        <item>Todos</item>
         <item>Cozinha</item>
         <item>Sala</item>
         <item>WC</item>
         <item>Garagem</item>
         <item>Quarto</item>
     </string-array>
+    <string name="titleRow"> Dispositivo </string>
+
+    <!-- UNCONNECTED DEVICES -->
+    <string name="unconnectedDevicesTitle">Dispositivos Não Conectados</string>
+    <string name="deviceTitleRow">Dispositivo</string>
+    <string name="titleBtnUnconnDev">Novo</string>
+
+    <!-- ASSISTENTE VIRTUAL -->
+    <string name="virtualAssistantTitle">Assistente Virtual Pessoal</string>
+
+    <!-- CONSUMPTIONS -->
+    <string name="consumptionsTitle">Consumos</string>
+    <string name="devicesThat">Dispositivos que: </string>
+    <string name="optionSelectedConsumption">Mais Consomem</string>
+    <string-array name="dropdownConsumptions">
+        <item>Todos</item>
+        <item>Mais Consomem</item>
+        <item>Menos Consomem"</item>
+    </string-array>
+
+    <!-- HELP -->
+    <string name="helpTitle">Ajuda</string>
+    <string name="descriptionHelp">Veja como a nossa aplicação funciona: </string>
+
+    <!-- NEW HOME -->
+    <string name="newHomeTitle">Nova Casa</string>
+    <string name="continueBtn">Continuar</string>
+
+    <!-- NEW DIVISION -->
+    <string name="newDivisionTitle">Nova Divisão</string>
+    <string name="associateDevicesBtn">Associar Dispositivos</string>
+
+    <!-- NEW DEVICE -->
+    <string name="newDeviceTitle">Inserir Dispositivo</string>
+
+    <!-- NEW ACCOUNT -->
+    <string name="newAccountTitle">Criar Conta</string>
 
     <!-- DEFINITIONS -->
     <string name="definitionsTitle">Definições</string>
@@ -31,7 +95,7 @@
         <item>Sobre</item>
     </string-array>
 
-    <!-- Profile -->
+    <!-- PROFILE -->
     <string name="admin"> - Administrador</string>
     <string-array name="profile">
         <item>Alterar Email</item>
@@ -49,10 +113,11 @@
         <item>Mariana</item>
         <item>Vitória</item>
     </string-array>
+    <string name="selectOneChildMember">Joãozinho</string>
+
 
     <!-- MEMBERS -->
     <string name="members"> - Membros</string>
-
 
     <!-- MEMBER REQUESTS -->
     <string name="adesaoPedidos"> - Pedidos de Adesão</string>
@@ -66,8 +131,49 @@
     </string-array>
     <string name="select"> Select</string>
 
+    <!-- DIVISION DETAILS -->
+    <string-array name="deviceType">
+        <item>Estoros</item>
+        <item>Luzes</item>
+        <item>Tomadas</item>
+    </string-array>
+    <string-array name="estorosOptions">
+        <item>Estoros Esquerda</item>
+        <item>Estoros Frente</item>
+        <item>Estoros Direita</item>
+    </string-array>
+    <string-array name="luzesOptions">
+        <item>Luz Esquerda Teto</item>
+        <item>Luz Direita Teto</item>
+        <item>Luz Mesa Ferramentas</item>
+    </string-array>
+    <string-array name="tomadasOptions">
+        <item>Tomada Parede Esquerda</item>
+        <item>Tomada Parede Frente</item>
+        <item>Tomada Parede Direita</item>
+    </string-array>
+    <string name="editImage">Editar Imagem</string>
+    <string name="applyPreferences">Aplicar Minhas Preferências</string>
+
+    <!-- DEFINITIONSDIVISIONSDEVICES -->
+    <string name="nameDevice">Luz Direita Teto</string>
+    <string name="onOff">On/Off:</string>
+    <string name="colorOfLight">Cor:</string>
+    <string name="britnessOfLight">Brilho: </string>
+    <string name="gainOfLight">Refletividade: </string>
+    <string name="temperatureOfLight">Temperatura: </string>
+    <string name="timerOfLight">Temporizador </string>
+    <string name="saveLight">Guardar</string>
+    <string-array name="colorsOptions">
+        <item>Azul</item>
+        <item>Branco</item>
+        <item>Verde</item>
+        <item>Vermelho</item>
+    </string-array>
+
     <!-- PERSONAL CONFIGS -->
     <string name="personalConfigs"> Configurações Pessoais</string>
+    <string name="personalConfigsRowTitle"> Luz Direita Teto</string>
 
     <!-- INVITE MEMBER -->
     <string name="inviteMemberTitle">Convidar Membro</string>
@@ -78,5 +184,11 @@
     <string name="createAlarm">Criar Despertador</string>
     <string name="addEvent">Agendar Evento</string>
     <string name="utilities">Utilidades</string>
+    <string name="newDivisionHomeBtn">Nova</string>
+    <string-array name="homesOptions">
+        <item>CASA SILVA</item>
+        <item>CASA SILVA 2</item>
+    </string-array>
+    <string name="homesOptionSelected">CASA SILVA</string>
 
 </resources>
