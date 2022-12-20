@@ -43,7 +43,7 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
-
+    mainActivity.notification_member_request()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -97,4 +97,10 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
             }
         },
     )
+}
+
+@Preview()
+@Composable
+fun Consumptions() {
+    ConsumptionsScreen(navController = NavController(LocalContext.current))
 }
