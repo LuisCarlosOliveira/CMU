@@ -101,6 +101,6 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
 
 @Preview()
 @Composable
-fun ConsumptionsSrceen() {
+fun ConsumptionsScreen() {
     ConsumptionsScreen(MainActivity(), navController = NavController(LocalContext.current))
 }

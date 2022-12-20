@@ -11,6 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -36,11 +38,10 @@ import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.DropDownMenu
 import com.example.mysmarthome.ui.components.FloatingButton
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idUser: Int ) {
+fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idUser: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -78,25 +79,45 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
             val colorArray: Array<Color> =
                 arrayOf(Color.Blue, Color.Red, Color.Black, Color.Green)
 
-            Box() {
-                Spacer(modifier = Modifier.padding(start = 5.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box() {
+                    Spacer(modifier = Modifier.padding(start = 5.dp))
+                    IconButton(
+                        onClick = {
 
-                IconButton(
-                    onClick = {
-                        scope.launch {
-                            scaffoldState.drawerState.open()
-                        }
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.Menu, "",
-                        tint = Color.Black,
+                        },
                         modifier = Modifier
                             .width(50.dp)
                             .padding(start = 5.dp, end = 5.dp, top = 30.dp),
-                    )
+                    ) {
+                        Icon(
+                            Icons.Filled.Menu, "",
+                            tint = Color.Black,
+
+                            )
+                    }
+                }
+                Box() {
+                    Spacer(modifier = Modifier.padding(start = 5.dp))
+                    IconButton(
+                        onClick = {
+
+                        },
+                        modifier = Modifier
+                            .width(50.dp)
+                            .padding(start = 5.dp, end = 5.dp, top = 30.dp),
+                    ) {
+                        Icon(
+                            Icons.Filled.Logout, "",
+                            tint = Color.Black,
+                        )
+                    }
                 }
             }
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 modifier = Modifier.fillMaxWidth(),
@@ -114,7 +135,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
                             textAlign = TextAlign.Center,
                             fontSize = 24.sp,
                             letterSpacing = 1.sp,
-                            text = stringResource(id = R.string.welcome) +" "+ user.value?.name+ "!"
+                            text = stringResource(id = R.string.welcome) + " " + user.value?.name + "!"
                         )
                     }
                 },

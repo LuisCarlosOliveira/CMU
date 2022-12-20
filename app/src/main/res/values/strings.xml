@@ -155,7 +155,7 @@
     <string name="editImage">Editar Imagem</string>
     <string name="applyPreferences">Aplicar Minhas Preferências</string>
 
-    <!-- DEFINITIONSDIVISIONSDEVICES -->
+    <!-- DEVICE -->
     <string name="nameDevice">Luz Direita Teto</string>
     <string name="onOff">On/Off:</string>
     <string name="colorOfLight">Cor:</string>

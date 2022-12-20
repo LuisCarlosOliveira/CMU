@@ -1,37 +1,25 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import android.annotation.SuppressLint
-import android.content.res.Configuration
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.retrofit.data_models.light.Light
@@ -43,7 +31,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
+fun DeviceScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
@@ -433,6 +421,6 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
 
 @Preview()
 @Composable
-fun PreviewDefinitionsDivisionsDevicesScreen() {
-    DefinitionsDivisionsDevicesScreen(navController = NavController(LocalContext.current))
+fun PreviewDeviceScreen() {
+    DeviceScreen(navController = NavController(LocalContext.current))
 }

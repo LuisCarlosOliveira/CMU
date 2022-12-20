@@ -55,3 +55,11 @@ println("CHOSE "+id)
         }
     }
 }
+
+/*
+@Preview()
+@Composable
+fun PreviewChooseTypeHomeScreen() {
+    ChooseTypeHomeScreen(navController= NavController(LocalContext.current))
+}
+*/

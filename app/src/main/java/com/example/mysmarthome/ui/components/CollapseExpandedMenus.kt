@@ -74,7 +74,7 @@ fun CollapsableLazyColumn(
             if (!collapsed) {
                 items(dataItem.rows) { row ->
                     Row(modifier = Modifier.clickable(
-                        onClick = { navController.navigate("DefinitionsDivisionsDevicesScreen") }
+                        onClick = { navController.navigate("DeviceScreen") }
                     )) {
                         Spacer(modifier = Modifier.size(MaterialIconDimension.dp))
                         Text(
