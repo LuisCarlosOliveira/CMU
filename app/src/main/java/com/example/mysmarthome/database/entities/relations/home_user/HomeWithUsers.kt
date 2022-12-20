@@ -12,7 +12,7 @@ data class HomeWithUsers(
     val home: Home,
     @Relation(
         parentColumn = "idHome",
-        entityColumn = "idHomeUser",
+        entityColumn = "idUserHome",
     )
     val users: List<User>
 

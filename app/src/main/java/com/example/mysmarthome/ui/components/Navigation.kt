@@ -1,9 +1,11 @@
 package com.example.mysmarthome.ui.components
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.ui.screens.phone.*
 
@@ -16,17 +18,21 @@ fun Navigation(mainActivity: MainActivity) {
         composable("LoginScreen") {
             LoginScreen( navController = navController)
         }
-        composable("HomePageScreen") {
-            HomePageScreen(mainActivity, navController=  navController)
+        composable("HomePageScreen/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            HomePageScreen(mainActivity, navController=  navController, Id )
         }
-        composable("ConnectedDevicesScreen") {
+        composable("ConnectedDevicesScreen" ) {
+
             ConnectedDevicesScreen( navController=  navController)
         }
         composable("ProfileScreen") {
             ProfileScreen( navController=  navController)
         }
         composable("ConsumptionsScreen") {
-            ConsumptionsScreen( navController=  navController)
+            ConsumptionsScreen(mainActivity, navController=  navController)
         }
         composable("DefinitionsScreen") {
             DefinitionsScreen( navController=  navController)
@@ -34,11 +40,17 @@ fun Navigation(mainActivity: MainActivity) {
         composable("NewAccountScreen") {
             NewAccountScreen( navController=  navController)
         }
-        composable("ChooseTypeHomeScreen") {
-            ChooseTypeHomeScreen( navController=  navController)
+        composable("ChooseTypeHomeScreen/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            ChooseTypeHomeScreen( navController=  navController, Id )
         }
-        composable("NewHomeScreen") {
-            NewHomeScreen( navController=  navController)
+        composable("NewHomeScreen/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            NewHomeScreen( navController=  navController, Id )
         }
         composable("NewDivisionScreen") {
             NewDivisionScreen( navController=  navController)
@@ -83,16 +95,6 @@ fun Navigation(mainActivity: MainActivity) {
             AssociateHouseScreen( navController=  navController)
         }
 
-        /*
-        composable(
-            "SingleQuestionScreen/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) {
-            var Id = it.arguments?.getInt("id")!!
-            question = questions[Id]
-            SingleQuestionScreen(question, navController, onChange = {})
-        }
-        */
 
     }
 }

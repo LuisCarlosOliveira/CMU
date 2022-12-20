@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface LightAPI {
 
     @GET("/light/0")
-    suspend fun getLight() : Call<Light>
+    fun getLight() : Call<Light>
 
     @GET("/meter/:meter_id")
     suspend fun getLightMeter() : Call<LightMeters>

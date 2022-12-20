@@ -49,10 +49,10 @@ fun NewAccountScreen(navController: NavController) {
         var password2 by rememberSaveable {
             mutableStateOf("")
         }
+        var avancar : Boolean = false
 
         val usersViewModel: UsersViewModel = viewModel()
-        val users = usersViewModel.allUsers.observeAsState()
-
+        val user = usersViewModel.getUserByEmail(email).observeAsState()
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
@@ -61,33 +61,13 @@ fun NewAccountScreen(navController: NavController) {
                     title = stringResource(id = com.example.mysmarthome.R.string.newAccountTitle),
                     actionBack = { navController.popBackStack() },
                     actionForward = {
-                        if (nome.isNotEmpty() && contacto.isNotEmpty() && email.isNotEmpty() &&
-                            password.isNotEmpty() && password2.isNotEmpty()
-                        ) {
-                            if (contacto.length == 9 && password.equals(password2)) {
-                                usersViewModel.insertUser(
-                                    User(
-                                        1, nome, email,
-                                        TypeMember.Administrador, password, contacto.toInt()
-                                    )
-                                )
-                                Toast.makeText(localCtx, "Conta Criada!", Toast.LENGTH_SHORT)
-                                    .show()
-                                navController.navigate("ChooseTypeHomeScreen")
-                            } else {
-                                Toast.makeText(
-                                    localCtx,
-                                    "O Contacto tem de ter 9 números e as Passwords devem ser iguais!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                        if (user.value?.idUser!=null){
+                            var id= user.value?.idUser
+                            println("AQUIIII ----" + id)
+                            navController.navigate("ChooseTypeHomeScreen/" + id)
+                            Toast.makeText(localCtx, "Conta Criada!", Toast.LENGTH_SHORT)
+                                .show()
 
-                        } else {
-                            Toast.makeText(
-                                localCtx,
-                                "Preencha todos os campos!",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                     })
             },
@@ -128,6 +108,44 @@ fun NewAccountScreen(navController: NavController) {
                         label = "Repetir Password"
                     )
                 }
+                if (nome.isNotEmpty() && contacto.isNotEmpty() && email.isNotEmpty() &&
+                password.isNotEmpty() && password2.isNotEmpty()
+            ) {
+                if(user.value == null) {
+                    if (contacto.length == 9 && password.equals(password2)) {
+                        usersViewModel.insertUser(
+                            User(
+                                nome,
+                                email,
+                                "Administrador",
+                                password,
+                                contacto.toInt(),
+                                0
+                            )
+                        )
+
+
+                    } else {
+                        Toast.makeText(
+                            localCtx,
+                            "O Contacto tem de ter 9 números e as Passwords devem ser iguais!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }else{
+                    Toast.makeText(
+                        localCtx,
+                        "O email ja existe!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Toast.makeText(
+                    localCtx,
+                    "Preencha todos os campos!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             }
         )
     }

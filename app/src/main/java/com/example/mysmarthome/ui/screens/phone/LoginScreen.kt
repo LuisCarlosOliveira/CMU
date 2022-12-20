@@ -1,11 +1,13 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +20,10 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.AddImage
 import com.example.mysmarthome.ui.components.LoginSigninButton
 import com.example.mysmarthome.ui.components.SimplePasswordTextField
@@ -34,11 +38,14 @@ fun LoginScreen(navController: NavController) {
     var password by rememberSaveable {
         mutableStateOf("")
     }
+    val usersViewModel: UsersViewModel = viewModel()
+    val localCtx = LocalContext.current
 
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(15.dp).fillMaxSize(),
+            .padding(15.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -63,19 +70,31 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.padding(20.dp))
 
-        password = SimplePasswordTextField(Modifier
-            .padding(start = 20.dp, top = 10.dp, end = 20.dp)
-            .width(300.dp),
+        password = SimplePasswordTextField(
+            Modifier
+                .padding(start = 20.dp, top = 10.dp, end = 20.dp)
+                .width(300.dp),
             placeholder = stringResource(id = R.string.insertPassword),
             label = stringResource(id = R.string.password)
         )
 
         Spacer(modifier = Modifier.padding(20.dp))
-
+        val user = usersViewModel.getUserByEmail(email).observeAsState()
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             LoginSigninButton(
                 stringResource(id = R.string.login),
-                action = { navController.navigate("HomePageScreen") })
+
+                action = { if(user != null && user.value?.password.equals(password)) {
+                    val id = user.value?.idUser
+                    navController.navigate("HomePageScreen/" + id)
+
+                }else{
+                    Toast.makeText(
+                        localCtx,
+                        "O email não existe!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }})
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -83,7 +102,7 @@ fun LoginScreen(navController: NavController) {
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             LoginSigninButton(
                 stringResource(id = R.string.signin),
-                action = { navController.navigate("NewAccountScreen") })
+                action = { navController.navigate("NewAccountScreen" ) })
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,9 +28,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.DropDownMenu
 import com.example.mysmarthome.ui.components.FloatingButton
@@ -37,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
+fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idUser: Int ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -45,6 +48,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
+            val usersViewModel: UsersViewModel = viewModel()
+            val user = usersViewModel.getOneUser(idUser.toInt()).observeAsState()
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
             val scope = rememberCoroutineScope()
@@ -109,7 +114,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             textAlign = TextAlign.Center,
                             fontSize = 24.sp,
                             letterSpacing = 1.sp,
-                            text = stringResource(id = R.string.welcome) + " João!"
+                            text = stringResource(id = R.string.welcome) +" "+ user.value?.name+ "!"
                         )
                     }
                 },
@@ -500,13 +505,4 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
             )
         }
     }
-}
-
-@Preview()
-@Composable
-fun PreviewHomeScreen() {
-    HomePageScreen(
-        mainActivity = MainActivity(),
-        navController = NavController(LocalContext.current)
-    )
 }

@@ -9,13 +9,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.ChooseButton
 import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
-fun ChooseTypeHomeScreen(navController: NavController) {
+fun ChooseTypeHomeScreen(navController: NavController, id: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -23,9 +25,8 @@ fun ChooseTypeHomeScreen(navController: NavController) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-
+println("CHOSE "+id)
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
@@ -41,7 +42,7 @@ fun ChooseTypeHomeScreen(navController: NavController) {
                     ) {
                         ChooseButton(
                             title = stringResource(id = R.string.newHomeTitle),
-                            action = { navController.navigate("NewHomeScreen") })
+                            action = { navController.navigate("NewHomeScreen/"+id) })
 
                         Spacer(Modifier.padding(60.dp))
 
@@ -53,10 +54,4 @@ fun ChooseTypeHomeScreen(navController: NavController) {
             )
         }
     }
-}
-
-@Preview()
-@Composable
-fun PreviewChooseTypeHomeScreen() {
-    ChooseTypeHomeScreen(navController= NavController(LocalContext.current))
 }
