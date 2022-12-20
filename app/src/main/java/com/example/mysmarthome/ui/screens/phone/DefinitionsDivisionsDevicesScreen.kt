@@ -34,7 +34,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
+import com.example.mysmarthome.retrofit.data_models.light.Light
+import com.example.mysmarthome.retrofit.helper.RetrofitHelper
+import com.example.mysmarthome.retrofit.shelly_api.light.LightAPI
 import com.example.mysmarthome.ui.components.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
@@ -156,7 +162,7 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Column() {
+                    /*Column() {
                         Row(Modifier.height(80.dp)) {
                             PersonalText(
                                 color = Color.Red,
@@ -303,8 +309,56 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                         )
 
                         Spacer(Modifier.padding(10.dp))
+                    }*/
+
+                    var temp by remember {
+                        mutableStateOf("")
                     }
-                    Column() {
+                    var ison by remember {
+                        mutableStateOf("")
+                    }
+                    var ssid by remember {
+                        mutableStateOf("")
+                    }
+                    var mode by remember {
+                        mutableStateOf("")
+                    }
+                    var overtemp by remember {
+                        mutableStateOf("")
+                    }
+                    val api = RetrofitHelper.getInstance(3000).create(LightAPI::class.java)
+
+                    api.getLight().enqueue(object : Callback<Light> {
+                        override fun onResponse(
+                            call: Call<Light>,
+                            response: Response<Light>
+                        ) {
+                            var  pp = response.body()!!
+                            println ("VAMOS VER   " +pp)
+                            ison = pp.lights[0].ison.toString()
+                            mode = pp.lights[0].mode
+                            temp = pp.temperature.toString()
+                            overtemp = pp.overtemperature.toString()
+                            ssid = pp.wifi_sta.ssid
+
+                        }
+
+                        override fun onFailure(call: Call<Light>, t: Throwable) {
+
+                            println( t.message)
+                        }
+                    })
+                    Column(Modifier.fillMaxSize()) {
+                        Text("ssid " + ssid)
+                        Text("Is on? " + ison)
+                        Text("Temperature -> " + temp)
+                        Text("Overtempemperature -> " + overtemp)
+                        Text("Mode -> " + mode)
+                    }
+
+
+
+                /*Column() {
                         Row(Modifier.height(80.dp)) {
                             Switch(
                                 checked = onOff.value,
@@ -370,7 +424,7 @@ fun DefinitionsDivisionsDevicesScreen(navController: NavController) {
                             action = { },
                             title = stringResource(id = R.string.saveLight)
                         )
-                    }
+                    }*/
                 }
             }
         },

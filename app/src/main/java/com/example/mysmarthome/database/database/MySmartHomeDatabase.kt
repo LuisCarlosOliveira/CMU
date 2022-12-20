@@ -10,7 +10,7 @@ import com.example.mysmarthome.database.entities.relations.device_division.Divis
 
 @Database(
     entities = [User::class, Device::class, Division::class, Home::class, PersonalConfigs::class],
-    version = 6
+    version = 11
 
 )
 abstract class MySmartHomeDatabase : RoomDatabase() {
