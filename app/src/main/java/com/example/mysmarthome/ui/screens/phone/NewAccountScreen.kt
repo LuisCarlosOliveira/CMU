@@ -63,7 +63,6 @@ fun NewAccountScreen(navController: NavController) {
                     actionForward = {
                         if (user.value?.idUser!=null){
                             var id= user.value?.idUser
-                            println("AQUIIII ----" + id)
                             navController.navigate("ChooseTypeHomeScreen/" + id)
                             Toast.makeText(localCtx, "Conta Criada!", Toast.LENGTH_SHORT)
                                 .show()
