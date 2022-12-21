@@ -2,6 +2,8 @@ package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,12 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.retrofit.data_models.light.Light
@@ -31,12 +36,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun DeviceScreen(navController: NavController) {
+fun LightScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
-    val onOff = remember { mutableStateOf(true) }
+
     var hasTimer by rememberSaveable {
         mutableStateOf(false)
     }
@@ -150,7 +155,17 @@ fun DeviceScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    /*Column() {
+                    Column() {
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = "Nome:"
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
                             PersonalText(
                                 color = Color.Red,
@@ -297,13 +312,13 @@ fun DeviceScreen(navController: NavController) {
                         )
 
                         Spacer(Modifier.padding(10.dp))
-                    }*/
+                    }
 
                     var temp by remember {
                         mutableStateOf("")
                     }
                     var ison by remember {
-                        mutableStateOf("")
+                        mutableStateOf(false)
                     }
                     var ssid by remember {
                         mutableStateOf("")
@@ -323,7 +338,8 @@ fun DeviceScreen(navController: NavController) {
                         ) {
                             var  pp = response.body()!!
                             println ("VAMOS VER   " +pp)
-                            ison = pp.lights[0].ison.toString()
+                            ssid = pp.wifi_sta.ssid
+                            ison = pp.lights[0].ison
                             mode = pp.lights[0].mode
                             temp = pp.temperature.toString()
                             overtemp = pp.overtemperature.toString()
@@ -336,21 +352,21 @@ fun DeviceScreen(navController: NavController) {
                             println( t.message)
                         }
                     })
-                    Column(Modifier.fillMaxSize()) {
-                        Text("ssid " + ssid)
-                        Text("Is on? " + ison)
-                        Text("Temperature -> " + temp)
-                        Text("Overtempemperature -> " + overtemp)
-                        Text("Mode -> " + mode)
-                    }
 
-
-
-                /*Column() {
+                    Column() {
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(top = 7.dp),
+                                text = ssid
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
                             Switch(
-                                checked = onOff.value,
-                                onCheckedChange = { onOff.value = it },
+                                checked = ison,
+                                onCheckedChange = { ison = it },
                                 modifier = Modifier
                                     .padding(end = 160.dp)
                                     .width(screenWidth / 2),
@@ -406,13 +422,13 @@ fun DeviceScreen(navController: NavController) {
                             )
                         }
                         NormalButton(
-                           modifier= Modifier
+                            modifier= Modifier
                                 .width(160.dp)
                                 .height(50.dp),
                             action = { },
                             title = stringResource(id = R.string.saveLight)
                         )
-                    }*/
+                    }
                 }
             }
         },
@@ -422,5 +438,5 @@ fun DeviceScreen(navController: NavController) {
 @Preview()
 @Composable
 fun PreviewDeviceScreen() {
-    DeviceScreen(navController = NavController(LocalContext.current))
+    LightScreen(navController = NavController(LocalContext.current))
 }

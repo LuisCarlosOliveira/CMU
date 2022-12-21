@@ -85,8 +85,14 @@ fun Navigation(mainActivity: MainActivity) {
         composable("AboutScreen") {
             AboutScreen( navController=  navController)
         }
-        composable("DeviceScreen") {
-            DeviceScreen( navController=  navController)
+        composable("LightScreen") {
+            LightScreen( navController=  navController)
+        }
+        composable("PlugScreen") {
+            PlugScreen( navController=  navController)
+        }
+        composable("BlindScreen") {
+            BlindScreen( navController=  navController)
         }
         composable("LocationScreen") {
             LocationScreen( navController=  navController)

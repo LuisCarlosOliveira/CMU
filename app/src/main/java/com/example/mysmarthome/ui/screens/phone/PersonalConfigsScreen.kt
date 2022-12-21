@@ -43,7 +43,7 @@ fun PersonalConfigsScreen(navController: NavController) {
                         ListRowWithIcon(
                             title = stringResource(id = R.string.personalConfigsRowTitle),
                             icon = Icons.Rounded.Edit,
-                            action = { navController.navigate("DeviceScreen") })
+                            action = { navController.navigate("LightScreen") })
                     }
                 }
             }
