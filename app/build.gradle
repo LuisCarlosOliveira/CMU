@@ -62,6 +62,9 @@ dependencies {
     //Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
+    //Color Picker
+    implementation 'com.github.skydoves:colorpicker-compose:1.0.0'
+
     //Navigation
     implementation "androidx.navigation:navigation-compose:$nav_version"
 

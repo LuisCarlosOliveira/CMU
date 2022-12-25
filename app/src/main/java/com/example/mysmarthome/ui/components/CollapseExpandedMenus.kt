@@ -74,7 +74,15 @@ fun CollapsableLazyColumn(
             if (!collapsed) {
                 items(dataItem.rows) { row ->
                     Row(modifier = Modifier.clickable(
-                        onClick = { navController.navigate("LightScreen") }
+                        onClick = {
+                            if (dataItem.title.equals("Luzes")) {
+                                navController.navigate("LightScreen")
+                            } else if (dataItem.title.equals("Estoros")) {
+                                navController.navigate("BlindScreen")
+                            } else {
+                                navController.navigate("PlugScreen")
+                            }
+                        }
                     )) {
                         Spacer(modifier = Modifier.size(MaterialIconDimension.dp))
                         Text(

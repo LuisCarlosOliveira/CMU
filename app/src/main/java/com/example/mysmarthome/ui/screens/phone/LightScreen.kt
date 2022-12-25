@@ -1,10 +1,9 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -16,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +43,17 @@ fun LightScreen(navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
+    var ison by remember {
+        mutableStateOf(false)
+    }
+    var ssid by remember {
+        mutableStateOf("")
+    }
+    var mode by remember {
+        mutableStateOf("")
+    }
+    var cor = mutableListOf<Int>(0, 0, 0, 0)
+    var colorSelected by remember { mutableStateOf(false) }
     var hasTimer by rememberSaveable {
         mutableStateOf(false)
     }
@@ -51,10 +63,19 @@ fun LightScreen(navController: NavController) {
     var durationTimer by rememberSaveable {
         mutableStateOf("")
     }
+    var temp by remember {
+        mutableStateOf("")
+    }
+    var overtemp by remember {
+        mutableStateOf(false)
+    }
+
+    val api = RetrofitHelper.getInstance(3000).create(LightAPI::class.java)
+
     var dialogInfo by remember { mutableStateOf(false) }
     var dialogOpen by remember { mutableStateOf(false) }
-    var sliderPositionBrilho by remember { mutableStateOf(0f) }
-    var sliderPositionRefletividade by remember { mutableStateOf(0f) }
+    var dialogSelectColor by remember { mutableStateOf(false) }
+
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
@@ -162,7 +183,7 @@ fun LightScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                text = "Nome:"
+                                text = stringResource(id = R.string.ssidDevice)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
@@ -182,27 +203,17 @@ fun LightScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
+                                text = stringResource(id = R.string.modeOfLight)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
                                 text = stringResource(id = R.string.colorOfLight)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.britnessOfLight)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.gainOfLight)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
@@ -314,42 +325,23 @@ fun LightScreen(navController: NavController) {
                         Spacer(Modifier.padding(10.dp))
                     }
 
-                    var temp by remember {
-                        mutableStateOf("")
-                    }
-                    var ison by remember {
-                        mutableStateOf(false)
-                    }
-                    var ssid by remember {
-                        mutableStateOf("")
-                    }
-                    var mode by remember {
-                        mutableStateOf("")
-                    }
-                    var overtemp by remember {
-                        mutableStateOf("")
-                    }
-                    val api = RetrofitHelper.getInstance(3000).create(LightAPI::class.java)
-
                     api.getLight().enqueue(object : Callback<Light> {
+
                         override fun onResponse(
                             call: Call<Light>,
                             response: Response<Light>
                         ) {
-                            var  pp = response.body()!!
-                            println ("VAMOS VER   " +pp)
+                            var pp = response.body()!!
                             ssid = pp.wifi_sta.ssid
                             ison = pp.lights[0].ison
                             mode = pp.lights[0].mode
                             temp = pp.temperature.toString()
-                            overtemp = pp.overtemperature.toString()
-                            ssid = pp.wifi_sta.ssid
-
+                            overtemp = pp.overtemperature
                         }
 
                         override fun onFailure(call: Call<Light>, t: Throwable) {
 
-                            println( t.message)
+                            println(t.message)
                         }
                     })
 
@@ -373,44 +365,97 @@ fun LightScreen(navController: NavController) {
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            DropDownMenuOutlined(
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            modifier = Modifier.height(80.dp)
+                        ) {
+                            mode = DropDownMenuOutlined(
                                 modifier1 = Modifier
-                                    .width(300.dp)
+                                    .fillMaxWidth()
                                     .padding(end = 20.dp),
                                 modifier2 = Modifier.padding(top = 50.dp),
-                                options = stringArrayResource(
-                                    id = R.array.colorsOptions
+                                arrayOf("Branco", "Cor")
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            if (!colorSelected) {
+                                Text(
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = letterSpacing,
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontSize = 17.sp,
+                                    fontStyle = FontStyle.Italic,
+                                    color = Color.Black,
+                                    modifier = Modifier.clickable(onClick = {
+                                        dialogSelectColor = true
+                                    }), text = "Selecionar Cor",
+                                    style = TextStyle(textDecoration = TextDecoration.Underline)
                                 )
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            Slider(
-                                modifier = Modifier.padding(end = 20.dp),
-                                value = sliderPositionBrilho,
-                                onValueChange = { sliderPositionBrilho = it },
-                                valueRange = 0f..10f,
-                                onValueChangeFinished = {
-                                    // launch some business logic update with the state you hold
-                                    // viewModel.updateSelectedSliderValue(sliderPosition)
-                                },
-                                steps = 9
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            Slider(
-                                modifier = Modifier.padding(end = 20.dp),
-                                value = sliderPositionRefletividade,
-                                onValueChange = { sliderPositionRefletividade = it },
-                                valueRange = 0f..10f,
-                                onValueChangeFinished = {
-                                    // launch some business logic update with the state you hold
-                                    // viewModel.updateSelectedSliderValue(sliderPosition)
-                                },
-                                steps = 9
-                            )
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .padding(start = 5.dp)
+                                        .height(35.dp)
+                                        .width(35.dp)
+                                        .border(BorderStroke(1.dp, Color.Black))
+                                        .clickable(onClick = { dialogSelectColor = true })
+                                        .background(Color(cor[0], cor[1], cor[2], cor[3]))
+                                ) {
+
+                                }
+                            }
+                            if (dialogSelectColor) {
+                                AlertDialog(
+                                    onDismissRequest = { dialogSelectColor = false },
+                                    buttons = {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(bottom = 5.dp),
+                                            horizontalArrangement = Arrangement.SpaceEvenly
+                                        ) {
+                                            Button(colors = ButtonDefaults.buttonColors(
+                                                backgroundColor = Color.Blue
+                                            ),
+                                                onClick = {
+                                                    dialogSelectColor = false
+                                                    colorSelected = true
+                                                }) {
+                                                Text(color = Color.White, text = "Selecionar")
+                                            }
+                                            Button(colors = ButtonDefaults.buttonColors(
+                                                backgroundColor = Color.Blue
+                                            ),
+                                                onClick = { dialogSelectColor = false }) {
+                                                Text(color = Color.White, text = "Cancelar")
+                                            }
+                                        }
+                                    },
+
+                                    title = { },
+
+                                    text = {
+                                        Column(
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .fillMaxHeight()
+                                        ) {
+                                            cor = ColorPicker(navController = navController)
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(400.dp)
+                                        .padding(2.dp),
+                                    shape = RoundedCornerShape(10.dp),
+                                    backgroundColor = Color.White,
+                                    properties = DialogProperties(
+                                        dismissOnBackPress = true,
+                                        dismissOnClickOutside = true
+                                    )
+                                )
+                            }
                         }
                         Spacer(Modifier.padding(10.dp))
                         Row(Modifier.height(80.dp)) {
@@ -422,10 +467,12 @@ fun LightScreen(navController: NavController) {
                             )
                         }
                         NormalButton(
-                            modifier= Modifier
+                            modifier = Modifier
                                 .width(160.dp)
                                 .height(50.dp),
-                            action = { },
+                            action = {
+
+                            },
                             title = stringResource(id = R.string.saveLight)
                         )
                     }
