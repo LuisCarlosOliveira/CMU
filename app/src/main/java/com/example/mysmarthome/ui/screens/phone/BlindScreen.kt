@@ -123,7 +123,7 @@ fun BlindScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                text = stringResource(id = R.string.overPowerDevice)
+                                text = stringResource(id = R.string.overTempDevice)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))

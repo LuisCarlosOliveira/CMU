@@ -35,10 +35,17 @@ import com.example.mysmarthome.ui.components.Topbar2EndIcons
 
 @Composable
 fun PlugScreen(navController: NavController) {
+
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
+    var ssid by remember {
+        mutableStateOf("")
+    }
+    var ison by remember {
+        mutableStateOf(false)
+    }
     var hasTimer by rememberSaveable {
         mutableStateOf(false)
     }
@@ -48,6 +55,18 @@ fun PlugScreen(navController: NavController) {
     var durationTimer by rememberSaveable {
         mutableStateOf("")
     }
+    var overPower by remember {
+        mutableStateOf(false)
+    }
+    var temp by remember {
+        mutableStateOf("")
+    }
+    var overtemp by remember {
+        mutableStateOf(false)
+    }
+
+    val api = RetrofitHelper.getInstance(3000).create(PlugAPI::class.java)
+
     var dialogInfo by remember { mutableStateOf(false) }
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -79,8 +98,8 @@ fun PlugScreen(navController: NavController) {
                     fontFamily = FontFamily.Serif,
                     color = Color.Black,
                     modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                    fontSize = 22.sp,
-                    text = stringResource(id = R.string.nameDevice)
+                    fontSize = 18.sp,
+                    text = "Tomada Parede Esquerda"
                 )
 
                 IconButton(
@@ -158,7 +177,7 @@ fun PlugScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                text = "Nome:"
+                                text = stringResource(id = R.string.ssidDevice)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
@@ -269,30 +288,26 @@ fun PlugScreen(navController: NavController) {
                                 )
                             )
                         }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.overPowerDevice)
+                            )
+                        }
                         NormalButton(
                             modifier = Modifier
                                 .width(150.dp)
                                 .height(50.dp),
                             action = { dialogOpen = true },
-                            title = stringResource(id = R.string.timerOfLight)
+                            title = "Temporizador"
                         )
 
                         Spacer(Modifier.padding(10.dp))
                     }
-
-                    var temp by remember {
-                        mutableStateOf("")
-                    }
-                    var ison by remember {
-                        mutableStateOf(false)
-                    }
-                    var ssid by remember {
-                        mutableStateOf("")
-                    }
-                    var overtemp by remember {
-                        mutableStateOf("")
-                    }
-                    val api = RetrofitHelper.getInstance(3000).create(PlugAPI::class.java)
 
                     /*
                     api.getPlugRelay().enqueue(object : Callback<Plug> {
@@ -315,7 +330,8 @@ fun PlugScreen(navController: NavController) {
                             println(t.message)
                         }
                     })
-*/
+                    */
+
                     Column() {
                         Row(Modifier.height(80.dp)) {
                             PersonalText(
@@ -344,12 +360,21 @@ fun PlugScreen(navController: NavController) {
                                 text = "20ºC"
                             )
                         }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(top = 7.dp),
+                                text = overPower.toString()
+                            )
+                        }
                         NormalButton(
                             modifier = Modifier
                                 .width(160.dp)
                                 .height(50.dp),
                             action = { },
-                            title = stringResource(id = R.string.saveLight)
+                            title = "Guardar"
                         )
                     }
                 }
