@@ -161,6 +161,10 @@
     <string name="onOff">On/Off:</string>
     <string name="colorOfLight">Cor:</string>
     <string name="modeOfLight">Modo: </string>
+    <string name="stateDevice">Estado atual: </string>
+    <string name="powerDevice">Potência: </string>
+    <string name="overPowerDevice">Sobreaquecimento: </string>
+    <string name="positionBlind">Posição: </string>
     <string name="temperatureOfLight">Temperatura: </string>
     <string name="timerOfLight">Temporizador </string>
     <string name="saveLight">Guardar</string>
