@@ -83,59 +83,35 @@ fun LightScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Topbar2EndIcons(content = {
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
+            TopAppBar(
+                title = {
+                    Text(
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = letterSpacing,
+                        fontFamily = FontFamily.Serif,
+                        color = Color.Black,
+                        fontSize = 22.sp,
+                        text = stringResource(id = R.string.nameDevice)
                     )
-                }
-
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                    fontSize = 22.sp,
-                    text = stringResource(id = R.string.nameDevice)
-                )
-
-                IconButton(
-                    onClick = {
-                        dialogInfo = true
+                },
+                backgroundColor = Color.White,
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Rounded.ArrowBack, "", tint = Color.Black)
                     }
-                ) {
-                    Icon(
-                        Icons.Rounded.Info, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                    )
-                }
+                },
+                modifier = Modifier.height(70.dp),
+                actions = {
 
-                IconButton(
-                    onClick = {
-                        navController.navigate("PersonalConfigsScreen")
+                    IconButton(onClick = {dialogInfo = true}) {
+                        Icon(Icons.Rounded.Info, "", tint = Color.Black)
                     }
-                ) {
-                    Icon(
-                        Icons.Rounded.Star, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(end = 15.dp),
-                    )
-                }
-            })
 
+                    IconButton(onClick = {navController.navigate("PersonalConfigsScreen") }) {
+                        Icon(Icons.Rounded.Star, "", tint = Color.Black)
+                    }
+                }
+            )
             if (hasTimer && !dialogOpen) {
                 if (dialogInfo) {
                     AlertPopup(
@@ -169,7 +145,7 @@ fun LightScreen(navController: NavController) {
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize()
-                    .padding(start = 20.dp, top = 40.dp)
+                    .padding(start = 20.dp, top = 40.dp, bottom = 20.dp)
             ) {
 
                 Row(

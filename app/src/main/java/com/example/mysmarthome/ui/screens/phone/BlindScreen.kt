@@ -5,6 +5,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -12,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -68,18 +72,42 @@ fun BlindScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopBarBackForward(
-                iconForward = Icons.Rounded.Star,
-                title = "Estoros",
-                actionBack = { navController.popBackStack() },
-                actionForward = { navController.navigate("PersonalConfigsScreen") })
+            TopAppBar(
+                title = {
+                    Text(
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = letterSpacing,
+                        fontFamily = FontFamily.Serif,
+                        color = Color.Black,
+                        fontSize = 22.sp,
+                        text = "Estoros Frente"
+                    )
+                },
+                backgroundColor = Color.White,
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Rounded.ArrowBack, "", tint = Color.Black)
+                    }
+                },
+                modifier = Modifier.height(70.dp),
+                actions = {
+
+                    IconButton(onClick = { navController.navigate("PersonalConfigsScreen")}) {
+                        Icon(Icons.Rounded.Star, "", tint = Color.Black)
+                    }
+
+                    IconButton(onClick = { }) {
+                        Icon(Icons.Rounded.Save, "", tint = Color.Black)
+                    }
+                }
+            )
         },
         content = {
             Column(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize()
-                    .padding(start = 20.dp, top = 40.dp)
+                    .padding(start = 20.dp, top = 40.dp, bottom = 20.dp)
             ) {
 
                 Row(
