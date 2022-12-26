@@ -253,6 +253,16 @@ fun PlugScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
+                                text = stringResource(id = R.string.overTempDevice)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
                                 text = stringResource(id = R.string.overPowerDevice)
                             )
                         }
@@ -316,6 +326,15 @@ fun PlugScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(top = 7.dp),
                                 text = "20ºC"
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(top = 7.dp),
+                                text = overtemp.toString()
                             )
                         }
                         Spacer(Modifier.padding(10.dp))

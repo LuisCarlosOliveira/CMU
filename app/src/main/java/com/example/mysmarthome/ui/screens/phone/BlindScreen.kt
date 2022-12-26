@@ -5,7 +5,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
@@ -14,8 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -240,13 +237,6 @@ fun BlindScreen(navController: NavController) {
                                 text = "20ºC"
                             )
                         }
-                        NormalButton(
-                            modifier = Modifier
-                                .width(160.dp)
-                                .height(50.dp),
-                            action = { },
-                            title = stringResource(id = R.string.saveLight)
-                        )
                     }
                 }
             }
