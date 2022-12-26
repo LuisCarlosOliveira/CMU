@@ -30,7 +30,7 @@ import coil.compose.AsyncImage
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.FloatingButton
 import com.example.mysmarthome.ui.components.SimpleTextField
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun NewDivisionScreen(navController: NavController) {
@@ -66,7 +66,7 @@ fun NewDivisionScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                TopbarBack(
+                TopBarBack(
                     title = stringResource(id = R.string.newDivisionTitle),
                     navController = navController
                 )

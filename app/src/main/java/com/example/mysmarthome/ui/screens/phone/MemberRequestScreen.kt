@@ -19,7 +19,7 @@ import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.BottombarWithHome
 import com.example.mysmarthome.ui.components.DropDownMenuOutlined
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun MemberRequestScreen(navController: NavController) {
@@ -35,7 +35,7 @@ fun MemberRequestScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopbarBack(
+            TopBarBack(
                 title = "João " + stringResource(id = R.string.adesaoPedidos),
                 navController = navController
             )

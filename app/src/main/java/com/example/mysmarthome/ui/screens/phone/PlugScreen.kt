@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -28,10 +29,7 @@ import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.retrofit.helper.RetrofitHelper
 import com.example.mysmarthome.retrofit.shelly_api.plug.PlugAPI
-import com.example.mysmarthome.ui.components.AlertPopup
-import com.example.mysmarthome.ui.components.NormalButton
-import com.example.mysmarthome.ui.components.PersonalText
-import com.example.mysmarthome.ui.components.Topbar2EndIcons
+import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun PlugScreen(navController: NavController) {
@@ -77,34 +75,18 @@ fun PlugScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        fontSize = 22.sp,
-                        text = "Tomada Parede Esquerda"
-                    )
-                },
-                backgroundColor = Color.White,
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Rounded.ArrowBack, "", tint = Color.Black)
-                    }
-                },
-                modifier = Modifier.height(70.dp),
-                actions = {
-
-                    IconButton(onClick = {dialogInfo = true}) {
+            TopBarBackForward(
+                title = "Tomada Parede Esquerda",
+                actionBtns = {
+                    IconButton(onClick = { dialogInfo = true }) {
                         Icon(Icons.Rounded.Info, "", tint = Color.Black)
                     }
 
                     IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
                         Icon(Icons.Rounded.Star, "", tint = Color.Black)
                     }
-                }
+                },
+                navController = navController
             )
             if (hasTimer && !dialogOpen) {
                 if (dialogInfo) {

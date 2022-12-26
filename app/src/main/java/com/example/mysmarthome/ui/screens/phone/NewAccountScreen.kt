@@ -7,10 +7,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,18 +59,21 @@ fun NewAccountScreen(navController: NavController) {
             scaffoldState = scaffoldState,
             topBar = {
                 TopBarBackForward(
-                    iconForward = Icons.Rounded.ArrowForward,
                     title = stringResource(id = com.example.mysmarthome.R.string.newAccountTitle),
-                    actionBack = { navController.popBackStack() },
-                    actionForward = {
-                        if (user.value?.idUser!=null){
-                            var id= user.value?.idUser
-                            navController.navigate("ChooseTypeHomeScreen/" + id)
-                            Toast.makeText(localCtx, "Conta Criada!", Toast.LENGTH_SHORT)
-                                .show()
-
+                    actionBtns = {
+                        IconButton(onClick = {
+                            if (user.value?.idUser!=null){
+                                var id= user.value?.idUser
+                                navController.navigate("ChooseTypeHomeScreen/" + id)
+                                Toast.makeText(localCtx, "Conta Criada!", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }) {
+                            Icon(Icons.Rounded.ArrowForward, "", tint = Color.Black)
                         }
-                    })
+                    },
+                    navController = navController
+                )
             },
             content = {
                 Column(
