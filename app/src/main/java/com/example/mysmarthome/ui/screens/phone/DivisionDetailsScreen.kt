@@ -44,50 +44,19 @@ fun DivisionDetailsScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                Topbar2EndIcons(content = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
+                TopBarBackForward(
+                    title = "Garagem",
+                    actionBtns = {
+                        IconButton(onClick = { }) {
+                            Icon(Icons.Rounded.Edit, "", tint = Color.Black)
                         }
-                    ) {
-                        Icon(
-                            Icons.Rounded.ArrowBack, "",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .width(50.dp)
-                                .padding(start = 5.dp),
-                        )
-                    }
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 7.dp, end = 150.dp),
-                        fontSize = 22.sp,
-                        text = "Garagem"
-                    )
-                    IconButton(
-                        onClick = { }
-                    ) {
-                        Icon(
-                            Icons.Rounded.Delete, "",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .width(50.dp)
-                        )
-                    }
-                    IconButton(
-                        onClick = { }
-                    ) {
-                        Icon(
-                            Icons.Rounded.Edit, "",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .width(50.dp)
-                        )
-                    }
-                })
+
+                        IconButton(onClick = { }) {
+                            Icon(Icons.Rounded.Delete, "", tint = Color.Black)
+                        }
+                    },
+                    navController = navController
+                )
             },
             content = {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {

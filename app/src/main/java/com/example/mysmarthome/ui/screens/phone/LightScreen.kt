@@ -83,34 +83,18 @@ fun LightScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        fontSize = 22.sp,
-                        text = stringResource(id = R.string.nameDevice)
-                    )
-                },
-                backgroundColor = Color.White,
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Rounded.ArrowBack, "", tint = Color.Black)
-                    }
-                },
-                modifier = Modifier.height(70.dp),
-                actions = {
-
-                    IconButton(onClick = {dialogInfo = true}) {
+            TopBarBackForward(
+                title = stringResource(id = R.string.nameDevice),
+                actionBtns = {
+                    IconButton(onClick = { dialogInfo = true }) {
                         Icon(Icons.Rounded.Info, "", tint = Color.Black)
                     }
 
-                    IconButton(onClick = {navController.navigate("PersonalConfigsScreen") }) {
+                    IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
                         Icon(Icons.Rounded.Star, "", tint = Color.Black)
                     }
-                }
+                },
+                navController = navController
             )
             if (hasTimer && !dialogOpen) {
                 if (dialogInfo) {

@@ -72,34 +72,18 @@ fun BlindScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        letterSpacing = letterSpacing,
-                        fontFamily = FontFamily.Serif,
-                        color = Color.Black,
-                        fontSize = 22.sp,
-                        text = "Estoros Frente"
-                    )
-                },
-                backgroundColor = Color.White,
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Rounded.ArrowBack, "", tint = Color.Black)
-                    }
-                },
-                modifier = Modifier.height(70.dp),
-                actions = {
-
-                    IconButton(onClick = { navController.navigate("PersonalConfigsScreen")}) {
+            TopBarBackForward(
+                title = "Estoros Frente",
+                actionBtns = {
+                    IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
                         Icon(Icons.Rounded.Star, "", tint = Color.Black)
                     }
 
                     IconButton(onClick = { }) {
                         Icon(Icons.Rounded.Save, "", tint = Color.Black)
                     }
-                }
+                },
+                navController = navController
             )
         },
         content = {

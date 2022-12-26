@@ -25,7 +25,7 @@ fun ChooseTypeHomeScreen(navController: NavController, id: Int) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-println("CHOSE "+id)
+            println("CHOSE " + id)
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -42,7 +42,7 @@ println("CHOSE "+id)
                     ) {
                         ChooseButton(
                             title = stringResource(id = R.string.newHomeTitle),
-                            action = { navController.navigate("NewHomeScreen/"+id) })
+                            action = { navController.navigate("NewHomeScreen/" + id) })
 
                         Spacer(Modifier.padding(60.dp))
 

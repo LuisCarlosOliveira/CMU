@@ -34,7 +34,10 @@ fun AssociateHouseScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                     TopbarBack(title = stringResource(id = R.string.add_home), navController = navController)
+                TopbarBack(
+                    title = stringResource(id = R.string.add_home),
+                    navController = navController
+                )
             },
             content = {
                 Column(
@@ -43,7 +46,10 @@ fun AssociateHouseScreen(navController: NavController) {
                 ) {
                     NormalButton(modifier = Modifier
                         .width(250.dp)
-                        .height(80.dp), action =  {}, title =  stringResource(id = R.string.readQRCode))
+                        .height(80.dp),
+                        action = {},
+                        title = stringResource(id = R.string.readQRCode)
+                    )
                 }
             }
         )
@@ -53,5 +59,5 @@ fun AssociateHouseScreen(navController: NavController) {
 @Preview()
 @Composable
 fun PreviewAssociateHomeScreen() {
-    AssociateHouseScreen(navController= NavController(LocalContext.current))
+    AssociateHouseScreen(navController = NavController(LocalContext.current))
 }
