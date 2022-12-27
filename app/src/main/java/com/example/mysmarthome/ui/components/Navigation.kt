@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.components
 
+import QrCodeScanner
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -100,7 +101,9 @@ fun Navigation(mainActivity: MainActivity) {
         composable("AssociateHouseScreen") {
             AssociateHouseScreen( navController=  navController)
         }
-
+        composable("QrCodeScanner") {
+            QrCodeScanner( /*navController=  navController*/)
+        }
 
     }
 }

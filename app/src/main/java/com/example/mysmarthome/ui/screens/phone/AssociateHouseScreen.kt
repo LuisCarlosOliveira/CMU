@@ -38,7 +38,9 @@ fun AssociateHouseScreen(navController: NavController) {
                     NormalButton(modifier = Modifier
                         .width(250.dp)
                         .height(80.dp),
-                        action = {},
+                        action = {
+                            navController.navigate("QrCodeScanner" )
+                        },
                         title = stringResource(id = R.string.readQRCode)
                     )
                 }
