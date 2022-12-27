@@ -170,15 +170,10 @@ fun SimplePasswordTextField(modifier: Modifier, placeholder: String, label: Stri
 }
 
 @Composable
-fun SimpleNumberTextField(modifier: Modifier, title: String, placeholder: String, label: String): String {
+fun SimpleNumberTextField(modifier: Modifier, placeholder: String, label: String): String {
     var field by remember {
         mutableStateOf(TextFieldValue(""))
     }
-    Text(
-        modifier = Modifier.padding(start = 20.dp, top = 20.dp),
-        fontWeight = FontWeight.Bold,
-        text = title
-    )
 
     TextField(
         colors = TextFieldDefaults.textFieldColors(

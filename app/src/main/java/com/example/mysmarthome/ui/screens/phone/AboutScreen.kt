@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Help
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +39,21 @@ fun AboutScreen(navController: NavController) {
         scaffoldState = scaffoldState,
         topBar = {
             TopBarBackForward(
-                Icons.Filled.Help,
-                stringResource(id = R.string.aboutTitle),
-                { navController.popBackStack() },
-                { navController.navigate("HelpScreen") })
+                title = stringResource(id = R.string.aboutTitle),
+                actionBtns = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate("HelpScreen")
+                        }
+                    ) {
+                        Icon(
+                            Icons.Rounded.Help, "",
+                            tint = Color.Black,
+                        )
+                    }
+                },
+                navController = navController
+            )
         },
 
         content = {
@@ -81,5 +93,5 @@ fun AboutScreen(navController: NavController) {
 @Preview()
 @Composable
 fun PreviewAboutScreen() {
-    AboutScreen(navController= NavController(LocalContext.current))
+    AboutScreen(navController = NavController(LocalContext.current))
 }

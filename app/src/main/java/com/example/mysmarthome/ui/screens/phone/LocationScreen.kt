@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.DropDownMenu
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -31,7 +31,7 @@ fun LocationScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopbarBack(
+            TopBarBack(
                 title = stringResource(id = R.string.locationTitle),
                 navController = navController
             )

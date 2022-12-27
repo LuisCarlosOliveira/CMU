@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.AddImage
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun HelpScreen(navController: NavController) {
@@ -38,7 +38,7 @@ fun HelpScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                TopbarBack(
+                TopBarBack(
                     title = stringResource(id = R.string.helpTitle),
                     navController = navController
                 )

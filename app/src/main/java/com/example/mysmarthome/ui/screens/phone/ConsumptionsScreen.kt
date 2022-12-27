@@ -1,20 +1,12 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -29,12 +21,7 @@ import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.AddImage
 import com.example.mysmarthome.ui.components.DropDownMenu
-import com.example.mysmarthome.ui.components.TopbarBack
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.rememberCameraPositionState
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController) {
@@ -47,7 +34,7 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopbarBack(
+            TopBarBack(
                 title = stringResource(id = R.string.consumptionsTitle),
                 navController = navController
             )

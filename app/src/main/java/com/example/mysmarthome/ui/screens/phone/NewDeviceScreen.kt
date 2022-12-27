@@ -6,8 +6,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,10 +42,14 @@ fun NewDeviceScreen(navController: NavController) {
         scaffoldState = scaffoldState,
         topBar = {
             TopBarBackForward(
-                iconForward = Icons.Filled.Save,
                 title = stringResource(id = R.string.newDeviceTitle),
-                actionBack = { navController.popBackStack() },
-                actionForward = { navController.navigate("ConnectedDevicesScreen") })
+                actionBtns = {
+                    IconButton(onClick = { navController.navigate("ConnectedDevicesScreen") }) {
+                        Icon(Icons.Rounded.Save, "", tint = Color.Black)
+                    }
+                },
+                navController = navController
+            )
         },
         content = {
             Column(

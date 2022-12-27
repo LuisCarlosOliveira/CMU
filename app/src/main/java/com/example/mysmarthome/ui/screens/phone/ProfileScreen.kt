@@ -12,7 +12,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -29,7 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.BottombarWithHome
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun ProfileScreen(navController: NavController) {
@@ -73,11 +72,14 @@ fun ProfileScreen(navController: NavController) {
 
             Scaffold(
                 scaffoldState = scaffoldState,
-                
+
                 topBar = {
-                    TopbarBack(title = "João " + stringResource(id = R.string.admin), navController = navController )
+                    TopBarBack(
+                        title = "João " + stringResource(id = R.string.admin),
+                        navController = navController
+                    )
                 },
-                
+
                 content = {
                     Column(
                         Modifier
@@ -447,5 +449,5 @@ fun ProfileScreen(navController: NavController) {
 @Preview()
 @Composable
 fun PreviewProfileScreen() {
-    ProfileScreen(navController= NavController(LocalContext.current))
+    ProfileScreen(navController = NavController(LocalContext.current))
 }
