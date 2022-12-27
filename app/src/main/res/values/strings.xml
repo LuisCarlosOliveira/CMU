@@ -189,6 +189,6 @@
         <item>CASA SILVA</item>
         <item>CASA SILVA 2</item>
     </string-array>
-    <string name="homesOptionSelected">CASA SILVA</string>
+    <string name="homesOptionSelected">CASA </string>
 
 </resources>

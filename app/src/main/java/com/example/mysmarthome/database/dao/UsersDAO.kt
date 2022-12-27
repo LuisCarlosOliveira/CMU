@@ -10,7 +10,6 @@ import com.example.mysmarthome.enums.TypeMember
 @Dao
 interface UsersDAO {
 
-
     @Query("select * from User")
     fun getUsers(): LiveData<List<User>>
 
@@ -23,7 +22,7 @@ interface UsersDAO {
     @Query("select * from User where typeMember = :type")
     fun getUsersByTypeMember(type: String): LiveData<List<User>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(user: User)
 
     @Update

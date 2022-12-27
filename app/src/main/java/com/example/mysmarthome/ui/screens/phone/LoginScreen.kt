@@ -83,15 +83,21 @@ fun LoginScreen(navController: NavController) {
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             LoginSigninButton(
                 stringResource(id = R.string.login),
-
-                action = { if(user != null && user.value?.password.equals(password)) {
+                action = {
+                if(user.value != null && user.value?.password.equals(password)) {
+                    println("pq q entrou aqui?????????????????")
                     val id = user.value?.idUser
-                    navController.navigate("HomePageScreen/" + id)
-
+                    println(" USER-------------"+user.value)
+                    if(user.value?.idUserHome != 0) {
+                        navController.navigate("HomePageScreen/" + user.value?.idUserHome+"/"+id)
+                    }else{
+                        navController.navigate("ChooseTypeHomeScreen/" + id)
+                    }
                 }else{
+                    println("HEREEEEEEEEEEEEEEEEEE?????????????????")
                     Toast.makeText(
                         localCtx,
-                        "O email não existe!",
+                        "Erro com o email ou password!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }})

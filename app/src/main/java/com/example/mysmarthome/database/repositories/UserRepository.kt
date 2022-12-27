@@ -18,7 +18,7 @@ class UserRepository(val userDao: UsersDAO) {
         return userDao.getOneUser(id)
     }
 
-    fun getUserByEmail(email: String): LiveData<User> {
+     fun getUserByEmail(email: String): LiveData<User> {
         return userDao.getUserByEmail(email)
     }
 

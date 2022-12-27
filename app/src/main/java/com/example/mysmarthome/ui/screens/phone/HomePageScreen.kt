@@ -34,14 +34,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.view_models.DivisionsViewModel
+import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.DropDownMenu
 import com.example.mysmarthome.ui.components.FloatingButton
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idUser: Int) {
+fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idHome: Int, idUser: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -49,11 +51,19 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
+            println ("id casa ------" + idHome)
             val usersViewModel: UsersViewModel = viewModel()
-            val user = usersViewModel.getOneUser(idUser.toInt()).observeAsState()
+            val user = usersViewModel.getOneUser(idUser).observeAsState()
+println("USER----------------"+ user.value)
+            val homesViewModel: HomesViewModel = viewModel()
+            val home = homesViewModel.getHomeByUser(idUser).observeAsState()
+println("Home-------------------" + home.value)
 
+            val divisionsViewModel: DivisionsViewModel = viewModel()
+            val divisions = divisionsViewModel.getDivisionByHome(idHome).observeAsState()
+
+println("Divisionssss" + divisions.value)
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-            val scope = rememberCoroutineScope()
 
             var dialogOpenAlarm by remember { mutableStateOf(false) }
             var dialogOpenAgenda by remember { mutableStateOf(false) }
@@ -76,8 +86,6 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
             var description by rememberSaveable {
                 mutableStateOf("")
             }
-            val colorArray: Array<Color> =
-                arrayOf(Color.Blue, Color.Red, Color.Black, Color.Green)
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -145,15 +153,28 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Spacer(Modifier.padding(10.dp))
-                        Column(Modifier.padding(20.dp)) {
+                        Text(
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontSize = 24.sp,
+                            letterSpacing = 1.sp,
+                            text = "Casa " + home.value?.name
+                        )
+
+                      Column(Modifier.padding(20.dp)) {
+
                             DropDownMenu(
                                 options = stringArrayResource(id = R.array.homesOptions),
                                 optionSelected = stringResource(
                                     id = R.string.homesOptionSelected
                                 )
                             )
+
                         }
                     }
+                   /* if(divisions != null){
                     Column(
                         modifier = Modifier.padding(
                             start = 10.dp,
@@ -161,38 +182,13 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
                             bottom = 70.dp
                         )
                     ) {
-
-                        val list = arrayOfNulls<Number>(25)
-
-                        LazyVerticalGrid(
-                            columns = GridCells.Adaptive(minSize = 128.dp),
-                        ) {
-                            items(list.size) { l ->
-                                Card(
-                                    elevation = 10.dp,
-                                    border = BorderStroke(1.dp, Color.Blue),
-                                    backgroundColor = colorArray.random(),
-                                    modifier = Modifier
-                                        .aspectRatio(1f)
-                                        .padding(5.dp)
-                                        .clickable(onClick = {
-                                            navController.navigate("DivisionDetailsScreen")
-                                        })
-                                ) {
-                                    Text(
-                                        fontFamily = FontFamily.SansSerif,
-                                        fontWeight = FontWeight.ExtraBold,
-                                        color = Color.White,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.padding(top = 50.dp),
-                                        fontSize = 20.sp,
-                                        letterSpacing = 1.sp,
-                                        text = "Garagem"
-                                    )
-                                }
-                            }
+                        divisions.value?.divisions?.forEach() {
+                            DisplayDivision(navController, it)
                         }
-                    }
+                    }}else{
+                        Text(text = "Ainda não tem divisoes")
+                    }*/
+
                 },
 
                 drawerContent = {
@@ -518,7 +514,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
                     FloatingButton(
                         icon = Icons.Rounded.Add,
                         title = stringResource(id = R.string.newDivisionHomeBtn),
-                        action = { navController.navigate("NewDivisionScreen") })
+                        action = { navController.navigate("NewDivisionScreen/" + home.value?.idHome!!) })
                 },
                 bottomBar = {
                     BottombarWithoutHome(navController = navController)
@@ -526,4 +522,34 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
             )
         }
     }
+}
+
+@Composable
+fun DisplayDivision(navController: NavController, division: Division) {
+    val colorArray: Array<Color> =
+        arrayOf(Color.Blue, Color.Red, Color.Black, Color.Green)
+
+    Card(
+        elevation = 10.dp,
+        border = BorderStroke(1.dp, Color.Blue),
+        backgroundColor = colorArray.random(),
+        modifier = Modifier
+            .aspectRatio(1f)
+            .padding(5.dp)
+            .clickable(onClick = {
+                navController.navigate("DivisionDetailsScreen")
+            })
+    ) {
+        Text(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.ExtraBold,
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 50.dp),
+            fontSize = 20.sp,
+            letterSpacing = 1.sp,
+            text = division.name
+        )
+    }
+
 }

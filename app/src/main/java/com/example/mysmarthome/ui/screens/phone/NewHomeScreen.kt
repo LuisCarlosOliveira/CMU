@@ -125,21 +125,25 @@ fun NewHomeScreen(navController: NavController, id: Int) {
                             FloatingButton(
                                 icon = Icons.Rounded.ArrowForward,
                                 title = stringResource(id = R.string.continueBtn),
-                                action = {  if (street.isNotEmpty() && postalcode.isNotEmpty() && city.isNotEmpty() && country.isNotEmpty() && nome.isNotEmpty()) {
-                                    val address = Address(street, postalcode, city, country)
-                                    val home = Home(nome, address)
-                                    println("Home " + home)
-                                    homesViewModel.insertHome(home)
-                                    user.value?.idUserHome = home.idHome
-                                     usersViewModel.updateUser(user.value!!)
-                                    navController.navigate("NewDivisionScreen")
-                                } else {
-                                    Toast.makeText(
-                                        localCtx,
-                                        "Preencha todos os campos!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } })
+                                action = {
+                                    if (street.isNotEmpty() && postalcode.isNotEmpty() && city.isNotEmpty() && country.isNotEmpty() && nome.isNotEmpty()) {
+                                        val address = Address(street, postalcode, city, country)
+                                        val home = Home(nome, address)
+                                        println("Home " + home)
+                                        homesViewModel.insertHome(home)
+                                        println("id da home " + home.idHome)
+                                        user.value?.idUserHome = home.idHome
+                                        usersViewModel.updateUser(user.value!!)
+                                        navController.navigate("NewDivisionScreen/" + id)
+                                    } else {
+                                        Toast.makeText(
+                                            localCtx,
+                                            "Preencha todos os campos!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                            )
                         }
                     }
                 }

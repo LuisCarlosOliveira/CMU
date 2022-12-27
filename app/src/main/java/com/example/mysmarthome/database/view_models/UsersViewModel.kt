@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.view_models
 
 import android.app.Application
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -12,6 +13,7 @@ import com.example.mysmarthome.database.repositories.UserRepository
 import com.example.mysmarthome.enums.TypeMember
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 class UsersViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -50,14 +52,25 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getOneUser(id)
     }
 
-    fun getUserByEmail(email: String): LiveData<User> {
-        return repository.getUserByEmail(email)
+     /*fun getUserByEmail(email: String): LiveData<User>? {
+        var user : LiveData<User>? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            user.let {
+                user = repository.getUserByEmail(email)}
+        }
+        return user
+    }*/
+     fun getUserByEmail(email: String): LiveData<User>{
+        return  repository.getUserByEmail(email)
     }
 
     fun getUsersByHome(idHome: Int): LiveData<HomeWithUsers>{
         return repository.getUsersByHome(idHome)
     }
+
     fun getUsersByTypeMember(typeMember: String): LiveData<List<User>> {
         return repository.getUsersByTypeMember(typeMember)
     }
+
 }
+

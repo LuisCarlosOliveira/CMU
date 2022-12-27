@@ -2,6 +2,7 @@ package com.example.mysmarthome.ui.screens.phone
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
@@ -25,21 +26,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.view_models.DivisionsViewModel
 import com.example.mysmarthome.ui.components.FloatingButton
 import com.example.mysmarthome.ui.components.SimpleTextField
 import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
-fun NewDivisionScreen(navController: NavController) {
+fun NewDivisionScreen(navController: NavController, id: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
 
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+        val divisionsViewModel: DivisionsViewModel = viewModel()
+        val localCtx = LocalContext.current
         var divisionName by rememberSaveable {
             mutableStateOf("")
         }
@@ -150,7 +156,19 @@ fun NewDivisionScreen(navController: NavController) {
                 FloatingButton(
                     icon = Icons.Rounded.DevicesOther,
                     title = stringResource(id = R.string.associateDevicesBtn),
-                    action = { navController.navigate("UnconnectedDevicesScreen") })
+                    action = {
+                        if (divisionName.isNotEmpty() && (hasImg || imgUri != null)) {
+                            divisionsViewModel.insertDivision(Division(id, divisionName, "imagem"))
+                            navController.navigate("UnconnectedDevicesScreen")
+                        } else {
+                            Toast.makeText(
+                                localCtx,
+                                "Falta preencher algum campo!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                )
             },
             floatingActionButtonPosition = FabPosition.Center
         )
@@ -173,5 +191,5 @@ fun addImage(imageBitmap: ImageBitmap?) {
 @Preview()
 @Composable
 fun PreviewNewDivisionScreen() {
-    NewDivisionScreen(navController = NavController(LocalContext.current))
+    NewDivisionScreen(navController = NavController(LocalContext.current), id = 1)
 }

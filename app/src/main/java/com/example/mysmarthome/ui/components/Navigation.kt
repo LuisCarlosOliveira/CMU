@@ -18,11 +18,12 @@ fun Navigation(mainActivity: MainActivity) {
         composable("LoginScreen") {
             LoginScreen( navController = navController)
         }
-        composable("HomePageScreen/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        composable("HomePageScreen/{id}/{id1}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType },navArgument("id1") { type = NavType.IntType })
         ) {
-            var Id = it.arguments?.getInt("id")!!
-            HomePageScreen(mainActivity, navController=  navController, Id )
+            var Id1 = it.arguments?.getInt("id")!!
+            var Id2 = it.arguments?.getInt("id")!!
+            HomePageScreen(mainActivity, navController=  navController, Id1, Id2 )
         }
         composable("ConnectedDevicesScreen" ) {
 
@@ -52,8 +53,11 @@ fun Navigation(mainActivity: MainActivity) {
             var Id = it.arguments?.getInt("id")!!
             NewHomeScreen( navController=  navController, Id )
         }
-        composable("NewDivisionScreen") {
-            NewDivisionScreen( navController=  navController)
+        composable("NewDivisionScreen/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            NewDivisionScreen( navController=  navController, Id )
         }
         composable("NewDeviceScreen") {
             NewDeviceScreen( navController=  navController)
