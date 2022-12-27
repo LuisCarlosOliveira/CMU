@@ -36,7 +36,7 @@ import com.example.mysmarthome.qrCode.QrCodeAnalyzer
 import com.example.mysmarthome.ui.screens.phone.PlugScreen
 
 @Composable
-fun QrCodeScanner(/*navController: NavController*/) {
+fun QrCodeScanner(navController: NavController) {
 
     var code by remember {
         mutableStateOf("")
@@ -116,8 +116,10 @@ fun QrCodeScanner(/*navController: NavController*/) {
     }
 }
 
+/*
 @androidx.compose.ui.tooling.preview.Preview()
 @Composable
 fun PreviewQrCodeScanner() {
-    QrCodeScanner()
+    QrCodeScanner(navController = NavController(LocalContext.current))
 }
+*/

@@ -197,7 +197,7 @@ fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController)
                         .fillMaxSize()
                         .padding(top = 20.dp, bottom = 50.dp)
                 ) {
-                    val URL = "CASA"
+                    val URL = "Mostrar ao Rafa"
                     // Make sure the value is valid for the type of barcode selected. The library will
                     // just show an infinite spinner in place of a barcode if the data is not valid.
                     if (BarcodeType.QR_CODE.isValueValid(URL)) {

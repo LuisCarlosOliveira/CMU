@@ -102,7 +102,7 @@ fun Navigation(mainActivity: MainActivity) {
             AssociateHouseScreen( navController=  navController)
         }
         composable("QrCodeScanner") {
-            QrCodeScanner( /*navController=  navController*/)
+            QrCodeScanner( navController=  navController)
         }
 
     }
