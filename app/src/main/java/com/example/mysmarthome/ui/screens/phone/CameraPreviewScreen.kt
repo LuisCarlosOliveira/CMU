@@ -6,13 +6,11 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
@@ -20,11 +18,23 @@ import com.example.mysmarthome.qrCode.BarCodeAnalyser
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import androidx.compose.material.*
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun CameraPreviewScreen(navController: NavController) {
+
+    CameraPreview()
+
+}
+
 
 
 
 @Composable
-fun CameraPreview(navController: NavController) {
+fun CameraPreview() {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var preview by remember { mutableStateOf<Preview?>(null) }
@@ -41,7 +51,7 @@ fun CameraPreview(navController: NavController) {
                 implementationMode = PreviewView.ImplementationMode.COMPATIBLE
             }
         },
-        modifier = Modifier.fillMaxSize().padding(50.dp),
+        modifier = Modifier.fillMaxSize(),
         update = { previewView ->
             val cameraSelector: CameraSelector = CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
@@ -59,6 +69,7 @@ fun CameraPreview(navController: NavController) {
                     barcodes.forEach { barcode ->
                         barcode.rawValue?.let { barcodeValue ->
                             barCodeVal.value = barcodeValue
+                            //informação do QR code a analisar
                             Toast.makeText(context, barcodeValue, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -84,10 +95,4 @@ fun CameraPreview(navController: NavController) {
             }, ContextCompat.getMainExecutor(context))
         }
     )
-}
-
-@androidx.compose.ui.tooling.preview.Preview()
-@Composable
-fun PreviewCameraPreview() {
-    CameraPreview(navController = NavController(LocalContext.current))
 }
