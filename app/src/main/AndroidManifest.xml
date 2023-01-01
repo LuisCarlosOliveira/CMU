@@ -10,10 +10,16 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- PERMISSOES CAMERA -->
+
+    <!-- camara Permission-->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- PERMISSOES CAMERA
     <uses-permission android:name="android.permission.CAMERA"
         android:required="true"
         android:requiredFeature="true"/>
+    -->
 
     <uses-feature android:name="android.hardware.camera.any"
         android:required="true" />

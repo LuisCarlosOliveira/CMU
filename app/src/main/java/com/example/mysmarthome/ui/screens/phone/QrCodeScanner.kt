@@ -63,6 +63,7 @@ fun QrCodeScanner(navController: NavController) {
     LaunchedEffect(key1 = true) {
         launcher.launch(Manifest.permission.CAMERA)
     }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -116,10 +117,10 @@ fun QrCodeScanner(navController: NavController) {
     }
 }
 
-/*
+
 @androidx.compose.ui.tooling.preview.Preview()
 @Composable
 fun PreviewQrCodeScanner() {
     QrCodeScanner(navController = NavController(LocalContext.current))
 }
-*/
+

@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.components
 
+import CameraPreview
 import QrCodeScanner
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -104,6 +105,8 @@ fun Navigation(mainActivity: MainActivity) {
         composable("QrCodeScanner") {
             QrCodeScanner( navController=  navController)
         }
-
+        composable("CamaraPreview") {
+            CameraPreview( navController=  navController)
+        }
     }
 }
