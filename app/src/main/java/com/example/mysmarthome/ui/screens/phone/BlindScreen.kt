@@ -32,30 +32,39 @@ fun BlindScreen(navController: NavController) {
     var ssid by remember {
         mutableStateOf("")
     }
+
     var state by remember {
         mutableStateOf("")
     }
+
     var power by remember {
         mutableStateOf("")
     }
+
     var isValid by remember {
         mutableStateOf(false)
     }
+
     var rollerOverTemp by remember {
         mutableStateOf(false)
     }
+
     var stopReason by remember {
         mutableStateOf("")
     }
+
     var lastDirection by remember {
         mutableStateOf("")
     }
+
     var currentPos by remember {
         mutableStateOf("")
     }
+
     var temp by remember {
         mutableStateOf("")
     }
+
     var overtemp by remember {
         mutableStateOf(false)
     }
@@ -88,7 +97,7 @@ fun BlindScreen(navController: NavController) {
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize()
-                    .padding(start = 20.dp, top = 40.dp, bottom = 20.dp)
+                    .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
             ) {
 
                 Row(
@@ -156,31 +165,7 @@ fun BlindScreen(navController: NavController) {
                             )
                         }
                     }
-
-                    /*
-                    api.getLBlind().enqueue(object : Callback<Blind> {
-                        override fun onResponse(
-                            call: Call<Blind>,
-                            response: Response<Blind>
-                        ) {
-                            var pp = response.body()!!
-                            println("VAMOS VER   " + pp)
-                            ssid = pp.wifi_sta.ssid
-                            ison = pp.lights[0].ison
-                            mode = pp.lights[0].mode
-                            temp = pp.temperature.toString()
-                            overtemp = pp.overtemperature.toString()
-                            ssid = pp.wifi_sta.ssid
-
-                        }
-
-                        override fun onFailure(call: Call<Blind>, t: Throwable) {
-
-                            println(t.message)
-                        }
-                    })
-                    */
-
+                  
                     Column() {
                         Row(Modifier.height(80.dp)) {
                             PersonalText(
