@@ -25,6 +25,19 @@ import androidx.compose.ui.unit.sp
 import com.example.mysmarthome.R
 
 @Composable
+fun SliderInput(modifier: Modifier): String {
+    var sliderVal by remember { mutableStateOf(0f) }
+
+    Slider(
+        modifier = modifier,
+        value = sliderVal,
+        onValueChange = { sliderVal = it }
+    )
+
+    return sliderVal.toString()
+}
+
+@Composable
 fun DropDownMenu(options: Array<String>, optionSelected: String): String {
     var expanded by remember { mutableStateOf(false) }
     val suggestions = options
@@ -74,8 +87,7 @@ fun DropDownMenu(options: Array<String>, optionSelected: String): String {
 @Composable
 fun DropDownMenuOutlined(modifier1: Modifier, modifier2: Modifier, options: Array<String>): String {
     var expanded by remember { mutableStateOf(false) }
-    val select: String = stringResource(id = com.example.mysmarthome.R.string.select)
-    var selectedText by remember { mutableStateOf(select) }
+    var selectedText by remember { mutableStateOf(options[0]) }
     val suggestions = options
 
     val icon = if (expanded)
@@ -129,6 +141,7 @@ fun SimpleTextField(modifier: Modifier, placeholder: String, label: String): Str
         onValueChange = { field = it },
         placeholder = { Text(text = placeholder) },
         label = { Text(text = label) })
+
     return field.text
 }
 
@@ -166,6 +179,7 @@ fun SimplePasswordTextField(modifier: Modifier, placeholder: String, label: Stri
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
     )
+
     return password.text
 }
 
@@ -191,6 +205,7 @@ fun SimpleNumberTextField(modifier: Modifier, placeholder: String, label: String
             keyboardType = KeyboardType.Number
         )
     )
+
     return field.text
 }
 
