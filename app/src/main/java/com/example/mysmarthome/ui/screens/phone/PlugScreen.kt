@@ -41,24 +41,31 @@ fun PlugScreen(navController: NavController) {
     var ssid by remember {
         mutableStateOf("")
     }
+
     var ison by remember {
         mutableStateOf(false)
     }
+
     var hasTimer by rememberSaveable {
         mutableStateOf(false)
     }
+
     var beginTimer by rememberSaveable {
         mutableStateOf("")
     }
+
     var durationTimer by rememberSaveable {
         mutableStateOf("")
     }
+
     var overPower by remember {
         mutableStateOf(false)
     }
+
     var temp by remember {
         mutableStateOf("")
     }
+
     var overtemp by remember {
         mutableStateOf(false)
     }
@@ -121,7 +128,7 @@ fun PlugScreen(navController: NavController) {
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize()
-                    .padding(start = 20.dp, top = 40.dp, bottom = 20.dp)
+                    .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
             ) {
 
                 Row(
@@ -276,30 +283,7 @@ fun PlugScreen(navController: NavController) {
 
                         Spacer(Modifier.padding(10.dp))
                     }
-
-                    /*
-                    api.getPlugRelay().enqueue(object : Callback<Plug> {
-                        override fun onResponse(
-                            call: Call<Plug>,
-                            response: Response<Plug>
-                        ) {
-                            var pp = response.body()!!
-                            println("VAMOS VER   " + pp)
-                            ssid = pp.wifi_sta.ssid
-                            ison = pp.lights[0].ison
-                            temp = pp.temperature.toString()
-                            overtemp = pp.overtemperature.toString()
-                            ssid = pp.wifi_sta.ssid
-
-                        }
-
-                        override fun onFailure(call: Call<Plug>, t: Throwable) {
-
-                            println(t.message)
-                        }
-                    })
-                    */
-
+                    
                     Column() {
                         Row(Modifier.height(80.dp)) {
                             PersonalText(

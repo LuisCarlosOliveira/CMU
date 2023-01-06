@@ -165,7 +165,7 @@ fun BlindScreen(navController: NavController) {
                             )
                         }
                     }
-                  
+
                     Column() {
                         Row(Modifier.height(80.dp)) {
                             PersonalText(
