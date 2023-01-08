@@ -21,12 +21,14 @@ fun Navigation(mainActivity: MainActivity) {
         composable("LoginScreen") {
             LoginScreen( navController = navController)
         }
+
         composable("HomePageScreen/{id}",
             arguments = listOf(navArgument("id") { type = NavType.IntType })
         ) {
             var Id = it.arguments?.getInt("id")!!
             HomePageScreen(mainActivity, navController=  navController, Id )
         }
+
         composable("ConnectedDevicesScreen" ) {
 
             ConnectedDevicesScreen( navController=  navController)

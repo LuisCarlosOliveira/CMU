@@ -19,7 +19,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -38,10 +37,15 @@ import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.DropDownMenu
 import com.example.mysmarthome.ui.components.FloatingButton
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idUser: Int) {
+    mainActivity.notification_temperature()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -135,7 +139,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
                             textAlign = TextAlign.Center,
                             fontSize = 24.sp,
                             letterSpacing = 1.sp,
-                            text = stringResource(id = R.string.welcome) + " " + user.value?.name + "!"
+                            text = stringResource(id = R.string.welcome) + " " /* + user.value?.name*/ + "!"
                         )
                     }
                 },

@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Temperature Sensor Permission -->
+    <uses-permission android:name="android.hardware.sensor.ambient_temperature"/>
 
     <!-- camara Permission-->
     <uses-feature android:name="android.hardware.camera" />

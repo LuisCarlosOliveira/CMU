@@ -7,6 +7,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.Sensor.TYPE_AMBIENT_TEMPERATURE
+import android.hardware.Sensor.TYPE_GRAVITY
+import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -152,13 +156,57 @@ class MainActivity : ComponentActivity() {
 
     }
 
+    fun notification_temperature() {
+        val CHANNEL_ID = "007"
+
+        var gravSensor = Sensor.TYPE_AMBIENT_TEMPERATURE
+
+        var textNotificationTemperature = ""
+        if(gravSensor < 15){
+            textNotificationTemperature = "Está frio. Talvez queira ligar aquecedor e AC"
+        }else if (gravSensor > 25){
+            textNotificationTemperature = "Está calor. Talvez queira baixar as persianas e ligar AC."
+        }
+
+
+        var builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setContentTitle("Temperatura Ambiente:  $gravSensor ºC")
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(
+                        textNotificationTemperature
+                    )
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Canal"
+            val descriptionText = "Canal para fazer notificacao"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+            //Mostrar
+            with(NotificationManagerCompat.from(this)) {
+                // notificationId is a unique int for each notification that you must define
+                val notificationId = 222
+                notify(notificationId, builder.build())
+            }
+        }
+    }
+
     fun notification_logged_in() {
         val CHANNEL_ID = "007"
         // Create an explicit intent for an Activity in your app
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://www.worten.pt/smart-home-e-redes/smart-home/tudo-sobre-smart-home")
-        )
+
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         var builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_background)

@@ -88,6 +88,7 @@ fun LoginScreen(navController: NavController) {
                     val id = user.value?.idUser
                     navController.navigate("HomePageScreen/" + id)
 
+
                 }else{
                     Toast.makeText(
                         localCtx,
