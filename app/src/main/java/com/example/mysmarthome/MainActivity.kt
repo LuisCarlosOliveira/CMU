@@ -163,9 +163,9 @@ class MainActivity : ComponentActivity() {
 
         var textNotificationTemperature = ""
         if(gravSensor < 15){
-            textNotificationTemperature = "Está frio. Talvez queira ligar aquecedor e AC"
+            textNotificationTemperature = "Está frio. Dica: ligar aquecedor e/ou AC"
         }else if (gravSensor > 25){
-            textNotificationTemperature = "Está calor. Talvez queira baixar as persianas e ligar AC."
+            textNotificationTemperature = "Está calor. Dica: baixar as persianas e ligar AC."
         }
 
 
