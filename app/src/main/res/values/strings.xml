@@ -87,7 +87,6 @@
     <string name="definitionsTitle">Definições</string>
     <string-array name="definitions">
         <item>Assistente Pessoal</item>
-        <item>Criar Nova Casa</item>
         <item>Eliminar Casa</item>
         <item>Modo Noturno</item>
         <item>Modo Poupar Energia</item>

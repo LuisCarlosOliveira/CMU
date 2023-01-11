@@ -20,12 +20,12 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
     val repository: HomeRepository
     val userRepo: UserRepository
     val home: MutableLiveData<Home>
+
     init {
         val db = MySmartHomeDatabase.getDatabase(application)
         repository = HomeRepository(db.getHomeDao())
-        userRepo=UserRepository(db.getUsersDao())
+        userRepo = UserRepository(db.getUsersDao())
         home = MutableLiveData<Home>(null)
-
     }
 
     fun insertHome(tempHome: Home) {
@@ -33,12 +33,16 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
             repository.insert(tempHome)
             home.postValue(tempHome)
         }
-
     }
 
-    fun removeHome(home: Home) {
+    fun removeHome(home_id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.delete(home)
+            try {
+                var currentHome = repository.getHome(home_id)
+                repository.delete(currentHome)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -58,7 +62,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 var currentHome = repository.getHomeByUser(user_id)
                 home.postValue(currentHome)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
