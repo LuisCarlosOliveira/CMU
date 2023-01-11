@@ -5,19 +5,19 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.mysmarthome.enums.TypeMember
 
-@Entity (indices = [Index(value = ["email"],unique = true)])
+@Entity// (indices = [Index(value = ["email"],unique = true)])
 data class User(
-        val name: String,
+    val name: String,
 
-        val email: String,
+    var email: String,
 
-        val typeMember: String,
+    val typeMember: String,
 
-        val password: String,
+    var password: String,
 
-        val contact: Int,
+    val contact: Int,
 
-        var idUserHome: Int
+    var idUserHome: Int
 
 ){
         @PrimaryKey (autoGenerate = true)

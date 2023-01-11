@@ -13,10 +13,10 @@ HomesDAO {
     fun getHomes(): LiveData<List<Home>>
 
     @Query("select * from Home where idHome = :home_id")
-    fun getOneHome(home_id: Int): LiveData<Home>
+    fun getOneHome(home_id: Int): Home
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(home: Home)
+    suspend fun insert(home: Home) : Long
 
     @Delete
     suspend fun delete(home: Home)
@@ -24,6 +24,6 @@ HomesDAO {
     //por enquanto esta 1 casa por user
     @Transaction
     @Query("select * from Home where idHome in (select idUserHome from User where idUser = :user_id)")
-    fun getHomeByUser(user_id:Int): LiveData<Home>
+    fun getHomeByUser(user_id:Int): Home
 
 }

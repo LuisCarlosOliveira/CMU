@@ -22,24 +22,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.AddImage
 import com.example.mysmarthome.ui.components.LoginSigninButton
 import com.example.mysmarthome.ui.components.SimplePasswordTextField
 import com.example.mysmarthome.ui.components.SimpleTextField
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun LoginScreen(navController: NavController) {
-
-    var email by rememberSaveable {
-        mutableStateOf("")
-    }
-    var password by rememberSaveable {
-        mutableStateOf("")
-    }
-    val usersViewModel: UsersViewModel = viewModel()
+    var email by rememberSaveable {mutableStateOf("")}
+    var password by rememberSaveable {mutableStateOf("")}
+    val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
+    val user = usersViewModel.user.observeAsState()
     val localCtx = LocalContext.current
+    val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+    val home = homesViewModel.home.observeAsState()
+    homesViewModel.getOneHome(1)
 
     Column(
         modifier = Modifier
@@ -49,17 +53,13 @@ fun LoginScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         AddImage(Modifier.size(200.dp), painterResource(id = R.drawable.logo))
-
         Text(
             text = stringResource(id = R.string.app_name),
             fontStyle = FontStyle.Italic,
             style = TextStyle(fontSize = 35.sp, fontFamily = FontFamily.SansSerif)
         )
-
         Spacer(modifier = Modifier.padding(25.dp))
-
         email = SimpleTextField(
             Modifier
                 .padding(start = 20.dp, top = 10.dp, end = 20.dp)
@@ -67,9 +67,7 @@ fun LoginScreen(navController: NavController) {
             stringResource(id = R.string.insertEmail),
             stringResource(R.string.email)
         )
-
         Spacer(modifier = Modifier.padding(20.dp))
-
         password = SimplePasswordTextField(
             Modifier
                 .padding(start = 20.dp, top = 10.dp, end = 20.dp)
@@ -77,41 +75,40 @@ fun LoginScreen(navController: NavController) {
             placeholder = stringResource(id = R.string.insertPassword),
             label = stringResource(id = R.string.password)
         )
-
         Spacer(modifier = Modifier.padding(20.dp))
-        val user = usersViewModel.getUserByEmail(email).observeAsState()
+
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             LoginSigninButton(
                 stringResource(id = R.string.login),
                 action = {
-                if(user.value != null && user.value?.password.equals(password)) {
-                    println("pq q entrou aqui?????????????????")
-                    val id = user.value?.idUser
-                    println(" USER-------------"+user.value)
-                    if(user.value?.idUserHome != 0) {
-                        navController.navigate("HomePageScreen/" + user.value?.idUserHome+"/"+id)
-                    }else{
-                        navController.navigate("ChooseTypeHomeScreen/" + id)
+                    usersViewModel.login(email, password)
+                    println(user.value)
+                    if (user.value != null) {
+                        Toast.makeText(
+                            localCtx,
+                            "Sucesso ao autenticar!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        if (home.value != null) {
+                            navController.navigate("HomePageScreen")
+                        } else {
+                            navController.navigate("ChooseTypeHomeScreen")
+                        }
                     }
-                }else{
-                    println("HEREEEEEEEEEEEEEEEEEE?????????????????")
-                    Toast.makeText(
-                        localCtx,
-                        "Erro com o email ou password!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }})
+                }
+            )
+
         }
-
         Spacer(modifier = Modifier.height(20.dp))
-
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             LoginSigninButton(
                 stringResource(id = R.string.signin),
-                action = { navController.navigate("NewAccountScreen" ) })
+                action = { navController.navigate("NewAccountScreen") })
         }
     }
+
 }
+
 
 @Preview(showBackground = true)
 @Composable

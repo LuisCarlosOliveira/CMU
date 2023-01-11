@@ -17,7 +17,7 @@ import com.example.mysmarthome.ui.components.ChooseButton
 import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
-fun ChooseTypeHomeScreen(navController: NavController, id: Int) {
+fun ChooseTypeHomeScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -25,7 +25,6 @@ fun ChooseTypeHomeScreen(navController: NavController, id: Int) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-println("CHOSE "+id)
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -42,7 +41,7 @@ println("CHOSE "+id)
                     ) {
                         ChooseButton(
                             title = stringResource(id = R.string.newHomeTitle),
-                            action = { navController.navigate("NewHomeScreen/"+id) })
+                            action = { navController.navigate("NewHomeScreen") })
 
                         Spacer(Modifier.padding(60.dp))
 

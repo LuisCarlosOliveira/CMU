@@ -1,10 +1,12 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,15 +37,20 @@ import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.entities.relations.home_division.HomeWithDivisions
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.DropDownMenu
 import com.example.mysmarthome.ui.components.FloatingButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
-fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idHome: Int, idUser: Int) {
+fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -51,18 +58,20 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idH
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-            println ("id casa ------" + idHome)
-            val usersViewModel: UsersViewModel = viewModel()
-            val user = usersViewModel.getOneUser(idUser).observeAsState()
-println("USER----------------"+ user.value)
-            val homesViewModel: HomesViewModel = viewModel()
-            val home = homesViewModel.getHomeByUser(idUser).observeAsState()
-println("Home-------------------" + home.value)
+            val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
+            val user = usersViewModel.user.observeAsState()
+            val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+            val home = homesViewModel.home.observeAsState()
+
+            println("User ---- " + user.value)
+
+            println("Home ---- " + home.value)
+
+
 
             val divisionsViewModel: DivisionsViewModel = viewModel()
-            val divisions = divisionsViewModel.getDivisionByHome(idHome).observeAsState()
+            val divisions = divisionsViewModel.getDivisions().observeAsState()
 
-println("Divisionssss" + divisions.value)
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
             var dialogOpenAlarm by remember { mutableStateOf(false) }
@@ -86,7 +95,6 @@ println("Divisionssss" + divisions.value)
             var description by rememberSaveable {
                 mutableStateOf("")
             }
-
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
@@ -112,7 +120,8 @@ println("Divisionssss" + divisions.value)
                     Spacer(modifier = Modifier.padding(start = 5.dp))
                     IconButton(
                         onClick = {
-
+                            usersViewModel.logout()
+                            navController.navigate("LoginScreen")
                         },
                         modifier = Modifier
                             .width(50.dp)
@@ -163,32 +172,42 @@ println("Divisionssss" + divisions.value)
                             text = "Casa " + home.value?.name
                         )
 
-                      Column(Modifier.padding(20.dp)) {
-
-                            DropDownMenu(
-                                options = stringArrayResource(id = R.array.homesOptions),
-                                optionSelected = stringResource(
-                                    id = R.string.homesOptionSelected
-                                )
-                            )
-
-                        }
                     }
-                   /* if(divisions != null){
-                    Column(
-                        modifier = Modifier.padding(
-                            start = 10.dp,
-                            top = 100.dp,
-                            bottom = 70.dp
-                        )
-                    ) {
-                        divisions.value?.divisions?.forEach() {
-                            DisplayDivision(navController, it)
-                        }
-                    }}else{
-                        Text(text = "Ainda não tem divisoes")
-                    }*/
+                    if(divisions.value != null){
+                        val colorArray: Array<Color> = arrayOf(Color.Blue, Color.Red, Color.Black, Color.Green)
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(minSize = 128.dp),
+                                modifier = Modifier.padding(top=100.dp)
+                            ) {
+                                items(divisions.value!!.size) { l ->
+                                    Card(
+                                        elevation = 10.dp,
+                                        border = BorderStroke(1.dp, Color.Blue),
+                                        backgroundColor = colorArray.random(),
+                                        modifier = Modifier
+                                            .aspectRatio(1f)
+                                            .padding(5.dp)
+                                            .clickable(onClick = {
+                                                navController.navigate("DivisionDetailsScreen")
+                                            })
+                                    ) {
+                                        Text(
+                                            fontFamily = FontFamily.SansSerif,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            color = Color.White,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier.padding(top = 50.dp),
+                                            fontSize = 20.sp,
+                                            letterSpacing = 1.sp,
+                                            text = divisions.value!!.get(l).name
+                                        )
+                                    }
+                                }
+                            }
 
+                    }else{
+                        Text(text = "Ainda não tem divisoes")
+                    }
                 },
 
                 drawerContent = {
@@ -425,7 +444,6 @@ println("Divisionssss" + divisions.value)
                                                     label = { Text(text = "Local") },
 
                                                     )
-
                                                 TextField(
                                                     colors = TextFieldDefaults.textFieldColors(
                                                         focusedIndicatorColor = Color.Blue,
@@ -442,8 +460,7 @@ println("Divisionssss" + divisions.value)
                                                     onValueChange = { description = it },
                                                     placeholder = { Text(text = "Insira a Descrição") },
                                                     label = { Text(text = "Descrição") },
-
-                                                    )
+                                                )
                                             }
                                         },
                                         modifier = Modifier
@@ -480,10 +497,15 @@ println("Divisionssss" + divisions.value)
                                 )
                             }
                             Spacer(modifier = Modifier.padding(top = 20.dp))
+                            val address = home.value?.address
                             Row(Modifier
                                 .fillMaxWidth()
                                 .clickable(
-                                    onClick = { mainActivity.homeLocation("R. Carvalhais 56, 4780-564 Santo Tirso, Portugal") }
+                                    onClick = {
+                                        if (address != null) {
+                                            mainActivity.homeLocation(address.street + ", " + address.postalCode + " " + address.city + ", " + address.country)
+                                        }
+                                    }
                                 )) {
                                 Spacer(modifier = Modifier.padding(start = 20.dp))
                                 IconButton(
@@ -522,34 +544,4 @@ println("Divisionssss" + divisions.value)
             )
         }
     }
-}
-
-@Composable
-fun DisplayDivision(navController: NavController, division: Division) {
-    val colorArray: Array<Color> =
-        arrayOf(Color.Blue, Color.Red, Color.Black, Color.Green)
-
-    Card(
-        elevation = 10.dp,
-        border = BorderStroke(1.dp, Color.Blue),
-        backgroundColor = colorArray.random(),
-        modifier = Modifier
-            .aspectRatio(1f)
-            .padding(5.dp)
-            .clickable(onClick = {
-                navController.navigate("DivisionDetailsScreen")
-            })
-    ) {
-        Text(
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.White,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 50.dp),
-            fontSize = 20.sp,
-            letterSpacing = 1.sp,
-            text = division.name
-        )
-    }
-
 }

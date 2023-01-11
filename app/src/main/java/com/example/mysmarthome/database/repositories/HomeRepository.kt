@@ -9,19 +9,20 @@ class HomeRepository(val homeDao: HomesDAO) {
     fun getHomes(): LiveData<List<Home>> {
         return homeDao.getHomes()
     }
-    fun getHome(home_id: Int): LiveData<Home> {
+    fun getHome(home_id: Int): Home {
         return homeDao.getOneHome(home_id)
     }
 
-    suspend fun insert(home: Home) {
-        homeDao.insert(home)
+    suspend fun insert(home: Home) :Int{
+        val _id = homeDao.insert(home)
+        return _id.toInt()
     }
 
     suspend fun delete(home: Home) {
         homeDao.delete(home)
     }
 
-    fun getHomeByUser(user_id: Int): LiveData<Home>{
+    fun getHomeByUser(user_id: Int): Home{
         return homeDao.getHomeByUser(user_id)
     }
 

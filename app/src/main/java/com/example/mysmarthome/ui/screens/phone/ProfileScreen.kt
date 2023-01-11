@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,8 +27,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithHome
 import com.example.mysmarthome.ui.components.TopbarBack
 
@@ -40,6 +44,8 @@ fun ProfileScreen(navController: NavController) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
+            val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
+            val user = usersViewModel.user.observeAsState()
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
@@ -75,7 +81,7 @@ fun ProfileScreen(navController: NavController) {
                 scaffoldState = scaffoldState,
                 
                 topBar = {
-                    TopbarBack(title = "João " + stringResource(id = R.string.admin), navController = navController )
+                    TopbarBack(title = user.value?.name + " - "+ user.value?.typeMember, navController = navController )
                 },
                 
                 content = {
@@ -127,6 +133,8 @@ fun ProfileScreen(navController: NavController) {
                                                         backgroundColor = Color.Blue
                                                     ),
                                                         onClick = {
+                                                            user.value?.email= email
+                                                            usersViewModel.updateUser(user.value!!)
                                                             dialogOpenEmail = false
                                                         }) {
                                                         Text(color = Color.White, text = "Alterar")
@@ -139,18 +147,13 @@ fun ProfileScreen(navController: NavController) {
                                                     }
                                                 }
                                             },
-
-                                            title = {
-
-                                            },
-
+                                            title = {},
                                             text = {
                                                 Column(
                                                     Modifier
                                                         .fillMaxWidth()
                                                         .fillMaxHeight()
                                                 ) {
-
                                                     TextField(colors = TextFieldDefaults.textFieldColors(
                                                         focusedIndicatorColor = Color.Blue,
                                                         unfocusedIndicatorColor = Color.Blue,
@@ -164,10 +167,8 @@ fun ProfileScreen(navController: NavController) {
                                                         onValueChange = { email = it },
                                                         placeholder = { Text(text = "Insira Novo Email") },
                                                         label = { Text(text = "Email") })
-
                                                 }
                                             },
-
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .height(250.dp)

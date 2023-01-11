@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,23 +30,30 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.entities.Division
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
+import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.FloatingButton
 import com.example.mysmarthome.ui.components.SimpleTextField
 import com.example.mysmarthome.ui.components.TopbarBack
 
 @Composable
-fun NewDivisionScreen(navController: NavController, id: Int) {
+fun NewDivisionScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
 
+        val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+        val home = homesViewModel.home.observeAsState()
+
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
         val divisionsViewModel: DivisionsViewModel = viewModel()
+
         val localCtx = LocalContext.current
+
         var divisionName by rememberSaveable {
             mutableStateOf("")
         }
@@ -157,8 +165,8 @@ fun NewDivisionScreen(navController: NavController, id: Int) {
                     icon = Icons.Rounded.DevicesOther,
                     title = stringResource(id = R.string.associateDevicesBtn),
                     action = {
-                        if (divisionName.isNotEmpty() && (hasImg || imgUri != null)) {
-                            divisionsViewModel.insertDivision(Division(id, divisionName, "imagem"))
+                        if (divisionName.isNotEmpty() && (hasImg != null || imgUri != null)) {
+                            divisionsViewModel.insertDivision(Division(1, divisionName, "imagem"))
                             navController.navigate("UnconnectedDevicesScreen")
                         } else {
                             Toast.makeText(
@@ -191,5 +199,5 @@ fun addImage(imageBitmap: ImageBitmap?) {
 @Preview()
 @Composable
 fun PreviewNewDivisionScreen() {
-    NewDivisionScreen(navController = NavController(LocalContext.current), id = 1)
+    NewDivisionScreen(navController = NavController(LocalContext.current))
 }

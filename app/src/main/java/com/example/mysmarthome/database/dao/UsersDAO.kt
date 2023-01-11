@@ -14,10 +14,13 @@ interface UsersDAO {
     fun getUsers(): LiveData<List<User>>
 
     @Query("select * from User where idUser = :user_id")
-    fun getOneUser(user_id: Int):LiveData<User>
+    suspend  fun getOneUser(user_id: Int):User
 
     @Query("select * from User where email = :email")
-    fun getUserByEmail(email: String): LiveData<User>
+    suspend fun getUserByEmail(email: String): User
+
+    @Query("select * from User where email = :email")
+    fun getUserByEmail2(email: String): LiveData<User>
 
     @Query("select * from User where typeMember = :type")
     fun getUsersByTypeMember(type: String): LiveData<List<User>>

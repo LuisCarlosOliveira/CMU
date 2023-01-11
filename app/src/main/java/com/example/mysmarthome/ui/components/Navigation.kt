@@ -18,18 +18,14 @@ fun Navigation(mainActivity: MainActivity) {
         composable("LoginScreen") {
             LoginScreen( navController = navController)
         }
-        composable("HomePageScreen/{id}/{id1}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType },navArgument("id1") { type = NavType.IntType })
-        ) {
-            var Id1 = it.arguments?.getInt("id")!!
-            var Id2 = it.arguments?.getInt("id")!!
-            HomePageScreen(mainActivity, navController=  navController, Id1, Id2 )
+        composable("HomePageScreen") {
+            HomePageScreen(mainActivity, navController=  navController)
         }
         composable("ConnectedDevicesScreen" ) {
 
             ConnectedDevicesScreen( navController=  navController)
         }
-        composable("ProfileScreen") {
+        composable("ProfileScreen" ) {
             ProfileScreen( navController=  navController)
         }
         composable("ConsumptionsScreen") {
@@ -41,23 +37,14 @@ fun Navigation(mainActivity: MainActivity) {
         composable("NewAccountScreen") {
             NewAccountScreen( navController=  navController)
         }
-        composable("ChooseTypeHomeScreen/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) {
-            var Id = it.arguments?.getInt("id")!!
-            ChooseTypeHomeScreen( navController=  navController, Id )
+        composable("ChooseTypeHomeScreen") {
+            ChooseTypeHomeScreen( navController=  navController)
         }
-        composable("NewHomeScreen/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) {
-            var Id = it.arguments?.getInt("id")!!
-            NewHomeScreen( navController=  navController, Id )
+        composable("NewHomeScreen") {
+            NewHomeScreen( navController=  navController )
         }
-        composable("NewDivisionScreen/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) {
-            var Id = it.arguments?.getInt("id")!!
-            NewDivisionScreen( navController=  navController, Id )
+        composable("NewDivisionScreen") {
+            NewDivisionScreen( navController=  navController )
         }
         composable("NewDeviceScreen") {
             NewDeviceScreen( navController=  navController)
