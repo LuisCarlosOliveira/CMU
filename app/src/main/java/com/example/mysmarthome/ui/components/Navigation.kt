@@ -91,7 +91,5 @@ fun Navigation(mainActivity: MainActivity) {
         composable("AssociateHouseScreen") {
             AssociateHouseScreen( navController=  navController)
         }
-
-
     }
 }

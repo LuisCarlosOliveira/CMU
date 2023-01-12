@@ -536,7 +536,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                     FloatingButton(
                         icon = Icons.Rounded.Add,
                         title = stringResource(id = R.string.newDivisionHomeBtn),
-                        action = { navController.navigate("NewDivisionScreen/" + home.value?.idHome!!) })
+                        action = { navController.navigate("NewDivisionScreen") })
                 },
                 bottomBar = {
                     BottombarWithoutHome(navController = navController)

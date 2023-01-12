@@ -68,8 +68,18 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun getFirstHome(){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                var currentHome = getHomes()
+                home.postValue(currentHome.get(0))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
-    fun getHomes(): LiveData<List<Home>> {
+    fun getHomes(): List<Home> {
         return repository.getHomes()
     }
 

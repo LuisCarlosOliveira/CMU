@@ -80,7 +80,7 @@ fun ProfileScreen(navController: NavController) {
                 scaffoldState = scaffoldState,
 
                 topBar = {
-                    TopbarBack(title = user.value?.name + " - "+ user.value?.typeMember, navController = navController )
+                    TopBarBack(title = user.value?.name + " - "+ user.value?.typeMember, navController = navController )
                 },
 
                 content = {

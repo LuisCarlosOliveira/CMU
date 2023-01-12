@@ -10,7 +10,7 @@ interface
 HomesDAO {
 
     @Query("select * from Home")
-    fun getHomes(): LiveData<List<Home>>
+    fun getHomes(): List<Home>
 
     @Query("select * from Home where idHome = :home_id")
     fun getOneHome(home_id: Int): Home

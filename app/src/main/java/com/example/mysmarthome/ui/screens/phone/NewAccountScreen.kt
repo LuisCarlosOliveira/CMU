@@ -20,13 +20,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.database.entities.User
 import com.example.mysmarthome.database.view_models.UsersViewModel
+import com.example.mysmarthome.enums.TypeMember
 import com.example.mysmarthome.ui.components.FormNumberTextField
 import com.example.mysmarthome.ui.components.FormPasswordTextField
 import com.example.mysmarthome.ui.components.FormStringTextField
 import com.example.mysmarthome.ui.components.TopBarBackForward
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+
 
 @Composable
 fun NewAccountScreen(navController: NavController) {
@@ -63,10 +62,16 @@ fun NewAccountScreen(navController: NavController) {
             topBar = {
                 TopBarBackForward(
                     title = stringResource(id = com.example.mysmarthome.R.string.newAccountTitle),
-                    actionBack = { navController.popBackStack() },
-                    actionForward = {
-                        selectedTab = 1
-                    })
+                    actionBtns = {
+                        IconButton(onClick = {
+                            selectedTab = 1
+                        })
+                        {
+                            Icon(Icons.Rounded.ArrowForward, "", tint = Color.Black)
+                        }
+                    },
+                    navController = navController
+                )
             },
             content = {
                 Column(
@@ -110,7 +115,7 @@ fun NewAccountScreen(navController: NavController) {
                 if (nome.isNotEmpty() && contacto.isNotEmpty() && email.isNotEmpty() &&
                     password.isNotEmpty() && password2.isNotEmpty()
                 ) {
-                    if (password.equals(password2) && contacto.length == 9 && password.length >=6) {
+                    if (password.equals(password2) && contacto.length == 9 && password.length >= 6) {
                         LaunchedEffect(Unit) {
                             usersViewModel.insertUser(
                                 User(
@@ -135,7 +140,7 @@ fun NewAccountScreen(navController: NavController) {
                                 Toast.LENGTH_SHORT
                             )
                                 .show()
-                            navController.navigate("ChooseTypeHomeScreen" )
+                            navController.navigate("ChooseTypeHomeScreen")
                             selectedTab = 0
                         }
                     } else {

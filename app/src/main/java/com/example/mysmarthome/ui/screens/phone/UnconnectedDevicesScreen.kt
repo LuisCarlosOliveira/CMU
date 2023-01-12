@@ -65,7 +65,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
                             ),
                                 onClick = {
                                     dialogOpen = false
-                                    navController.navigate("HomePageScreen/"+1+"/"+2)
+                                    navController.navigate("HomePageScreen")
                                     mainActivity.notification_logged_in()
                                 }) {
                                 Text(

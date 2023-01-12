@@ -6,7 +6,7 @@ import com.example.mysmarthome.database.entities.Home
 
 class HomeRepository(val homeDao: HomesDAO) {
 
-    fun getHomes(): LiveData<List<Home>> {
+    fun getHomes(): List<Home> {
         return homeDao.getHomes()
     }
     fun getHome(home_id: Int): Home {

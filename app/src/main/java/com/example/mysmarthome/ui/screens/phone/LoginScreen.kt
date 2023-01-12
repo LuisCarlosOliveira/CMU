@@ -43,7 +43,7 @@ fun LoginScreen(navController: NavController) {
     val localCtx = LocalContext.current
     val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
     val home = homesViewModel.home.observeAsState()
-    homesViewModel.getOneHome(1)
+    homesViewModel.getFirstHome()
 
     Column(
         modifier = Modifier
