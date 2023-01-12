@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,8 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.AlertPopup
 import com.example.mysmarthome.ui.components.TopBarBack
 
@@ -26,6 +31,10 @@ fun DefinitionsScreen(navController: NavController) {
     val nocturnMode = remember { mutableStateOf(true) }
     val savingEnergyMode = remember { mutableStateOf(true) }
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+
+    val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+    val home = homesViewModel.home.observeAsState()
+    println("home que esta atualizado"+home.value)
 
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -123,11 +132,12 @@ fun DefinitionsScreen(navController: NavController) {
                                         fontFamily = FontFamily.SansSerif,
                                         fontSize = 20.sp,
                                         color = Color.Black,
-                                        text = "Pretende Verdadeiramente Eliminar esta Casa?"
+                                        text = "Pretende Verdadeiramente Eliminar esta Casa?\n\n\nAo eliminar a casa irá ser redirecionado para a pagina de criar uma nova casa."
                                     )
                                 }
                             },
-                            actionBtn = { }, actionBtn2 = { dialogOpen = false })
+                            actionBtn = {homesViewModel.removeHome(home.value!!.idHome)
+                                        navController.navigate("NewHomeScreen")}, actionBtn2 = { dialogOpen = false })
 
                         Row(
                             modifier = Modifier
@@ -139,7 +149,6 @@ fun DefinitionsScreen(navController: NavController) {
                                     onClick = {
                                         when (definition) {
                                             "Assistente Pessoal" -> navController.navigate("VirtualPersonalAssistantScreen")
-                                            "Criar Nova Casa" -> navController.navigate("NewHomeScreen")
                                             "Eliminar Casa" -> dialogOpen = true
                                             "Ajuda" -> navController.navigate("HelpScreen")
                                             "Sobre" -> navController.navigate("AboutScreen")

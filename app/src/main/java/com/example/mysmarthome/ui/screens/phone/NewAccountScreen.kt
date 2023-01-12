@@ -20,11 +20,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.database.entities.User
 import com.example.mysmarthome.database.view_models.UsersViewModel
-import com.example.mysmarthome.enums.TypeMember
 import com.example.mysmarthome.ui.components.FormNumberTextField
 import com.example.mysmarthome.ui.components.FormPasswordTextField
 import com.example.mysmarthome.ui.components.FormStringTextField
 import com.example.mysmarthome.ui.components.TopBarBackForward
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun NewAccountScreen(navController: NavController) {
@@ -51,29 +53,20 @@ fun NewAccountScreen(navController: NavController) {
         var password2 by rememberSaveable {
             mutableStateOf("")
         }
-        var avancar : Boolean = false
 
         val usersViewModel: UsersViewModel = viewModel()
-        val user = usersViewModel.getUserByEmail(email).observeAsState()
+        val user = usersViewModel.user.observeAsState()
+        var selectedTab by remember { mutableStateOf(0) }
+
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
                 TopBarBackForward(
                     title = stringResource(id = com.example.mysmarthome.R.string.newAccountTitle),
-                    actionBtns = {
-                        IconButton(onClick = {
-                            if (user.value?.idUser!=null){
-                                var id= user.value?.idUser
-                                navController.navigate("ChooseTypeHomeScreen/" + id)
-                                Toast.makeText(localCtx, "Conta Criada!", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }) {
-                            Icon(Icons.Rounded.ArrowForward, "", tint = Color.Black)
-                        }
-                    },
-                    navController = navController
-                )
+                    actionBack = { navController.popBackStack() },
+                    actionForward = {
+                        selectedTab = 1
+                    })
             },
             content = {
                 Column(
@@ -81,13 +74,11 @@ fun NewAccountScreen(navController: NavController) {
                         .verticalScroll(rememberScrollState())
                         .fillMaxSize()
                 ) {
-
                     nome = FormStringTextField(
                         title = "Nome",
                         placeholder = "Insira o Nome",
                         label = "Nome"
                     )
-
                     contacto = FormNumberTextField(
                         title = "Contacto Telefónico",
                         placeholder = "Insira o Contacto",
@@ -112,51 +103,63 @@ fun NewAccountScreen(navController: NavController) {
                         label = "Repetir Password"
                     )
                 }
+            }
+        )
+        when (selectedTab) {
+            1 -> {
                 if (nome.isNotEmpty() && contacto.isNotEmpty() && email.isNotEmpty() &&
-                password.isNotEmpty() && password2.isNotEmpty()
-            ) {
-                if(user.value == null) {
-                    if (contacto.length == 9 && password.equals(password2)) {
-                        usersViewModel.insertUser(
-                            User(
-                                nome,
-                                email,
-                                "Administrador",
-                                password,
-                                contacto.toInt(),
-                                0
+                    password.isNotEmpty() && password2.isNotEmpty()
+                ) {
+                    if (password.equals(password2) && contacto.length == 9 && password.length >=6) {
+                        LaunchedEffect(Unit) {
+                            usersViewModel.insertUser(
+                                User(
+                                    nome,
+                                    email,
+                                    "Administrador",
+                                    password,
+                                    contacto.toInt(),
+                                    0
+                                )
                             )
-                        )
-
-
+                        }
+                        usersViewModel.register(email, password)
+                        usersViewModel.getUserByEmail(email)
+                        println(user.value)
+                        if (user.value != null) {
+                            println("Adicionou ---------------------------" + user.value!!.email)
+                            var id = user.value!!.idUser
+                            Toast.makeText(
+                                localCtx,
+                                "Conta Criada!",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            navController.navigate("ChooseTypeHomeScreen" )
+                            selectedTab = 0
+                        }
                     } else {
                         Toast.makeText(
                             localCtx,
-                            "O Contacto tem de ter 9 números e as Passwords devem ser iguais!",
+                            "O Contacto tem de ter 9 números, a password deve ter mais que 6 caracteres e as Passwords devem ser iguais!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                }else{
+                } else {
                     Toast.makeText(
                         localCtx,
-                        "O email ja existe!",
+                        "Preencha todos os campos!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            } else {
-                Toast.makeText(
-                    localCtx,
-                    "Preencha todos os campos!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                println("veio ate ao fim---------------------------")
             }
-            }
-        )
+        }
     }
 }
 
 @Preview()
 @Composable
 fun PreviewNewAccountScreen() {
-    NewAccountScreen(navController= NavController(LocalContext.current))
+    NewAccountScreen(navController = NavController(LocalContext.current))
 }

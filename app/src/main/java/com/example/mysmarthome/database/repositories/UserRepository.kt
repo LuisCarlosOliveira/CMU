@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.repositories
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.mysmarthome.database.dao.UsersDAO
 import com.example.mysmarthome.database.entities.Division
 import com.example.mysmarthome.database.entities.Home
@@ -14,12 +15,16 @@ class UserRepository(val userDao: UsersDAO) {
         return userDao.getUsers()
     }
 
-    fun getOneUser(id: Int): LiveData<User>{
+    suspend fun getOneUser(id: Int): User{
         return userDao.getOneUser(id)
     }
 
-    fun getUserByEmail(email: String): LiveData<User> {
+    suspend fun getUserByEmail(email: String): User {
         return userDao.getUserByEmail(email)
+    }
+
+    fun getUserByEmail2(email: String): LiveData<User> {
+        return userDao.getUserByEmail2(email)
     }
 
     suspend fun insert(user: User) {

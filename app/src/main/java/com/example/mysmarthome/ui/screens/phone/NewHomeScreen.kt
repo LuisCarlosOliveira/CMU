@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.entities.Address
 import com.example.mysmarthome.database.entities.Home
@@ -27,7 +28,7 @@ import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.*
 
 @Composable
-fun NewHomeScreen(navController: NavController, id: Int) {
+fun NewHomeScreen(navController: NavController) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -35,8 +36,10 @@ fun NewHomeScreen(navController: NavController, id: Int) {
     ) {
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
         val homesViewModel: HomesViewModel = viewModel()
-        val usersViewModel: UsersViewModel = viewModel()
-        val user = usersViewModel.getOneUser(id).observeAsState()
+        val home = homesViewModel.home.observeAsState()
+
+        val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
+        val user = usersViewModel.user.observeAsState()
 
         val localCtx = LocalContext.current
         var nome by rememberSaveable {
@@ -121,25 +124,22 @@ fun NewHomeScreen(navController: NavController, id: Int) {
                             FloatingButton(
                                 icon = Icons.Rounded.ArrowForward,
                                 title = stringResource(id = R.string.continueBtn),
-                                action = {  if (street.isNotEmpty() && postalcode.isNotEmpty() && city.isNotEmpty() && country.isNotEmpty() && nome.isNotEmpty()) {
-                                    val address = Address(street, postalcode, city, country)
-                                    val home = Home(nome, address)
-                                    println("Home " + home)
-                                    homesViewModel.insertHome(home)
-                                    user.value?.idUserHome = home.idHome
-                                     usersViewModel.updateUser(user.value!!)
-                                    navController.navigate("NewDivisionScreen")
-                                } else {
-                                    Toast.makeText(
-                                        localCtx,
-                                        "Preencha todos os campos!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } })
+                                action = {
+                                    if (street.isNotEmpty() && postalcode.isNotEmpty() && city.isNotEmpty() && country.isNotEmpty() && nome.isNotEmpty()) {
+                                        val address = Address(street, postalcode, city, country)
+                                        homesViewModel.insertHome(Home(nome, address))
+                                        navController.navigate("NewDivisionScreen")
+                                    } else {
+                                        Toast.makeText(localCtx,"Preencha todos os campos!",Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            )
                         }
                     }
+
                 }
-            },
+
+            }
         )
     }
 }

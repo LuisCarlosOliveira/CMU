@@ -18,17 +18,14 @@ fun Navigation(mainActivity: MainActivity) {
         composable("LoginScreen") {
             LoginScreen( navController = navController)
         }
-        composable("HomePageScreen/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) {
-            var Id = it.arguments?.getInt("id")!!
-            HomePageScreen(mainActivity, navController=  navController, Id )
+        composable("HomePageScreen") {
+            HomePageScreen(mainActivity, navController=  navController)
         }
         composable("ConnectedDevicesScreen" ) {
 
             ConnectedDevicesScreen( navController=  navController)
         }
-        composable("ProfileScreen") {
+        composable("ProfileScreen" ) {
             ProfileScreen( navController=  navController)
         }
         composable("ConsumptionsScreen") {
@@ -40,20 +37,14 @@ fun Navigation(mainActivity: MainActivity) {
         composable("NewAccountScreen") {
             NewAccountScreen( navController=  navController)
         }
-        composable("ChooseTypeHomeScreen/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) {
-            var Id = it.arguments?.getInt("id")!!
-            ChooseTypeHomeScreen( navController=  navController, Id )
+        composable("ChooseTypeHomeScreen") {
+            ChooseTypeHomeScreen( navController=  navController)
         }
-        composable("NewHomeScreen/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) {
-            var Id = it.arguments?.getInt("id")!!
-            NewHomeScreen( navController=  navController, Id )
+        composable("NewHomeScreen") {
+            NewHomeScreen( navController=  navController )
         }
         composable("NewDivisionScreen") {
-            NewDivisionScreen( navController=  navController)
+            NewDivisionScreen( navController=  navController )
         }
         composable("NewDeviceScreen") {
             NewDeviceScreen( navController=  navController)

@@ -28,10 +28,8 @@ import com.example.mysmarthome.ui.components.Navigation
 import com.example.mysmarthome.ui.theme.MySmartHomeTheme
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             MySmartHomeTheme {
 
