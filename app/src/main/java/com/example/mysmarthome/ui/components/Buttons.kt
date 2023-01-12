@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -133,4 +134,20 @@ fun CheckBoxButton() {
         checked = checkedState.value,
         onCheckedChange = { checkedState.value = it }
     )
+}
+
+@Composable
+fun SwitchBtn(ison: Boolean): Boolean {
+    val on_off = remember { mutableStateOf(ison) }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+
+    Switch(
+        checked = on_off.value,
+        onCheckedChange = { on_off.value = it },
+        modifier = Modifier
+            .padding(end = 160.dp)
+            .width(screenWidth / 2),
+    )
+    return on_off.value
 }

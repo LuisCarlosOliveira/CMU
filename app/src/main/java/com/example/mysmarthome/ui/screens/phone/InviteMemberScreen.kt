@@ -10,6 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.UploadFile
+import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -62,10 +64,14 @@ fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController)
             scaffoldState = scaffoldState,
             topBar = {
                 TopBarBackForward(
-                    iconForward = Icons.Filled.Email,
                     title = stringResource(id = R.string.inviteMemberTitle),
-                    actionBack = { navController.popBackStack() },
-                    actionForward = { dialogOpen = true })
+                    actionBtns = {
+                        IconButton(onClick = { dialogOpen = true }) {
+                            Icon(Icons.Rounded.Email, "", tint = Color.Black)
+                        }
+                    },
+                    navController = navController
+                )
                 if (dialogOpen) {
                     AlertDialog(
                         onDismissRequest = { dialogOpen = false },
@@ -201,5 +207,8 @@ fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController)
 @Preview()
 @Composable
 fun PreviewInviteMemberScreen() {
-    InviteMemberScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
+    InviteMemberScreen(
+        mainActivity = MainActivity(),
+        navController = NavController(LocalContext.current)
+    )
 }

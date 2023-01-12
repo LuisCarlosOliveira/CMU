@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.AddImage
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun VirtualPersonalAssistantScreen(navController: NavController) {
@@ -29,7 +29,7 @@ fun VirtualPersonalAssistantScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                TopbarBack(
+                TopBarBack(
                     title = stringResource(id = R.string.virtualAssistantTitle),
                     navController = navController
                 )

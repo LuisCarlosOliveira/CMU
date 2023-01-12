@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -26,10 +25,7 @@ import com.example.mysmarthome.database.entities.Address
 import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.database.view_models.UsersViewModel
-import com.example.mysmarthome.ui.components.FloatingButton
-import com.example.mysmarthome.ui.components.FormStringTextField
-import com.example.mysmarthome.ui.components.SimpleTextField
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun NewHomeScreen(navController: NavController) {
@@ -69,7 +65,7 @@ fun NewHomeScreen(navController: NavController) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                TopbarBack(
+                TopBarBack(
                     title = stringResource(id = R.string.newHomeTitle),
                     navController = navController
                 )

@@ -5,16 +5,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
-import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.ChooseButton
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun ChooseTypeHomeScreen(navController: NavController) {
@@ -29,7 +25,7 @@ fun ChooseTypeHomeScreen(navController: NavController) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    TopbarBack(
+                    TopBarBack(
                         title = stringResource(id = R.string.chooseHomeTitle),
                         navController = navController
                     )

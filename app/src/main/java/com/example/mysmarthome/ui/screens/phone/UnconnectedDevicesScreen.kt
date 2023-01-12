@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,10 +42,14 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
         scaffoldState = scaffoldState,
         topBar = {
             TopBarBackForward(
-                iconForward = Icons.Rounded.ArrowForward,
                 title = stringResource(id = R.string.unconnectedDevicesTitle),
-                actionBack = { navController.popBackStack() },
-                actionForward = { dialogOpen = true })
+                actionBtns = {
+                    IconButton(onClick = { dialogOpen = true }) {
+                        Icon(Icons.Rounded.ArrowForward, "", tint = Color.Black)
+                    }
+                },
+                navController = navController
+            )
             if (dialogOpen) {
                 AlertDialog(
                     onDismissRequest = { dialogOpen = false },
@@ -122,7 +127,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
                 )
             }
         },
-        
+
         content = {
             Column(
                 Modifier
@@ -132,7 +137,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
 
                 LazyColumn {
                     items(15) {
-                       ListRowWithCheckbox(title = stringResource(id = R.string.deviceTitleRow))
+                        ListRowWithCheckbox(title = stringResource(id = R.string.deviceTitleRow))
                     }
                 }
             }

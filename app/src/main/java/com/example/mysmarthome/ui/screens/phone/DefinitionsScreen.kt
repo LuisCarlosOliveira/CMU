@@ -2,16 +2,12 @@ package com.example.mysmarthome.ui.screens.phone
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -27,7 +23,7 @@ import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.AlertPopup
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun DefinitionsScreen(navController: NavController) {
@@ -50,7 +46,7 @@ fun DefinitionsScreen(navController: NavController) {
         scaffoldState = scaffoldState,
 
         topBar = {
-            TopbarBack(
+            TopBarBack(
                 title = stringResource(id = R.string.definitionsTitle),
                 navController = navController
             )

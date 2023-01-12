@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -28,26 +29,49 @@ import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.retrofit.helper.RetrofitHelper
 import com.example.mysmarthome.retrofit.shelly_api.plug.PlugAPI
-import com.example.mysmarthome.ui.components.AlertPopup
-import com.example.mysmarthome.ui.components.NormalButton
-import com.example.mysmarthome.ui.components.PersonalText
-import com.example.mysmarthome.ui.components.Topbar2EndIcons
+import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun PlugScreen(navController: NavController) {
+
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
+    var ssid by remember {
+        mutableStateOf("")
+    }
+
+    var ison by remember {
+        mutableStateOf(false)
+    }
+
     var hasTimer by rememberSaveable {
         mutableStateOf(false)
     }
+
     var beginTimer by rememberSaveable {
         mutableStateOf("")
     }
+
     var durationTimer by rememberSaveable {
         mutableStateOf("")
     }
+
+    var overPower by remember {
+        mutableStateOf(false)
+    }
+
+    var temp by remember {
+        mutableStateOf("")
+    }
+
+    var overtemp by remember {
+        mutableStateOf(false)
+    }
+
+    val api = RetrofitHelper.getInstance(3000).create(PlugAPI::class.java)
+
     var dialogInfo by remember { mutableStateOf(false) }
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -58,59 +82,19 @@ fun PlugScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            Topbar2EndIcons(content = {
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
+            TopBarBackForward(
+                title = "Tomada Parede Esquerda",
+                actionBtns = {
+                    IconButton(onClick = { dialogInfo = true }) {
+                        Icon(Icons.Rounded.Info, "", tint = Color.Black)
                     }
-                ) {
-                    Icon(
-                        Icons.Rounded.ArrowBack, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(start = 5.dp),
-                    )
-                }
 
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = letterSpacing,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 7.dp, start = 20.dp),
-                    fontSize = 22.sp,
-                    text = stringResource(id = R.string.nameDevice)
-                )
-
-                IconButton(
-                    onClick = {
-                        dialogInfo = true
+                    IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
+                        Icon(Icons.Rounded.Star, "", tint = Color.Black)
                     }
-                ) {
-                    Icon(
-                        Icons.Rounded.Info, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                    )
-                }
-
-                IconButton(
-                    onClick = {
-                        navController.navigate("PersonalConfigsScreen")
-                    }
-                ) {
-                    Icon(
-                        Icons.Rounded.Star, "",
-                        tint = Color.Black,
-                        modifier = Modifier
-                            .width(50.dp)
-                            .padding(end = 15.dp),
-                    )
-                }
-            })
-
+                },
+                navController = navController
+            )
             if (hasTimer && !dialogOpen) {
                 if (dialogInfo) {
                     AlertPopup(
@@ -144,7 +128,7 @@ fun PlugScreen(navController: NavController) {
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize()
-                    .padding(start = 20.dp, top = 40.dp)
+                    .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
             ) {
 
                 Row(
@@ -158,7 +142,7 @@ fun PlugScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(top = 7.dp)
                                     .width(screenWidth / 2),
-                                text = "Nome:"
+                                text = stringResource(id = R.string.ssidDevice)
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
@@ -269,53 +253,37 @@ fun PlugScreen(navController: NavController) {
                                 )
                             )
                         }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.overTempDevice)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.overPowerDevice)
+                            )
+                        }
                         NormalButton(
                             modifier = Modifier
                                 .width(150.dp)
                                 .height(50.dp),
                             action = { dialogOpen = true },
-                            title = stringResource(id = R.string.timerOfLight)
+                            title = "Temporizador"
                         )
 
                         Spacer(Modifier.padding(10.dp))
                     }
-
-                    var temp by remember {
-                        mutableStateOf("")
-                    }
-                    var ison by remember {
-                        mutableStateOf(false)
-                    }
-                    var ssid by remember {
-                        mutableStateOf("")
-                    }
-                    var overtemp by remember {
-                        mutableStateOf("")
-                    }
-                    val api = RetrofitHelper.getInstance(3000).create(PlugAPI::class.java)
-
-                    /*
-                    api.getPlugRelay().enqueue(object : Callback<Plug> {
-                        override fun onResponse(
-                            call: Call<Plug>,
-                            response: Response<Plug>
-                        ) {
-                            var pp = response.body()!!
-                            println("VAMOS VER   " + pp)
-                            ssid = pp.wifi_sta.ssid
-                            ison = pp.lights[0].ison
-                            temp = pp.temperature.toString()
-                            overtemp = pp.overtemperature.toString()
-                            ssid = pp.wifi_sta.ssid
-
-                        }
-
-                        override fun onFailure(call: Call<Plug>, t: Throwable) {
-
-                            println(t.message)
-                        }
-                    })
-*/
+                    
                     Column() {
                         Row(Modifier.height(80.dp)) {
                             PersonalText(
@@ -344,12 +312,30 @@ fun PlugScreen(navController: NavController) {
                                 text = "20ºC"
                             )
                         }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(top = 7.dp),
+                                text = overtemp.toString()
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(top = 7.dp),
+                                text = overPower.toString()
+                            )
+                        }
                         NormalButton(
                             modifier = Modifier
                                 .width(160.dp)
                                 .height(50.dp),
                             action = { },
-                            title = stringResource(id = R.string.saveLight)
+                            title = "Guardar"
                         )
                     }
                 }

@@ -64,10 +64,14 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                 scaffoldState = scaffoldState,
                 topBar = {
                     TopBarBackForward(
-                        iconForward = Icons.Rounded.PersonAddAlt,
                         title = "João " + stringResource(id = R.string.members),
-                        actionBack = { navController.popBackStack() },
-                        actionForward = { navController.navigate("InviteMemberScreen") })
+                        actionBtns = {
+                            IconButton(onClick = { navController.navigate("InviteMemberScreen") }) {
+                                Icon(Icons.Rounded.PersonAddAlt, "", tint = Color.Black)
+                            }
+                        },
+                        navController = navController
+                    )
                 },
                 content = {
                     Column(
@@ -75,7 +79,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                             .padding(bottom = 60.dp)
                             .fillMaxSize()
                     ) {
-                        
+
                         LazyColumn {
                             items(4) {
                                 Row(
@@ -102,7 +106,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                             Icons.Rounded.Edit,
                                             "",
                                             tint = Color.Black,
-                                            )
+                                        )
                                     }
 
                                     if (dialogOpenEdit) {
@@ -286,7 +290,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                     }
                 },
                 bottomBar = {
-                   BottombarWithHome(navController = navController)
+                    BottombarWithHome(navController = navController)
                 }
             )
         }
@@ -360,5 +364,8 @@ fun dropDownMenuMembers2(navController: NavController) {
 @Preview()
 @Composable
 fun PreviewMembersScreen() {
-    MembersScreen(mainActivity = MainActivity(),navController= NavController(LocalContext.current))
+    MembersScreen(
+        mainActivity = MainActivity(),
+        navController = NavController(LocalContext.current)
+    )
 }

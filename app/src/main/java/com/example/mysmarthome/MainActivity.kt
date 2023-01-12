@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MySmartHomeTheme {
+
                 val mainActivity = this
 
                 Surface(
@@ -40,7 +41,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Navigation(mainActivity)
                 }
-
             }
         }
     }
@@ -64,7 +64,6 @@ class MainActivity : ComponentActivity() {
             )
 
         } else {
-
             try {
                 startActivity(intent)
             } catch (e: SecurityException) {
@@ -89,7 +88,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun homeLocation(location:String){
+    fun homeLocation(location: String) {
         val mapLocation: Uri = Uri.parse("geo:0,0?q=" + Uri.encode(location))
         val intent = Intent(Intent.ACTION_VIEW, mapLocation)
         try {
@@ -154,15 +153,20 @@ class MainActivity : ComponentActivity() {
     fun notification_logged_in() {
         val CHANNEL_ID = "007"
         // Create an explicit intent for an Activity in your app
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.worten.pt/smart-home-e-redes/smart-home/tudo-sobre-smart-home"))
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://www.worten.pt/smart-home-e-redes/smart-home/tudo-sobre-smart-home")
+        )
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         var builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle("Início de Sessão")
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText("Seja Bem-Vindo(a)!\nAcabou de iniciar sessão na aplicação MySmartHome!\n" +
-                            "Disfrute ao máximo da gestão da sua casa inteligente!")
+                    .bigText(
+                        "Seja Bem-Vindo(a)!\nAcabou de iniciar sessão na aplicação MySmartHome!\n" +
+                                "Disfrute ao máximo da gestão da sua casa inteligente!"
+                    )
 
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -193,7 +197,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-fun notification_member_request() {
+    fun notification_member_request() {
         val CHANNEL_ID = "007"
         // Create an explicit intent for an Activity in your app
         var builder = NotificationCompat.Builder(this, CHANNEL_ID)
@@ -228,11 +232,6 @@ fun notification_member_request() {
 
         }
     }
-
-
-
-
-
 }
 
 @Preview(showBackground = true)

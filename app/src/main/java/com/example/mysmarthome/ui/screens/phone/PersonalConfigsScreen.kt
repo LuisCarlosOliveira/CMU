@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.ListRowWithIcon
-import com.example.mysmarthome.ui.components.TopbarBack
+import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun PersonalConfigsScreen(navController: NavController) {
@@ -25,7 +25,7 @@ fun PersonalConfigsScreen(navController: NavController) {
         scaffoldState = scaffoldState,
 
         topBar = {
-            TopbarBack(
+            TopBarBack(
                 title = stringResource(id = R.string.personalConfigs),
                 navController = navController
             )

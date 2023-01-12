@@ -156,10 +156,15 @@
 
     <!-- DEVICE -->
     <string name="nameDevice">Luz Direita Teto</string>
+    <string name="ssidDevice">Nome: </string>
     <string name="onOff">On/Off:</string>
     <string name="colorOfLight">Cor:</string>
-    <string name="britnessOfLight">Brilho: </string>
-    <string name="gainOfLight">Refletividade: </string>
+    <string name="modeOfLight">Modo: </string>
+    <string name="stateDevice">Estado atual: </string>
+    <string name="powerDevice">Potência: </string>
+    <string name="overTempDevice">Sobreaquecimento: </string>
+    <string name="overPowerDevice">Sobrepotência: </string>
+    <string name="positionBlind">Posição: </string>
     <string name="temperatureOfLight">Temperatura: </string>
     <string name="timerOfLight">Temporizador </string>
     <string name="saveLight">Guardar</string>
