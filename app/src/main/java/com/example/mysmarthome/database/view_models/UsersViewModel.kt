@@ -112,10 +112,11 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun updatePass(email: String, password: String) {
+    fun updatePass(password: String) {
         viewModelScope.launch {
-            fAuth.sendPasswordResetEmail(email)
-                .addOnCompleteListener { task ->
+            val currentUser = fAuth.currentUser
+            currentUser?.updatePassword(password)
+                ?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "Email sent.")
                         user.value!!.password = password
@@ -131,8 +132,12 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
+            Log.d("Login", "Entrou aqui")
             try {
+                Log.d("Login", "Esperandooo")
                 val result = fAuth.signInWithEmailAndPassword(email, password).await()
+
+                Log.d("Login", result.toString())
                 if (result != null && result.user != null) {
                     getUserByEmail(email)
                     authState.postValue(AuthStatus.LOGGED)
@@ -151,6 +156,7 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             fAuth.signOut()
             authState.postValue(AuthStatus.NOLOGGIN)
+            user.postValue(null)
             Log.d("Login", "logout")
         }
     }

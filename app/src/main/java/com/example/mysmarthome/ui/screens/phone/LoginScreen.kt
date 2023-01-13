@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.*
@@ -81,6 +82,8 @@ fun LoginScreen(navController: NavController) {
             LoginSigninButton(
                 stringResource(id = R.string.login),
                 action = {
+                    Log.d("Firebase", email)
+                    Log.d("Firebase", password)
                     usersViewModel.login(email, password)
                     println(user.value)
                     if (user.value != null) {

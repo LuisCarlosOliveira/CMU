@@ -18,7 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.database.entities.User
+import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.enums.TypeMember
 import com.example.mysmarthome.ui.components.FormNumberTextField
@@ -52,9 +54,13 @@ fun NewAccountScreen(navController: NavController) {
         var password2 by rememberSaveable {
             mutableStateOf("")
         }
+        val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+        val home = homesViewModel.home.observeAsState()
+        homesViewModel.getFirstHome()
 
         val usersViewModel: UsersViewModel = viewModel()
         val user = usersViewModel.user.observeAsState()
+
         var selectedTab by remember { mutableStateOf(0) }
 
         Scaffold(
@@ -133,14 +139,18 @@ fun NewAccountScreen(navController: NavController) {
                         println(user.value)
                         if (user.value != null) {
                             println("Adicionou ---------------------------" + user.value!!.email)
-                            var id = user.value!!.idUser
+
                             Toast.makeText(
                                 localCtx,
                                 "Conta Criada!",
                                 Toast.LENGTH_SHORT
                             )
                                 .show()
-                            navController.navigate("ChooseTypeHomeScreen")
+                            if (home.value != null) {
+                                navController.navigate("HomePageScreen")
+                            } else {
+                                navController.navigate("ChooseTypeHomeScreen")
+                            }
                             selectedTab = 0
                         }
                     } else {
