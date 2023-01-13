@@ -132,8 +132,7 @@ fun ProfileScreen(navController: NavController) {
                                                         backgroundColor = Color.Blue
                                                     ),
                                                         onClick = {
-                                                            user.value?.email= email
-                                                            usersViewModel.updateUser(user.value!!)
+                                                            usersViewModel.updateEmail(email)
                                                             dialogOpenEmail = false
                                                         }) {
                                                         Text(color = Color.White, text = "Alterar")
@@ -232,6 +231,7 @@ fun ProfileScreen(navController: NavController) {
                                                     ),
                                                         onClick = {
                                                             dialogOpenPassword = false
+                                                            usersViewModel.updatePass(user.value!!.email, password)
                                                         }) {
                                                         Text(color = Color.White, text = "Alterar")
                                                     }
