@@ -121,10 +121,24 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
                         Log.d(TAG, "Email sent.")
                         user.value!!.password = password
                         updateUser(user.value!!)
-                        // Show success message to the user
                     } else {
                         Log.d(TAG, "Failed to send reset email.")
-                        // Show error message to the user
+                    }
+                }
+        }
+    }
+
+    fun updateEmail(email: String){
+        viewModelScope.launch {
+            val currentUser =fAuth.currentUser
+            currentUser?.updateEmail(email)
+                ?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        user.value!!.email=email
+                        updateUser(user.value!!)
+                        Log.d("Firebase", "Email atualizado com sucesso")
+                    } else {
+                        Log.w("Firebase", "Falha ao atualizar o email", task.exception)
                     }
                 }
         }

@@ -52,6 +52,10 @@ fun ProfileScreen(navController: NavController) {
                 mutableStateOf(1.sp)
             }
 
+            var email by rememberSaveable {
+                mutableStateOf("")
+            }
+
             var password by rememberSaveable {
                 mutableStateOf("")
             }
@@ -68,6 +72,7 @@ fun ProfileScreen(navController: NavController) {
                 mutableStateOf(false)
             }
 
+            var dialogOpenEmail by remember { mutableStateOf(false) }
 
             var dialogOpenPassword by remember { mutableStateOf(false) }
 
@@ -90,7 +95,6 @@ fun ProfileScreen(navController: NavController) {
 
                         options.forEach { opt ->
 
-<<<<<<< Updated upstream
                             if (opt.equals("Alterar Email")) {
                                 Row(
                                     modifier = Modifier
@@ -128,8 +132,7 @@ fun ProfileScreen(navController: NavController) {
                                                         backgroundColor = Color.Blue
                                                     ),
                                                         onClick = {
-                                                            user.value?.email= email
-                                                            usersViewModel.updateUser(user.value!!)
+                                                            usersViewModel.updateEmail(email)
                                                             dialogOpenEmail = false
                                                         }) {
                                                         Text(color = Color.White, text = "Alterar")
@@ -189,9 +192,6 @@ fun ProfileScreen(navController: NavController) {
                                     }
                                 }
                             } else if (opt.equals("Alterar Password")) {
-=======
-                            if (opt.equals("Alterar Password")) {
->>>>>>> Stashed changes
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -231,10 +231,7 @@ fun ProfileScreen(navController: NavController) {
                                                     ),
                                                         onClick = {
                                                             dialogOpenPassword = false
-<<<<<<< Updated upstream
-=======
-                                                            usersViewModel.updatePass(password)
->>>>>>> Stashed changes
+                                                            usersViewModel.updatePass(user.value!!.email, password)
                                                         }) {
                                                         Text(color = Color.White, text = "Alterar")
                                                     }
