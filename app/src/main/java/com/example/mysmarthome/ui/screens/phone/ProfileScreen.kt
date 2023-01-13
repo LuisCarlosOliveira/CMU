@@ -232,6 +232,7 @@ fun ProfileScreen(navController: NavController) {
                                                     ),
                                                         onClick = {
                                                             dialogOpenPassword = false
+                                                            usersViewModel.updatePass(user.value!!.email, password)
                                                         }) {
                                                         Text(color = Color.White, text = "Alterar")
                                                     }
