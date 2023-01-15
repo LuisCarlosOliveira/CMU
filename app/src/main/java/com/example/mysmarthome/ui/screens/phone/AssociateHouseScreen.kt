@@ -1,13 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.Manifest
-import android.util.Log
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -27,9 +20,7 @@ import com.example.mysmarthome.ui.components.NormalButton
 import com.example.mysmarthome.ui.components.TopBarBack
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.common.util.concurrent.ListenableFuture
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
+
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
