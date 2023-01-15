@@ -3,10 +3,8 @@ package com.example.mysmarthome.ui.screens.phone
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Star
@@ -22,7 +20,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,11 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
-import com.example.mysmarthome.retrofit.data_models.light.Light
-import com.example.mysmarthome.retrofit.helper.RetrofitHelper
-import com.example.mysmarthome.retrofit.shelly_api.light.LightAPI
 import com.example.mysmarthome.ui.components.*
-import retrofit2.Response
 
 @Composable
 fun LightScreen(navController: NavController) {

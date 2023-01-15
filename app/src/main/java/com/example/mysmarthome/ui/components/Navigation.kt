@@ -64,8 +64,11 @@ fun Navigation(mainActivity: MainActivity) {
         composable("InviteMemberScreen") {
             InviteMemberScreen( mainActivity, navController=  navController)
         }
-        composable("DivisionDetailsScreen") {
-            DivisionDetailsScreen(navController=  navController)
+        composable("DivisionDetailsScreen/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            DivisionDetailsScreen(navController=  navController, Id )
         }
         composable("VirtualPersonalAssistantScreen") {
             VirtualPersonalAssistantScreen( navController=  navController)

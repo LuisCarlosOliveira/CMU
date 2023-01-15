@@ -82,10 +82,7 @@ fun LoginScreen(navController: NavController) {
             LoginSigninButton(
                 stringResource(id = R.string.login),
                 action = {
-                    Log.d("Firebase", email)
-                    Log.d("Firebase", password)
                     usersViewModel.login(email, password)
-                    println(user.value)
                     if (user.value != null) {
                         Toast.makeText(
                             localCtx,

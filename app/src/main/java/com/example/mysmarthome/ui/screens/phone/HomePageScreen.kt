@@ -1,6 +1,7 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,17 +51,13 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
         ) {
             val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
             val user = usersViewModel.user.observeAsState()
+
             val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
             val home = homesViewModel.home.observeAsState()
 
-            println("User ---- " + user.value)
-
-            println("Home ---- " + home.value)
-
-
-
-            val divisionsViewModel: DivisionsViewModel = viewModel()
-            val divisions = divisionsViewModel.getDivisions().observeAsState()
+            val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
+            divisionsViewModel.getDivisions()
+            val divisions = divisionsViewModel.allDivisions.observeAsState()
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
@@ -178,7 +175,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                             .aspectRatio(1f)
                                             .padding(5.dp)
                                             .clickable(onClick = {
-                                                navController.navigate("DivisionDetailsScreen")
+                                                divisionsViewModel.getOneDivision(divisions.value!!.get(l).idDivision)
+                                                navController.navigate("DivisionDetailsScreen/"+ divisions.value!!.get(l).idDivision)
                                             })
                                     ) {
                                         Text(

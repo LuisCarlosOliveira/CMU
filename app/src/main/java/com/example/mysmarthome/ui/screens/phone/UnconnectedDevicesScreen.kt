@@ -1,6 +1,5 @@
 package com.example.mysmarthome.ui.screens.phone
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -26,7 +24,6 @@ import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
-import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.DropDownMenuOutlined
 import com.example.mysmarthome.ui.components.FloatingButton
 import com.example.mysmarthome.ui.components.ListRowWithCheckbox
@@ -38,9 +35,8 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     val divisionsViewModel: DivisionsViewModel = viewModel()
-    val divisions = divisionsViewModel.getDivisions().observeAsState()
-    var i = divisions.value!!.size
-    Log.d("TAMANHO DE DIVISOES", i.toString())
+    val divisions = divisionsViewModel.allDivisions.observeAsState()
+
     var division by remember {
         mutableStateOf("")
     }
@@ -118,7 +114,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
                                         .fillMaxWidth()
                                         .padding(start = 20.dp, end = 20.dp, top = 20.dp),
                                     modifier2 = Modifier.padding(top = 50.dp),
-                                    arrayOf(divisions.value!!.get(i).name)
+                                    arrayOf(divisions.value!!.toString())
                                 )
                             }
                         }

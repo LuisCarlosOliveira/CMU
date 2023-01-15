@@ -34,7 +34,6 @@ fun DefinitionsScreen(navController: NavController) {
 
     val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
     val home = homesViewModel.home.observeAsState()
-    println("home que esta atualizado"+home.value)
 
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -136,9 +135,12 @@ fun DefinitionsScreen(navController: NavController) {
                                     )
                                 }
                             },
-                            actionBtn = {homesViewModel.removeHome(home.value!!.idHome)
-                                        navController.navigate("NewHomeScreen")}, actionBtn2 = { dialogOpen = false })
-
+                            actionBtn = {
+                                homesViewModel.removeHome()
+                                navController.navigate("NewHomeScreen")
+                            },
+                            actionBtn2 = { dialogOpen = false }
+                        )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

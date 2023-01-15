@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -7,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,18 +20,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.DivisionsViewModel
 import com.example.mysmarthome.ui.components.*
 
 @Composable
-fun DivisionDetailsScreen(navController: NavController) {
+fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
+        Log.d("A testar", idDivision.toString())
+        val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
+        divisionsViewModel.getOneDivision(idDivision)
+        val division = divisionsViewModel.division.observeAsState()
 
+        Log.d("A testar", division.value.toString())
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
         val deviceType: Array<String> = stringArrayResource(id = R.array.deviceType)
@@ -45,14 +54,16 @@ fun DivisionDetailsScreen(navController: NavController) {
             scaffoldState = scaffoldState,
             topBar = {
                 TopBarBackForward(
-                    title = "Garagem",
+                    title = division.value!!.name,
                     actionBtns = {
                         IconButton(onClick = { }) {
                             Icon(Icons.Rounded.Edit, "", tint = Color.Black)
                         }
 
-                        IconButton(onClick = { }) {
+                        IconButton(onClick = {divisionsViewModel.removeDivision(division.value!!)
+                            navController.navigate("HomePageScreen")}) {
                             Icon(Icons.Rounded.Delete, "", tint = Color.Black)
+
                         }
                     },
                     navController = navController
@@ -134,6 +145,6 @@ fun DivisionDetailsScreen(navController: NavController) {
 @Composable
 fun PreviewDivisionDetailsScreen() {
     DivisionDetailsScreen(
-        navController = NavController(LocalContext.current)
+        navController = NavController(LocalContext.current),1
     )
 }
