@@ -8,9 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Sensor
-import android.hardware.Sensor.TYPE_AMBIENT_TEMPERATURE
-import android.hardware.Sensor.TYPE_GRAVITY
-import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -30,6 +27,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.example.mysmarthome.ui.components.Navigation
 import com.example.mysmarthome.ui.theme.MySmartHomeTheme
+import com.example.mysmarthome.Location.LocationService
+import com.example.mysmarthome.Location.LocationService.Companion.ACTION_START
 
 class MainActivity : ComponentActivity() {
 
@@ -154,6 +153,14 @@ class MainActivity : ComponentActivity() {
             e.printStackTrace()
         }
 
+    }
+
+    fun intentLocationService(){
+
+        Intent(applicationContext, LocationService::class.java).apply {
+            action = ACTION_START
+            startService(this)
+        }
     }
 
     fun notification_temperature() {

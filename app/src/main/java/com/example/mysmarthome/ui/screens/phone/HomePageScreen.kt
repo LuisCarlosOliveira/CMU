@@ -44,8 +44,11 @@ import android.hardware.SensorManager
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idUser: Int) {
+fun HomePageScreen(mainActivity: MainActivity, navController: NavController/*, idUser: Int*/) {
     mainActivity.notification_temperature()
+    //starts service
+    mainActivity.intentLocationService()
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -54,7 +57,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController, idU
             modifier = Modifier.fillMaxSize(),
         ) {
             val usersViewModel: UsersViewModel = viewModel()
-            val user = usersViewModel.getOneUser(idUser.toInt()).observeAsState()
+            //val user = usersViewModel.getOneUser(idUser.toInt()).observeAsState()
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
             val scope = rememberCoroutineScope()

@@ -86,6 +86,7 @@ fun LoginScreen(navController: NavController) {
 
                 action = { if(user != null && user.value?.password.equals(password)) {
                     val id = user.value?.idUser
+
                     navController.navigate("HomePageScreen/" + id)
 
 

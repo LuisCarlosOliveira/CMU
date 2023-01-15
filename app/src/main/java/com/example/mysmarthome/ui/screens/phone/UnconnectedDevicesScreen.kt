@@ -66,7 +66,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
                                 onClick = {
                                     dialogOpen = false
                                     navController.navigate("HomePageScreen/")
-                                    mainActivity.notification_logged_in()
+                                    //mainActivity.notification_logged_in()
                                     mainActivity.notification_temperature()
 
                                 }) {
