@@ -151,5 +151,5 @@ class DeviceRepository(
     fun getDeviceByPort(port: Int): LiveData<Device> {
         return deviceDao.getDeviceByPort(port)
     }
-    
+
 }
