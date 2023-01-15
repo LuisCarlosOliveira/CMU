@@ -92,7 +92,7 @@ fun DefinitionsScreen(navController: NavController) {
                 navController = navController
             )
         },
-        
+
         content = {
             Column(
                 Modifier
