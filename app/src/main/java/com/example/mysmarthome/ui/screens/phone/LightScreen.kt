@@ -1,12 +1,13 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.os.Build
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Star
@@ -22,7 +23,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,18 +32,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
-import com.example.mysmarthome.retrofit.data_models.light.Light
-import com.example.mysmarthome.retrofit.helper.RetrofitHelper
-import com.example.mysmarthome.retrofit.shelly_api.light.LightAPI
 import com.example.mysmarthome.ui.components.*
-import retrofit2.Response
+import java.time.Instant
+import java.time.ZoneId
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LightScreen(navController: NavController) {
-
-    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
 
     var ison by remember {
         mutableStateOf(false)
@@ -99,14 +94,42 @@ fun LightScreen(navController: NavController) {
         mutableStateOf(false)
     }
 
+    var beginTimerAtualizado by remember {
+        mutableStateOf("")
+    }
+    var remainingTimerAtualizado by remember {
+        mutableStateOf("")
+    }
+    var durationTimerAtualizado by remember {
+        mutableStateOf("")
+    }
+
     var dialogInfo by remember { mutableStateOf(false) }
 
     var dialogSelectColor by remember { mutableStateOf(false) }
 
     var saveBtnClicked by remember { mutableStateOf(false) }
 
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+
     var letterSpacing by remember {
         mutableStateOf(1.sp)
+    }
+
+    val lightsStatusViewModel: DevicesViewModel = viewModel()
+
+    val lightStatusContent = lightsStatusViewModel.getLightStatus.observeAsState()
+
+    lightsStatusViewModel.getLightStatus()
+
+    if (lightStatusContent.value != null) {
+        lightStatusContent.value?.lights?.forEach {
+            beginTimerAtualizado = it.timer_started.toString()
+            remainingTimerAtualizado = it.timer_remaining.toString()
+            durationTimerAtualizado = it.timer_duration.toString()
+        }
     }
 
     val lightsViewModel: DevicesViewModel = viewModel()
@@ -165,6 +188,15 @@ fun LightScreen(navController: NavController) {
             )
 
             if (dialogInfo) {
+                lightsStatusViewModel.getLightStatus()
+
+                if (lightStatusContent.value != null) {
+                    lightStatusContent.value?.lights?.forEach {
+                        beginTimerAtualizado = it.timer_started.toString()
+                        remainingTimerAtualizado = it.timer_remaining.toString()
+                        durationTimerAtualizado = it.timer_duration.toString()
+                    }
+                }
                 AlertPopup(
                     state = dialogInfo,
                     btn1Text = "Ok",
@@ -174,19 +206,21 @@ fun LightScreen(navController: NavController) {
                         Column(
                             modifier = Modifier.fillMaxSize()
                         ) {
+                            val dt = Instant.ofEpochSecond(((beginTimerAtualizado.toLong())))
+                                .atZone(ZoneId.of("Portugal"))
+                                .toLocalDateTime()
                             PersonalText(Color.Red, null, "Início Temporizador: ")
-                            PersonalText(Color.Black, null, beginTimer)
+                            PersonalText(Color.Black, null, dt.toString())
 
-                            PersonalText(Color.Red, null, "Fim Temporizador: ")
+                            PersonalText(Color.Red, null, "Duração Temporizador: ")
                             PersonalText(
                                 Color.Black,
                                 null,
-                                (beginTimer + duration)
-                                //(beginTimer.toFloat() + durationTimer.toFloat()).toString()
+                                durationTimerAtualizado + " seg"
                             )
 
                             PersonalText(Color.Red, null, "Tempo Restante: ")
-                            PersonalText(Color.Black, null, remainingTimer)
+                            PersonalText(Color.Black, null, remainingTimerAtualizado + " seg")
                         }
                     },
                     actionBtn = { dialogInfo = false },
@@ -435,21 +469,25 @@ fun LightScreen(navController: NavController) {
                         Row(Modifier.height(80.dp)) {
                             if (mode.equals("color")) {
                                 Column {
-                                    Text(text = ((sliderIntensity.toFloat()) * 100).toString())
-                                    sliderIntensity = SliderInput(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(end = 20.dp)
-                                    )
+                                    if (!sliderIntensity.equals("")) {
+                                        Text(text = ((sliderIntensity.toFloat()) * 100).toString())
+                                        sliderIntensity = SliderInput(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(end = 20.dp)
+                                        )
+                                    }
                                 }
                             } else {
                                 Column {
-                                    //Text(text = ((sliderBrilho.toFloat()) * 100).toString())
-                                    sliderBrilho = SliderInput(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(end = 20.dp)
-                                    )
+                                    if (!sliderBrilho.equals("")) {
+                                        Text(text = ((sliderBrilho.toFloat()) * 100).toString())
+                                        sliderBrilho = SliderInput(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(end = 20.dp)
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -460,7 +498,7 @@ fun LightScreen(navController: NavController) {
                                 color = Color.Black,
                                 modifier = Modifier
                                     .padding(top = 7.dp),
-                                text = temp
+                                text = temp + " ºC"
                             )
                         }
                         Spacer(Modifier.padding(10.dp))
@@ -475,37 +513,6 @@ fun LightScreen(navController: NavController) {
                         }
 
                         if (saveBtnClicked) {
-/*
-                            if (turn != "toggle") {
-                                if (durationTimer.isNotEmpty())
-                                    lightsViewModel.getLightActionsColorMode(
-                                        turn,
-                                        mode,
-                                        cor,
-                                        durationTimer.toInt()
-                                    ) else {
-                                    lightsViewModel.getLightActionsColorMode(
-                                        turn,
-                                        mode,
-                                        cor,
-                                        null
-                                    )
-                                }
-                            } else {
-                                if (ison) {
-                                    lightsViewModel.getLightTimer(
-                                        turn,
-                                        durationTimer.toInt()
-                                    )
-                                } else {
-                                    lightsViewModel.getLightTimer(
-                                        turn,
-                                        null
-                                    )
-                                }
-                            }
-*/
-
                             when (turn) {
                                 "on" ->
                                     if (mode.equals("color")) {
@@ -567,6 +574,12 @@ fun LightScreen(navController: NavController) {
                                         lightsViewModel.getLightTimer("off", null)
                                     }
                             }
+                            saveBtnClicked = false
+                            Toast.makeText(
+                                LocalContext.current,
+                                "Operação " + turn + " executada.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
@@ -575,6 +588,7 @@ fun LightScreen(navController: NavController) {
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview()
 @Composable
 fun PreviewDeviceScreen() {

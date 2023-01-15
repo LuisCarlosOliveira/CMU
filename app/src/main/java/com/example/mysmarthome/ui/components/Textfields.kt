@@ -26,19 +26,20 @@ import com.example.mysmarthome.R
 
 @Composable
 fun SliderInput(modifier: Modifier): String {
-    var sliderVal by remember { mutableStateOf(0f) }
 
+    var sliderVal by remember { mutableStateOf(0f) }
     Slider(
         modifier = modifier,
         value = sliderVal,
         onValueChange = { sliderVal = it }
     )
-
     return sliderVal.toString()
+
 }
 
 @Composable
 fun DropDownMenu(options: Array<String>, optionSelected: String): String {
+
     var expanded by remember { mutableStateOf(false) }
     val suggestions = options
     var selectedText by remember { mutableStateOf(optionSelected) }
@@ -82,10 +83,12 @@ fun DropDownMenu(options: Array<String>, optionSelected: String): String {
         }
     }
     return selectedText
+
 }
 
 @Composable
 fun DropDownMenuOutlined(modifier1: Modifier, modifier2: Modifier, options: Array<String>): String {
+
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(options[0]) }
     val suggestions = options
@@ -123,10 +126,12 @@ fun DropDownMenuOutlined(modifier1: Modifier, modifier2: Modifier, options: Arra
         }
     }
     return selectedText
+
 }
 
 @Composable
 fun SimpleTextField(modifier: Modifier, placeholder: String, label: String): String {
+
     var field by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -141,12 +146,13 @@ fun SimpleTextField(modifier: Modifier, placeholder: String, label: String): Str
         onValueChange = { field = it },
         placeholder = { Text(text = placeholder) },
         label = { Text(text = label) })
-
     return field.text
+
 }
 
 @Composable
 fun SimplePasswordTextField(modifier: Modifier, placeholder: String, label: String): String {
+
     var password by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -179,12 +185,13 @@ fun SimplePasswordTextField(modifier: Modifier, placeholder: String, label: Stri
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
     )
-
     return password.text
+
 }
 
 @Composable
 fun SimpleNumberTextField(modifier: Modifier, placeholder: String, label: String): String {
+
     var field by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -205,12 +212,13 @@ fun SimpleNumberTextField(modifier: Modifier, placeholder: String, label: String
             keyboardType = KeyboardType.Number
         )
     )
-
     return field.text
+
 }
 
 @Composable
 fun FormPasswordTextField(title: String, placeholder: String, label: String): String {
+
     var password by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -252,10 +260,12 @@ fun FormPasswordTextField(title: String, placeholder: String, label: String): St
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
     )
     return password.text
+
 }
 
 @Composable
 fun FormNumberTextField(title: String, placeholder: String, label: String): String {
+
     var field by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -284,6 +294,7 @@ fun FormNumberTextField(title: String, placeholder: String, label: String): Stri
         )
     )
     return field.text
+
 }
 
 @Composable
@@ -316,4 +327,5 @@ fun FormStringTextField(title: String, placeholder: String, label: String): Stri
         label = { Text(text = label) }
     )
     return field.text
+
 }

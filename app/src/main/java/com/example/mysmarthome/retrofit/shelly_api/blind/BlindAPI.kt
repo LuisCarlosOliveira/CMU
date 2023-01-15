@@ -9,16 +9,19 @@ import retrofit2.http.Query
 
 interface BlindAPI {
 
+    @GET("/status")
+    suspend fun getBlindStatus(): Response<Blind>
+
     @GET("/roller/0")
     suspend fun getBlind(): Response<Blind>
 
     @GET("/roller/0?")
     suspend fun getBlindActions(
         @Query("go") go: String,
-        @Query("roller_pos") roller_pos: Int,
+        @Query("roller_pos") roller_pos: Int?,
     ): Response<Blind>
 
-    @GET("/meter/{meter_id}")
+    @GET("/meters/{meter_id}")
     suspend fun getBlindMeter(
         @Path("meter_id") meter_id: Int
     ): Response<BlindMeters>
