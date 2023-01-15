@@ -9,16 +9,19 @@ import retrofit2.http.Query
 
 interface PlugAPI {
 
+    @GET("/status")
+    suspend fun getPlugStatus(): Response<Plug>
+
     @GET("/relay/0")
     suspend fun getPlug(): Response<Plug>
 
     @GET("/relay/0?")
-    suspend fun getPlugActions(
+    suspend fun getPlugTimer(
         @Query("turn") turn: String,
-        @Query("timer") timer: Int,
+        @Query("timer") timer: Int?,
     ): Response<Plug>
 
-    @GET("/meter/{meter_id}")
+    @GET("/meters/{meter_id}")
     suspend fun getPlugMeter(
         @Path("meter_id") meter_id: Int
     ): Response<PlugMeters>

@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import com.example.mysmarthome.database.dao.DevicesDAO
 import com.example.mysmarthome.database.entities.Device
 import com.example.mysmarthome.database.entities.relations.device_division.DivisionWithDevices
-import com.example.mysmarthome.enums.TypeDevice
 import com.example.mysmarthome.retrofit.data_models.blind.Blind
+import com.example.mysmarthome.retrofit.data_models.blind.BlindMeters
 import com.example.mysmarthome.retrofit.data_models.light.Light
+import com.example.mysmarthome.retrofit.data_models.light.LightMeters
 import com.example.mysmarthome.retrofit.data_models.plug.Plug
+import com.example.mysmarthome.retrofit.data_models.plug.PlugMeters
 import com.example.mysmarthome.retrofit.shelly_api.blind.BlindAPI
 import com.example.mysmarthome.retrofit.shelly_api.light.LightAPI
 import com.example.mysmarthome.retrofit.shelly_api.plug.PlugAPI
@@ -20,35 +22,51 @@ class DeviceRepository(
     val restAPIBlind: BlindAPI
 ) {
 
-    /*
+    suspend fun getBlindStatus(): Response<Blind> {
+        return this.restAPIBlind.getBlindStatus()
+    }
+
     suspend fun getBlind(): Response<Blind> {
         return this.restAPIBlind.getBlind()
     }
-     */
 
-    /*
-    suspend fun getBlindAction(
+    suspend fun getBlindActions(
         go: String,
-        roller_pos: Int
+        roller_pos: Int?
     ): Response<Blind> {
         return this.restAPIBlind.getBlindActions(go, roller_pos)
     }
-    */
 
-    /*
+    suspend fun getBlindMeter(
+        meter_id: Int
+    ): Response<BlindMeters> {
+        return this.restAPIBlind.getBlindMeter(meter_id)
+    }
+
+    suspend fun getPlugStatus(): Response<Plug> {
+        return this.restAPIPlug.getPlugStatus()
+    }
+
     suspend fun getPlug(): Response<Plug> {
         return this.restAPIPlug.getPlug()
     }
-    */
 
-    /*
-    suspend fun getPlugAction(
+    suspend fun getPlugTimer(
         turn: String,
-        timer: Int
+        timer: Int?
     ): Response<Plug> {
-        return this.restAPIPlug.getPlugActions(turn, timer)
+        return this.restAPIPlug.getPlugTimer(turn, timer)
     }
-    */
+
+    suspend fun getPlugMeter(
+        meter_id: Int
+    ): Response<PlugMeters> {
+        return this.restAPIPlug.getPlugMeter(meter_id)
+    }
+
+    suspend fun getLightStatus(): Response<Light> {
+        return this.restAPILight.getLightStatus()
+    }
 
     suspend fun getLight(): Response<Light> {
         return this.restAPILight.getLight()
@@ -62,7 +80,7 @@ class DeviceRepository(
         turn: String,
         mode: String,
         white: Int,
-        brightness: Float,
+        brightness: Int,
         timer: Int?
     ): Response<Light> {
         return this.restAPILight.getLightActionsWhiteMode(turn, mode, white, brightness, timer)
@@ -75,9 +93,10 @@ class DeviceRepository(
         green: Int,
         blue: Int,
         white: Int,
-        gain: Float,
+        gain: Int,
         timer: Int?
     ): Response<Light> {
+
         return this.restAPILight.getLightActionsColorMode(
             turn,
             mode,
@@ -88,6 +107,13 @@ class DeviceRepository(
             gain,
             timer
         )
+
+    }
+
+    suspend fun getLightMeter(
+        meter_id: Int
+    ): Response<LightMeters> {
+        return this.restAPILight.getLightMeter(meter_id)
     }
 
     fun getOneDevice(idDevice: Int): LiveData<Device> {

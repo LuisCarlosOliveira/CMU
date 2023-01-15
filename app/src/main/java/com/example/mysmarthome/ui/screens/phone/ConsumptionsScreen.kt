@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -19,26 +18,35 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
-import com.example.mysmarthome.ui.components.AddImage
 import com.example.mysmarthome.ui.components.DropDownMenu
+import com.example.mysmarthome.ui.components.PieChart
 import com.example.mysmarthome.ui.components.TopBarBack
 
 @Composable
 fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController) {
 
+    var optionSelected by remember {
+        mutableStateOf("")
+    }
+
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
+
     mainActivity.notification_member_request()
+
     Scaffold(
         scaffoldState = scaffoldState,
+
         topBar = {
             TopBarBack(
                 title = stringResource(id = R.string.consumptionsTitle),
                 navController = navController
             )
         },
+
         content = {
             Column(
                 Modifier
@@ -61,8 +69,9 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
                     Column(
                         Modifier
                             .verticalScroll(rememberScrollState())
-                            .padding(6.dp)) {
-                        DropDownMenu(
+                            .padding(6.dp)
+                    ) {
+                        optionSelected = DropDownMenu(
                             stringArrayResource(id = R.array.dropdownConsumptions), stringResource(
                                 id = R.string.optionSelectedConsumption
                             )
@@ -74,12 +83,8 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
                     Modifier
                         .fillMaxWidth()
                         .padding(top = 20.dp)
-                        .height(400.dp)
                 ) {
-                    AddImage(
-                        modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(id = R.drawable.consumos)
-                    )
+                    PieChart(optionSelected)
                 }
             }
         },
