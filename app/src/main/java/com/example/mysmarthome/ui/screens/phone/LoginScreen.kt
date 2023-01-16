@@ -44,7 +44,8 @@ fun LoginScreen(navController: NavController) {
     val localCtx = LocalContext.current
     val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
     val home = homesViewModel.home.observeAsState()
-    homesViewModel.getFirstHome()
+    LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
+
 
     Column(
         modifier = Modifier

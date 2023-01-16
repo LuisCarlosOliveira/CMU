@@ -60,8 +60,10 @@ fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
                             Icon(Icons.Rounded.Edit, "", tint = Color.Black)
                         }
 
-                        IconButton(onClick = {divisionsViewModel.removeDivision(division.value!!)
-                            navController.navigate("HomePageScreen")}) {
+                        IconButton(onClick = {
+                            divisionsViewModel.removeDivision(division.value!!)
+                            navController.navigate("HomePageScreen")
+                        }) {
                             Icon(Icons.Rounded.Delete, "", tint = Color.Black)
 
                         }
@@ -145,6 +147,7 @@ fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
 @Composable
 fun PreviewDivisionDetailsScreen() {
     DivisionDetailsScreen(
-        navController = NavController(LocalContext.current),1
+        navController = NavController(LocalContext.current), 1
     )
 }
+

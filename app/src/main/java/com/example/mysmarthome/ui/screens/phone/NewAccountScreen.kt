@@ -56,8 +56,7 @@ fun NewAccountScreen(navController: NavController) {
         }
         val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
         val home = homesViewModel.home.observeAsState()
-        homesViewModel.getFirstHome()
-
+        LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
         val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
         val user = usersViewModel.user.observeAsState()
 

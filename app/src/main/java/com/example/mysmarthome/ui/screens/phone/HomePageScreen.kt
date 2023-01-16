@@ -54,6 +54,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
 
             val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
             val home = homesViewModel.home.observeAsState()
+            LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
 
             val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
             divisionsViewModel.getDivisions()

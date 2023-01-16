@@ -80,7 +80,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                 var currentHome = getHomes()
                 home.postValue(currentHome.get(0))
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.d("Alerta", "Ainda não tem casa criada")
             }
         }
     }
