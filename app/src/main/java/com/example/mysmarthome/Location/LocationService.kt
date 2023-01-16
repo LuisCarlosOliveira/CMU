@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.media.session.PlaybackState.ACTION_STOP
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.mysmarthome.R
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class LocationService: Service() {
+
 
     //lifetime of this service
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -63,16 +63,19 @@ class LocationService: Service() {
             .getLocationUpdates(10000L)
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
-                val lat = location.latitude.toString().takeLast(3)
-                val long = location.longitude.toString().takeLast(3)
+                val lat = location.latitude.toString()
+                val long = location.longitude.toString()
                 val updatedNotification = notification.setContentText(
                     "Location: ($lat, $long)"
                 )
                 notificationManager.notify(1, updatedNotification.build())
+
             }
             .launchIn(serviceScope)
 
         startForeground(1, notification.build())
+
+
     }
 
     private fun stop() {

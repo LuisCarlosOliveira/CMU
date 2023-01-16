@@ -29,10 +29,19 @@ import com.example.mysmarthome.ui.components.Navigation
 import com.example.mysmarthome.ui.theme.MySmartHomeTheme
 import com.example.mysmarthome.Location.LocationService
 import com.example.mysmarthome.Location.LocationService.Companion.ACTION_START
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ActivityCompat.requestPermissions(
+            this, arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION ,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ), 0
+        )
         setContent {
             MySmartHomeTheme {
 

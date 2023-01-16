@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
@@ -37,6 +38,7 @@ import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.FloatingButton
+import java.util.jar.Manifest
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
@@ -44,6 +46,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
     mainActivity.notification_temperature()
     //starts service
     mainActivity.intentLocationService()
+
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
