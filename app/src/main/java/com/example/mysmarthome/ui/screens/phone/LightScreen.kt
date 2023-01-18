@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,16 +28,20 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
 import com.example.mysmarthome.ui.components.*
 
 @Composable
-fun LightScreen(navController: NavController) {
+fun LightScreen(navController: NavController, id: Int) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
+
+    val devicesViewModel: DevicesViewModel = viewModel(LocalContext.current as MainActivity)
+    val device = devicesViewModel.getOneDevice(id).observeAsState()
 
     var ison by remember {
         mutableStateOf(false)
@@ -104,6 +109,7 @@ fun LightScreen(navController: NavController) {
 
     val lightsViewModel: DevicesViewModel = viewModel()
 
+
     val lightContent = lightsViewModel.getLight.observeAsState()
 
     val lightActionsColorModeContent = lightsViewModel.getLightActionsColorMode.observeAsState()
@@ -135,12 +141,12 @@ fun LightScreen(navController: NavController) {
         temp = lightContent.value?.temperature.toString()
         overtemp = lightContent.value?.overtemperature!!
     }
-
+    if (device.value != null) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopBarBackForward(
-                title = stringResource(id = R.string.nameDevice),
+                title = device.value!!.nome,
                 actionBtns = {
                     IconButton(onClick = { dialogInfo = true }) {
                         Icon(Icons.Rounded.Info, "", tint = Color.Black)
@@ -567,9 +573,10 @@ fun LightScreen(navController: NavController) {
         },
     )
 }
+}
 
 @Preview()
 @Composable
 fun PreviewDeviceScreen() {
-    LightScreen(navController = NavController(LocalContext.current))
+    LightScreen(navController = NavController(LocalContext.current),1)
 }

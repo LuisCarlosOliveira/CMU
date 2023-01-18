@@ -77,11 +77,19 @@ fun CollapsableLazyColumn(
                                 Log.d("AQUIII", deviceId.toString())
                                 if (deviceId != null) {
                                     if (dataItem.title.equals("Luzes")) {
+<<<<<<< Updated upstream
                                         navController.navigate("LightScreen")
                                     } else if (dataItem.title.equals("Estoros")) {
                                         navController.navigate("BlindScreen")
                                     } else {
                                         navController.navigate("PlugScreen")
+=======
+                                        navController.navigate("LightScreen/"+deviceId)
+                                    } else if (dataItem.title.equals("Estoros")) {
+                                        navController.navigate("BlindScreen/"+deviceId)
+                                    } else {
+                                        navController.navigate("PlugScreen/"+deviceId)
+>>>>>>> Stashed changes
                                     }
                                 }
                             }

@@ -79,14 +79,23 @@ fun Navigation(mainActivity: MainActivity) {
         composable("AboutScreen") {
             AboutScreen( navController=  navController)
         }
-        composable("LightScreen") {
-            LightScreen( navController=  navController)
+        composable("LightScreen/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            LightScreen(navController=  navController, Id )
         }
-        composable("PlugScreen") {
-            PlugScreen( navController=  navController)
+        composable("PlugScreen/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            PlugScreen(navController=  navController, Id )
         }
-        composable("BlindScreen") {
-            BlindScreen( navController=  navController)
+        composable("BlindScreen/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            var Id = it.arguments?.getInt("id")!!
+            BlindScreen(navController=  navController, Id )
         }
         composable("LocationScreen") {
             LocationScreen( navController=  navController)

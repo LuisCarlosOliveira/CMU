@@ -158,11 +158,19 @@ fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
                 },
                 floatingActionButton = {
                     FloatingButton(
+<<<<<<< Updated upstream
                         icon = Icons.Rounded.Star,
                         title = stringResource(id = R.string.applyPreferences),
                         action = {})
                 },
                 floatingActionButtonPosition = FabPosition.Center
+=======
+                        icon= Icons.Rounded.Add,
+                        title = stringResource(id = R.string.addConnectedDevice),
+                        action = { navController.navigate("NewDeviceScreen") }
+                    )
+                }
+>>>>>>> Stashed changes
             )
         }
     }
