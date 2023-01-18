@@ -9,6 +9,9 @@ import retrofit2.http.Query
 
 interface LightAPI {
 
+    @GET("/status")
+    suspend fun getLightStatus(): Response<Light>
+
     @GET("/light/0")
     suspend fun getLight(): Response<Light>
 
@@ -23,7 +26,7 @@ interface LightAPI {
         @Query("turn") turn: String,
         @Query("mode") mode: String,
         @Query("white") white: Int,
-        @Query("brightness") brightness: Float,
+        @Query("brightness") brightness: Int,
         @Query("timer") timer: Int?
     ): Response<Light>
 
@@ -35,11 +38,11 @@ interface LightAPI {
         @Query("green") green: Int,
         @Query("blue") blue: Int,
         @Query("white") white: Int,
-        @Query("gain") gain: Float,
+        @Query("gain") gain: Int,
         @Query("timer") timer: Int?
     ): Response<Light>
 
-    @GET("/meter/{meter_id}")
+    @GET("/meters/{meter_id}")
     suspend fun getLightMeter(
         @Path("meter_id") meter_id: Int
     ): Response<LightMeters>

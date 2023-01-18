@@ -57,12 +57,11 @@
 
     <!-- CONSUMPTIONS -->
     <string name="consumptionsTitle">Consumos</string>
-    <string name="devicesThat">Dispositivos que: </string>
-    <string name="optionSelectedConsumption">Mais Consomem</string>
+    <string name="devicesThat"> Filtrar Por: </string>
+    <string name="optionSelectedConsumption">Energia (Watt/Min)</string>
     <string-array name="dropdownConsumptions">
-        <item>Todos</item>
-        <item>Mais Consomem</item>
-        <item>Menos Consomem"</item>
+        <item>Energia (Watt/Min)</item>
+        <item>Potência (Watt)</item>
     </string-array>
 
     <!-- HELP -->

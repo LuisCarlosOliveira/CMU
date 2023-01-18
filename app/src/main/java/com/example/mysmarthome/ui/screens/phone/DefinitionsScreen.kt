@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -21,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.view_models.DevicesViewModel
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.AlertPopup
 import com.example.mysmarthome.ui.components.TopBarBack
@@ -28,12 +30,52 @@ import com.example.mysmarthome.ui.components.TopBarBack
 @Composable
 fun DefinitionsScreen(navController: NavController) {
 
-    val nocturnMode = remember { mutableStateOf(true) }
-    val savingEnergyMode = remember { mutableStateOf(true) }
-    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val ctx = LocalContext.current
+
+    val nocturnMode = remember { mutableStateOf(false) }
+
+    val savingEnergyMode = remember { mutableStateOf(false) }
+
+    val turn by remember {
+        mutableStateOf("on")
+    }
+
+    val modeNocMode by remember {
+        mutableStateOf("color")
+    }
+
+    val modeSavingMode by remember {
+        mutableStateOf("white")
+    }
+
+    val blindState by remember {
+        mutableStateOf("to_pos")
+    }
+
+    val corNocMode = mutableListOf<Int>(237, 255, 3, 1)
+    val corSavingMode = mutableListOf<Int>(255, 255, 255, 255)
+
+    val gain by remember {
+        mutableStateOf(85f)
+    }
+
+    val brightness by remember {
+        mutableStateOf(15f)
+    }
+
+    val pos by remember {
+        mutableStateOf(20)
+    }
+
+    val timerSavingMode by remember {
+        mutableStateOf(99)
+    }
 
     val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+
     val home = homesViewModel.home.observeAsState()
+
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -50,6 +92,7 @@ fun DefinitionsScreen(navController: NavController) {
                 navController = navController
             )
         },
+
         content = {
             Column(
                 Modifier
@@ -88,6 +131,37 @@ fun DefinitionsScreen(navController: NavController) {
                                 onCheckedChange = { nocturnMode.value = it },
                                 modifier = Modifier.padding(end = 20.dp)
                             )
+
+                            if (nocturnMode.value) {
+                                if (savingEnergyMode.value == false) {
+                                    val lightsViewModel: DevicesViewModel = viewModel()
+
+                                    val blindsViewModel: DevicesViewModel = viewModel()
+
+                                    LaunchedEffect(Unit) {
+                                        lightsViewModel.getLightActionsColorMode(
+                                            turn, modeNocMode,
+                                            corNocMode, gain, null
+                                        )
+                                        blindsViewModel.getBlindActions(blindState, pos)
+                                    }
+
+                                    Toast.makeText(
+                                        ctx,
+                                        "Modo Noturno Ativado. \n " +
+                                                "Luzes: { Estado Atual: ${turn} | Modo:  ${modeNocMode} | Cor: ${corNocMode} | Intensidade: ${gain} } \n  " +
+                                                "Estoros: { Estado Atual: Semi-Fechados | Posição: ${pos} } .",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                } else {
+                                    Toast.makeText(
+                                        ctx,
+                                        "Apenas pode escolher um dos modos!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
                         }
 
                     } else if (definition.equals("Modo Poupar Energia")) {
@@ -114,6 +188,40 @@ fun DefinitionsScreen(navController: NavController) {
                                 onCheckedChange = { savingEnergyMode.value = it },
                                 modifier = Modifier.padding(end = 20.dp)
                             )
+
+                            if (savingEnergyMode.value) {
+                                if (nocturnMode.value == false) {
+                                    val lightsViewModel: DevicesViewModel = viewModel()
+
+                                    val plugsViewModel: DevicesViewModel = viewModel()
+
+                                    LaunchedEffect(Unit) {
+                                        lightsViewModel.getLightActionsWhiteMode(
+                                            turn,
+                                            modeSavingMode,
+                                            corSavingMode,
+                                            brightness,
+                                            timerSavingMode
+                                        )
+                                        plugsViewModel.getPlugTimer(turn, timerSavingMode)
+                                    }
+
+                                    Toast.makeText(
+                                        ctx,
+                                        "Modo Poupança Energia Ativado. \n " +
+                                                "Luzes-> Estado Atual: ${turn} | Modo:  ${modeSavingMode} | Cor: ${corSavingMode} | Brilho: ${brightness} \n " +
+                                                "Tomadas-> Estado Atual: ${turn} | Temporizador: ${timerSavingMode} seg \n ",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                } else {
+                                    Toast.makeText(
+                                        ctx,
+                                        "Apenas pode escolher um dos modos!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
                         }
 
                     } else {

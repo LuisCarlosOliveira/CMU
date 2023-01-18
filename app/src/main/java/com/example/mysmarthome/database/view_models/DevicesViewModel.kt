@@ -12,8 +12,11 @@ import com.example.mysmarthome.database.entities.relations.device_division.Divis
 import com.example.mysmarthome.database.repositories.DeviceRepository
 import com.example.mysmarthome.enums.TypeDevice
 import com.example.mysmarthome.retrofit.data_models.blind.Blind
+import com.example.mysmarthome.retrofit.data_models.blind.BlindMeters
 import com.example.mysmarthome.retrofit.data_models.light.Light
+import com.example.mysmarthome.retrofit.data_models.light.LightMeters
 import com.example.mysmarthome.retrofit.data_models.plug.Plug
+import com.example.mysmarthome.retrofit.data_models.plug.PlugMeters
 import com.example.mysmarthome.retrofit.helper.RetrofitHelper
 import com.example.mysmarthome.retrofit.shelly_api.blind.BlindAPI
 import com.example.mysmarthome.retrofit.shelly_api.light.LightAPI
@@ -24,119 +27,329 @@ import kotlinx.coroutines.launch
 class DevicesViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: DeviceRepository
+
     val allDevices: LiveData<List<Device>>
+
+    // Blind
+    var posit: MutableLiveData<Int>
+
+    var getBlindStatus: MutableLiveData<Blind>
     var getBlind: MutableLiveData<Blind>
     var getBlindActions: MutableLiveData<Blind>
+    var getBlindMeterOpen: MutableLiveData<BlindMeters>
+    var getBlindMeterClose: MutableLiveData<BlindMeters>
+
+    // Plug
+    var getPlugStatus: MutableLiveData<Plug>
     var getPlug: MutableLiveData<Plug>
-    var getPlugActions: MutableLiveData<Plug>
+    var getPlugTimer: MutableLiveData<Plug>
+    var getPlugMeter: MutableLiveData<PlugMeters>
+
+    // Light
+    var getLightStatus: MutableLiveData<Light>
     var getLight: MutableLiveData<Light>
     var getLightTimer: MutableLiveData<Light>
     var getLightActionsColorMode: MutableLiveData<Light>
     var getLightActionsWhiteMode: MutableLiveData<Light>
+    var getLightMeter: MutableLiveData<LightMeters>
 
     init {
         val db = MySmartHomeDatabase.getDatabase(application)
-        val restAPILight = RetrofitHelper.getInstance(3000).create(LightAPI::class.java)
+
+        val restAPILight = RetrofitHelper.getInstance(3002).create(LightAPI::class.java)
         val restAPIPlug = RetrofitHelper.getInstance(3001).create(PlugAPI::class.java)
-        val restAPIBlind = RetrofitHelper.getInstance(3002).create(BlindAPI::class.java)
+        val restAPIBlind = RetrofitHelper.getInstance(3000).create(BlindAPI::class.java)
+
         repository = DeviceRepository(db.getDeviceDao(), restAPILight, restAPIPlug, restAPIBlind)
         allDevices = repository.getDevices()
+
+        posit = MutableLiveData<Int>(null)
+
+        getBlindStatus = MutableLiveData<Blind>(null)
         getBlind = MutableLiveData<Blind>(null)
         getBlindActions = MutableLiveData<Blind>(null)
+        getBlindMeterOpen = MutableLiveData<BlindMeters>(null)
+        getBlindMeterClose = MutableLiveData<BlindMeters>(null)
+
+        getPlugStatus = MutableLiveData<Plug>(null)
         getPlug = MutableLiveData<Plug>(null)
-        getPlugActions = MutableLiveData<Plug>(null)
+        getPlugTimer = MutableLiveData<Plug>(null)
+        getPlugMeter = MutableLiveData<PlugMeters>(null)
+
+        getLightStatus = MutableLiveData<Light>(null)
         getLight = MutableLiveData<Light>(null)
         getLightTimer = MutableLiveData<Light>(null)
         getLightActionsColorMode = MutableLiveData<Light>(null)
         getLightActionsWhiteMode = MutableLiveData<Light>(null)
+        getLightMeter = MutableLiveData<LightMeters>(null)
+
     }
 
-    /*
-    fun getBlind(){
-        viewModelScope.launch(Dispatchers.IO) {
-            val blindResponse = repository.getBlind()
-            if (blindResponse.isSuccessful) {
-                val bodyResponse = blindResponse.body()!!
-                getBlind.postValue(bodyResponse)
-            } else {
-                blindResponse.errorBody()
-            }
-        }
-    }
-    */
+    // Blind
 
-    /*
-    fun getBlindActions(go: String, roller_pos:Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val blindActionsResponse =
-                repository.getBlindAction(go, roller_pos)
-            Log.d("B RESPONSE", blindActionsResponse.toString())
-            if (blindActionsResponse.isSuccessful) {
-                var bodyBlindActionResponse = blindActionsResponse.body()!!
-                Log.d("bodyBlindActionResponse", bodyBlindActionResponse.toString())
-                getBlindActions.postValue(bodyBlindActionResponse)
-                Log.d("getBlindActions", getBlindActions.toString())
-            } else {
-                blindActionsResponse.errorBody()
-            }
-        }
-    }
-    */
+    fun getBlindStatus() {
 
-    /*
-    fun getPlug(){
         viewModelScope.launch(Dispatchers.IO) {
-            val plugResponse = repository.getPlug()
-            if (plugResponse.isSuccessful) {
-                val bodyResponse = plugResponse.body()!!
-                getPlug.postValue(bodyResponse)
-            } else {
-                plugResponse.errorBody()
+            try {
+                val blindStatusResponse = repository.getBlindStatus()
+                if (blindStatusResponse.isSuccessful) {
+                    val bodyResponse = blindStatusResponse.body()!!
+                    getBlindStatus.postValue(bodyResponse)
+                    posit.postValue(bodyResponse.rollers[0].current_pos)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + blindStatusResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-    }
-    */
 
-    /*
-    fun getPlugActions(turn: String, timer:Int) {
+    }
+
+
+    fun getBlind() {
+
         viewModelScope.launch(Dispatchers.IO) {
-            val plugActionsResponse =
-                repository.getPlugAction(turn, timer)
-            Log.d("P RESPONSE", plugActionsResponse.toString())
-            if (plugActionsResponse.isSuccessful) {
-                var bodyPlugActionResponse = plugActionsResponse.body()!!
-                Log.d("bodyPlugActionResponse", bodyPlugActionResponse.toString())
-                getPlugActions.postValue(bodyPlugActionResponse)
-                Log.d("getPlugActions", getPlugActions.toString())
-            } else {
-                plugActionsResponse.errorBody()
+            try {
+                val blindResponse = repository.getBlind()
+                if (blindResponse.isSuccessful) {
+                    val bodyResponse = blindResponse.body()!!
+                    getBlind.postValue(bodyResponse)
+                    posit.postValue(bodyResponse.rollers[0].current_pos)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + blindResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
+
     }
-    */
+
+    fun getBlindActions(go: String, roller_pos: Int?) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val blindActionsResponse =
+                    repository.getBlindActions(go, roller_pos)
+                Log.d("B RESPONSE", blindActionsResponse.toString())
+                if (blindActionsResponse.isSuccessful) {
+                    var bodyBlindActionResponse = blindActionsResponse.body()!!
+                    Log.d("bodyBlindActionResponse", bodyBlindActionResponse.toString())
+                    getBlindActions.postValue(bodyBlindActionResponse)
+                    posit.postValue(bodyBlindActionResponse.rollers[0].current_pos)
+                    Log.d("getBlindActions", getBlindActions.toString())
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + blindActionsResponse.errorBody()
+                            .toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    fun getBlindMeterOpen() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val blindMeterOpenResponse = repository.getBlindMeter(0)
+                if (blindMeterOpenResponse.isSuccessful) {
+                    Log.d("B RESPONSE", blindMeterOpenResponse.toString())
+                    val bodyBlindMeterResponse = blindMeterOpenResponse.body()!!
+                    Log.d("getBlindMeterOpen", bodyBlindMeterResponse.toString())
+                    getBlindMeterOpen.postValue(bodyBlindMeterResponse)
+
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + blindMeterOpenResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    fun getBlindMeterClose() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val blindMeterCloseResponse = repository.getBlindMeter(1)
+                if (blindMeterCloseResponse.isSuccessful) {
+                    Log.d("B RESPONSE", blindMeterCloseResponse.toString())
+                    val bodyBlindMeterResponse = blindMeterCloseResponse.body()!!
+                    Log.d("getBlindMeterClose", bodyBlindMeterResponse.toString())
+                    getBlindMeterClose.postValue(bodyBlindMeterResponse)
+
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + blindMeterCloseResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    // Plug
+
+    fun getPlugStatus() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val plugStatusResponse = repository.getPlugStatus()
+                if (plugStatusResponse.isSuccessful) {
+                    val bodyResponse = plugStatusResponse.body()!!
+                    getPlugStatus.postValue(bodyResponse)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + plugStatusResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    fun getPlug() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val plugResponse = repository.getPlug()
+                if (plugResponse.isSuccessful) {
+                    val bodyResponse = plugResponse.body()!!
+                    getPlug.postValue(bodyResponse)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + plugResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    fun getPlugTimer(turn: String, timer: Int?) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val plugTimerResponse =
+                    repository.getPlugTimer(turn, timer)
+                Log.d("P RESPONSE", plugTimerResponse.toString())
+                if (plugTimerResponse.isSuccessful) {
+                    var bodyPlugActionResponse = plugTimerResponse.body()!!
+                    Log.d("bodyPlugActionResponse", bodyPlugActionResponse.toString())
+                    getPlugTimer.postValue(bodyPlugActionResponse)
+                    Log.d("getPlugActions", getPlugTimer.toString())
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + plugTimerResponse.errorBody()
+                            .toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    fun getPlugMeter() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val plugMeterResponse = repository.getPlugMeter(0)
+                if (plugMeterResponse.isSuccessful) {
+                    val bodyPlugMeterResponse = plugMeterResponse.body()!!
+                    getPlugMeter.postValue(bodyPlugMeterResponse)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + plugMeterResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    // Light
+
+    fun getLightStatus() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val lightStatusResponse = repository.getLightStatus()
+                if (lightStatusResponse.isSuccessful) {
+                    val bodyResponse = lightStatusResponse.body()!!
+                    getLightStatus.postValue(bodyResponse)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + lightStatusResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
 
     fun getLight() {
+
         viewModelScope.launch(Dispatchers.IO) {
-            val lightResponse = repository.getLight()
-            if (lightResponse.isSuccessful) {
-                val bodyResponse = lightResponse.body()!!
-                getLight.postValue(bodyResponse)
-            } else {
-                lightResponse.errorBody()
+            try {
+                val lightResponse = repository.getLight()
+                if (lightResponse.isSuccessful) {
+                    val bodyResponse = lightResponse.body()!!
+                    getLight.postValue(bodyResponse)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + lightResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
+
     }
 
     fun getLightTimer(turn: String, timer: Int?) {
+
         viewModelScope.launch(Dispatchers.IO) {
-            val lightTimerResponse = repository.getLightTimer(turn, timer)
-            if (lightTimerResponse.isSuccessful) {
-                val bodyResponse = lightTimerResponse.body()!!
-                getLightTimer.postValue(bodyResponse)
-            } else {
-                lightTimerResponse.errorBody()
+            try {
+                val lightTimerResponse = repository.getLightTimer(turn, timer)
+                if (lightTimerResponse.isSuccessful) {
+                    val bodyResponse = lightTimerResponse.body()!!
+                    getLightTimer.postValue(bodyResponse)
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + lightTimerResponse.errorBody()
+                            .toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
+
     }
 
     fun getLightActionsWhiteMode(
@@ -150,19 +363,26 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         val brightness: Float = bright * 100
 
         viewModelScope.launch(Dispatchers.IO) {
-            val lightActionsResponse =
-                repository.getLightActionsWhiteMode(turn, mode, white, brightness, timer)
-            Log.d("L RESPONSE", lightActionsResponse.toString())
-            if (lightActionsResponse.isSuccessful) {
-                var bodyLightActionResponse = lightActionsResponse.body()!!
-                Log.d("bodyLightActionResponse", bodyLightActionResponse.toString())
-                getLightActionsWhiteMode.postValue(bodyLightActionResponse)
-                Log.d("getLightActions", getLightActionsWhiteMode.toString())
-            } else {
-                lightActionsResponse.errorBody()
+            try {
+                val lightActionsResponse =
+                    repository.getLightActionsWhiteMode(turn, mode, white, brightness.toInt(), timer)
+                Log.d("L RESPONSE", lightActionsResponse.toString())
+                if (lightActionsResponse.isSuccessful) {
+                    var bodyLightActionResponse = lightActionsResponse.body()!!
+                    Log.d("bodyLightActionResponse", bodyLightActionResponse.toString())
+                    getLightActionsWhiteMode.postValue(bodyLightActionResponse)
+                    Log.d("getLightActions", getLightActionsWhiteMode.toString())
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + lightActionsResponse.errorBody()
+                            .toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
         }
+
     }
 
     fun getLightActionsColorMode(
@@ -179,28 +399,58 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         val gain: Float = intensity * 100
 
         viewModelScope.launch(Dispatchers.IO) {
-            val lightActionsResponse =
-                repository.getLightActionsColorMode(
-                    turn,
-                    mode,
-                    red,
-                    green,
-                    blue,
-                    white,
-                    gain,
-                    timer
-                )
-            Log.d("L RESPONSE", lightActionsResponse.toString())
-            if (lightActionsResponse.isSuccessful) {
-                var bodyLightActionResponse = lightActionsResponse.body()!!
-                Log.d("bodyLightActionResponse", bodyLightActionResponse.toString())
-                getLightActionsColorMode.postValue(bodyLightActionResponse)
-                Log.d("getLightActions", getLightActionsColorMode.toString())
-            } else {
-                lightActionsResponse.errorBody()
+            try {
+                val lightActionsResponse =
+                    repository.getLightActionsColorMode(
+                        turn,
+                        mode,
+                        red,
+                        green,
+                        blue,
+                        white,
+                        gain.toInt(),
+                        timer
+                    )
+                Log.d("L RESPONSE", lightActionsResponse.toString())
+                if (lightActionsResponse.isSuccessful) {
+                    var bodyLightActionResponse = lightActionsResponse.body()!!
+                    Log.d("bodyLightActionResponse", bodyLightActionResponse.toString())
+                    getLightActionsColorMode.postValue(bodyLightActionResponse)
+                    Log.d("getLightActions", getLightActionsColorMode.toString())
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + lightActionsResponse.errorBody()
+                            .toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
         }
+
+    }
+
+    fun getLightMeter() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val lightMeterResponse = repository.getLightMeter(0)
+                if (lightMeterResponse.isSuccessful) {
+                    Log.d("L RESPONSE", lightMeterResponse.toString())
+                    val bodyLightMeterResponse = lightMeterResponse.body()!!
+                    Log.d("getLightMeter", bodyLightMeterResponse.toString())
+                    getLightMeter.postValue(bodyLightMeterResponse)
+
+                } else {
+                    println(
+                        "Sem Resposta do Servidor..." + "\n" + lightMeterResponse.errorBody().toString()
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
     }
 
 
