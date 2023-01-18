@@ -44,7 +44,8 @@ fun LoginScreen(navController: NavController) {
     val localCtx = LocalContext.current
     val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
     val home = homesViewModel.home.observeAsState()
-    homesViewModel.getFirstHome()
+    LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
+
 
     Column(
         modifier = Modifier
@@ -82,10 +83,7 @@ fun LoginScreen(navController: NavController) {
             LoginSigninButton(
                 stringResource(id = R.string.login),
                 action = {
-                    Log.d("Firebase", email)
-                    Log.d("Firebase", password)
                     usersViewModel.login(email, password)
-                    println(user.value)
                     if (user.value != null) {
                         Toast.makeText(
                             localCtx,

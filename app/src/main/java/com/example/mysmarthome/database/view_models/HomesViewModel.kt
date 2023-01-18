@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.entities.User
+import com.example.mysmarthome.database.repositories.DivisionRepository
 import com.example.mysmarthome.database.repositories.HomeRepository
 import com.example.mysmarthome.database.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +20,14 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: HomeRepository
     val userRepo: UserRepository
+    val divisionViewModal: DivisionsViewModel
     val home: MutableLiveData<Home>
 
     init {
         val db = MySmartHomeDatabase.getDatabase(application)
         repository = HomeRepository(db.getHomeDao())
         userRepo = UserRepository(db.getUsersDao())
+        divisionViewModal = DivisionsViewModel(application)
         home = MutableLiveData<Home>(null)
     }
 
@@ -35,13 +38,16 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun removeHome(home_id: Int) {
+    fun removeHome() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                var currentHome = repository.getHome(home_id)
-                repository.delete(currentHome)
+                repository.delete(home.value!!)
+                Log.d("Eliminar Casa", "apagar casa")
+                divisionViewModal.removeAllDivisions{divisionViewModal.allDivisions }
+                Log.d("Acabou", "apagar casa")
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.d("aiaiai", "apagar casa")
             }
         }
     }
@@ -74,7 +80,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                 var currentHome = getHomes()
                 home.postValue(currentHome.get(0))
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.d("Alerta", "Ainda não tem casa criada")
             }
         }
     }

@@ -56,9 +56,8 @@ fun NewAccountScreen(navController: NavController) {
         }
         val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
         val home = homesViewModel.home.observeAsState()
-        homesViewModel.getFirstHome()
-
-        val usersViewModel: UsersViewModel = viewModel()
+        LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
+        val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
         val user = usersViewModel.user.observeAsState()
 
         var selectedTab by remember { mutableStateOf(0) }
@@ -69,10 +68,7 @@ fun NewAccountScreen(navController: NavController) {
                 TopBarBackForward(
                     title = stringResource(id = com.example.mysmarthome.R.string.newAccountTitle),
                     actionBtns = {
-                        IconButton(onClick = {
-                            selectedTab = 1
-                        })
-                        {
+                        IconButton(onClick = { selectedTab = 1 }) {
                             Icon(Icons.Rounded.ArrowForward, "", tint = Color.Black)
                         }
                     },
@@ -124,28 +120,13 @@ fun NewAccountScreen(navController: NavController) {
                     if (password.equals(password2) && contacto.length == 9 && password.length >= 6) {
                         LaunchedEffect(Unit) {
                             usersViewModel.insertUser(
-                                User(
-                                    nome,
-                                    email,
-                                    "Administrador",
-                                    password,
-                                    contacto.toInt(),
-                                    0
-                                )
+                                User(nome, email, "Administrador", password, contacto.toInt(),0)
                             )
                         }
                         usersViewModel.register(email, password)
                         usersViewModel.getUserByEmail(email)
-                        println(user.value)
                         if (user.value != null) {
-                            println("Adicionou ---------------------------" + user.value!!.email)
-
-                            Toast.makeText(
-                                localCtx,
-                                "Conta Criada!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            Toast.makeText(localCtx,"Conta Criada!",Toast.LENGTH_SHORT).show()
                             if (home.value != null) {
                                 navController.navigate("HomePageScreen")
                             } else {
@@ -154,20 +135,13 @@ fun NewAccountScreen(navController: NavController) {
                             selectedTab = 0
                         }
                     } else {
-                        Toast.makeText(
-                            localCtx,
-                            "O Contacto tem de ter 9 números, a password deve ter mais que 6 caracteres e as Passwords devem ser iguais!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(localCtx,"O Contacto tem de ter 9 números, a password deve ter mais que 6 caracteres e as Passwords devem ser iguais!", Toast.LENGTH_SHORT).show()
+                        selectedTab = 0
                     }
                 } else {
-                    Toast.makeText(
-                        localCtx,
-                        "Preencha todos os campos!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(localCtx, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+                    selectedTab = 0
                 }
-                println("veio ate ao fim---------------------------")
             }
         }
     }

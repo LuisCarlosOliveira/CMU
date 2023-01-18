@@ -1,17 +1,23 @@
 package com.example.mysmarthome.database.repositories
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.mysmarthome.database.dao.DivisionsDAO
 import com.example.mysmarthome.database.entities.Division
 import com.example.mysmarthome.database.entities.relations.home_division.HomeWithDivisions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class DivisionRepository(val divisionDao: DivisionsDAO) {
 
-    fun getDivisions(): LiveData<List<Division>> {
-        return divisionDao.getDivisions()
+    suspend fun getDivisions(): List<Division> {
+        val divisions =  divisionDao.getDivisions()
+        Log.d("DivisionsRepository", "Divisions: $divisions")
+        return divisions
     }
 
-    fun getDivision(id: Int): LiveData<Division> {
+    suspend fun getDivision(id: Int): Division {
         return divisionDao.getOneDivision(id)
     }
 
@@ -31,4 +37,15 @@ class DivisionRepository(val divisionDao: DivisionsDAO) {
         divisionDao.delete(division)
     }
 
+    fun getDivisions(callback: (List<Division>) -> Unit) {
+        GlobalScope.launch(Dispatchers.IO) {
+            callback(divisionDao.getDivisions())
+        }
+    }
+
+    fun removeDivision(division: Division) {
+        GlobalScope.launch(Dispatchers.IO) {
+            divisionDao.delete(division)
+        }
+    }
 }
