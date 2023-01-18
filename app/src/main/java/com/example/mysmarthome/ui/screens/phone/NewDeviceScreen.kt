@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,6 +22,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.entities.Device
+import com.example.mysmarthome.database.view_models.DevicesViewModel
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
 import com.example.mysmarthome.ui.components.*
 
@@ -30,6 +33,8 @@ fun NewDeviceScreen(navController: NavController) {
     divisionsViewModel.getDivisions()
     val divisions = divisionsViewModel.allDivisions.observeAsState()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+
+    val devicesViewModel: DevicesViewModel = viewModel(LocalContext.current as MainActivity)
 
     var name by remember {
         mutableStateOf("")
@@ -43,10 +48,15 @@ fun NewDeviceScreen(navController: NavController) {
     var division by remember {
         mutableStateOf("")
     }
-    var divisionNames: Array<String>
-    if(divisions.value != null) {
-        divisionNames =divisions.value?.map { it.name }?.toTypedArray() ?: emptyArray()
-    }else{
+    var divisionNames: Array<String> = arrayOf("")
+    var divisionIds = mutableMapOf<String, String>()
+
+    if (divisions.value != null) {
+        divisions.value!!.forEach {
+            divisionNames += it.name
+            divisionIds[it.name] = it.idDivision.toString()
+        }
+    } else {
         divisionNames = arrayOf("")
     }
     Scaffold(
@@ -55,7 +65,28 @@ fun NewDeviceScreen(navController: NavController) {
             TopBarBackForward(
                 title = stringResource(id = R.string.newDeviceTitle),
                 actionBtns = {
-                    IconButton(onClick = { navController.navigate("HomePageScreen") }) {
+                    IconButton(onClick = {
+                        if (division != null) {
+                            val divisionId = divisionIds[division]
+                            if (divisionId != null) {
+                                Log.d("DIVISAOOO", divisionId)
+                                devicesViewModel.insertDevice(
+                                    Device(
+                                        divisionId.toInt(),
+                                        port.toInt(),
+                                        name,
+                                        type
+                                    )
+                                )
+                                navController.navigate("HomePageScreen")
+                            } else {
+                                Log.d("DIVISAOOO", "Division ID not found")
+                            }
+                        } else {
+                            Log.d("DIVISAOOO", "Division not selected")
+                        }
+                    })
+                    {
                         Icon(Icons.Rounded.Save, "", tint = Color.Black)
                     }
                 },
@@ -102,8 +133,11 @@ fun NewDeviceScreen(navController: NavController) {
                             .padding(start = 20.dp, end = 20.dp, top = 20.dp),
                         modifier2 = Modifier.padding(top = 50.dp),
                         arrayOf(*divisionNames)
+
                     )
+
                 }
+
             }
         },
         bottomBar = {

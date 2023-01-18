@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Division(
     val idDivisionHome: Int,
-
     val name: String,
-
     val image: String,
 ){
     @PrimaryKey (autoGenerate = true)
