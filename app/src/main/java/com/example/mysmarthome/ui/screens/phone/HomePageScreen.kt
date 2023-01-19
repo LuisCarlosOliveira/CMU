@@ -51,6 +51,10 @@ import kotlinx.coroutines.launch
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
+    mainActivity.notification_temperature()
+    //starts service
+    mainActivity.intentLocationService()
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background

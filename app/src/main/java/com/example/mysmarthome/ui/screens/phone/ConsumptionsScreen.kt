@@ -35,7 +35,7 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
         mutableStateOf(1.sp)
     }
 
-    mainActivity.notification_member_request()
+    //mainActivity.notification_member_request()
 
     Scaffold(
         scaffoldState = scaffoldState,
