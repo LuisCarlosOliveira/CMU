@@ -1,6 +1,7 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Looper
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -27,12 +28,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun LocationScreen(navController: NavController) {
-
-
-
-
-
+fun LocationScreen(navController: NavController, location: Location?) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val park = LatLng(40.888277915243826, -8.485999037385369)

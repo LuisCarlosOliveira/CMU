@@ -15,10 +15,13 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
@@ -29,10 +32,15 @@ import com.example.mysmarthome.ui.components.Navigation
 import com.example.mysmarthome.ui.theme.MySmartHomeTheme
 import com.example.mysmarthome.Location.LocationService
 import com.example.mysmarthome.Location.LocationService.Companion.ACTION_START
+import com.example.mysmarthome.database.repositories.ApplicationViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 
 class MainActivity : ComponentActivity() {
+
+    private var locationCallback: LocationCallback? = null
+    var fusedLocationClient: FusedLocationProviderClient? = null
+    private var locationRequired = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

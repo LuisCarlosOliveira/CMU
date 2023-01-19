@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class DefaultLocationClient(
     private val context: Context,
     private val user: FusedLocationProviderClient
