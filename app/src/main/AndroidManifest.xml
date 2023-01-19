@@ -10,15 +10,31 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- PERMISSOES CAMERA -->
+    <!-- Temperature Sensor Permission -->
+    <uses-permission android:name="android.hardware.sensor.ambient_temperature"/>
+
+    <!-- camara Permission-->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- PERMISSOES CAMERA
     <uses-permission android:name="android.permission.CAMERA"
         android:required="true"
         android:requiredFeature="true"/>
+    -->
 
     <uses-feature android:name="android.hardware.camera.any"
         android:required="true" />
 
+    <!-- Location Permissions-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
     <application
+        android:name=".Location.LocationApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -29,6 +45,10 @@
         android:theme="@style/Theme.MySmartHome"
         tools:targetApi="31"
         android:usesCleartextTraffic="true">
+        <!-- location notification -->
+
+        <!-- location service -->
+        <service android:name=".Location.LocationService" android:foregroundServiceType="location" />
 
         <!-- API KEY PARA GOOGLE MAPS -->
         <meta-data
