@@ -374,7 +374,6 @@ fun ProfileScreen(navController: NavController) {
                                         .clickable(
                                             onClick = {
                                                 when (opt) {
-                                                    "Pedidos de Adesão" -> navController.navigate("MemberRequestScreen")
                                                     "Configurações Pessoais" -> navController.navigate(
                                                         "PersonalConfigsScreen"
                                                     )
@@ -394,19 +393,7 @@ fun ProfileScreen(navController: NavController) {
                                         fontSize = 18.sp,
                                         text = opt
                                     )
-                                    if (opt.equals("Pedidos de Adesão")) {
-                                        IconButton(
-                                            onClick = { }
-                                        ) {
-                                            Icon(
-                                                Icons.Rounded.PriorityHigh, "",
-                                                tint = Color.Black,
-                                                modifier = Modifier
-                                                    .size(50.dp)
-                                                    .padding(end = 15.dp),
-                                            )
-                                        }
-                                    } else if (opt.equals("Configurações Pessoais")) {
+                                     if (opt.equals("Configurações Pessoais")) {
                                         IconButton(
                                             onClick = { }
                                         ) {

@@ -27,16 +27,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
 import com.example.mysmarthome.ui.components.*
 
 @Composable
-fun BlindScreen(navController: NavController) {
+fun BlindScreen(navController: NavController, id: Int) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
+
+    val devicesViewModel: DevicesViewModel = viewModel(LocalContext.current as MainActivity)
+    val device = devicesViewModel.getOneDevice(id).observeAsState()
 
     var ssid by remember {
         mutableStateOf("")
@@ -137,54 +141,66 @@ fun BlindScreen(navController: NavController) {
         }
     }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopBarBackForward(
-                title = "Estoros Frente",
-                actionBtns = {
+    if(device.value != null) {
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopBarBackForward(
+                    title = device.value!!.nome,
+                    actionBtns = {
 
-                    IconButton(onClick = {
-                        refreshed = true
-                    }) {
-                        Icon(Icons.Rounded.Refresh, "", tint = Color.Black)
-                    }
-
-                    IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
-                        Icon(Icons.Rounded.Star, "", tint = Color.Black)
-                    }
-
-                    IconButton(onClick = { saveBtnClicked = true }) {
-                        Icon(Icons.Rounded.Save, "", tint = Color.Black)
-                    }
-
-                },
-                navController = navController
-            )
-        },
-        content = {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize()
-                    .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
-            ) {
-
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Column() {
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.ssidDevice)
-                            )
+                        IconButton(onClick = {
+                            refreshed = true
+                        }) {
+                            Icon(Icons.Rounded.Refresh, "", tint = Color.Black)
                         }
-                        if (stopReason != "normal") {
+
+                        IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
+                            Icon(Icons.Rounded.Star, "", tint = Color.Black)
+                        }
+
+                        IconButton(onClick = { saveBtnClicked = true }) {
+                            Icon(Icons.Rounded.Save, "", tint = Color.Black)
+                        }
+
+                    },
+                    navController = navController
+                )
+            },
+            content = {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .fillMaxSize()
+                        .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
+                ) {
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Column() {
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.ssidDevice)
+                                )
+                            }
+                            if (stopReason != "normal") {
+                                Spacer(Modifier.padding(10.dp))
+                                Row(Modifier.height(80.dp)) {
+                                    PersonalText(
+                                        color = Color.Red,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp)
+                                            .width(screenWidth / 2),
+                                        text = "Motivo de Paragem: "
+                                    )
+                                }
+                            }
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
@@ -192,242 +208,232 @@ fun BlindScreen(navController: NavController) {
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
-                                    text = "Motivo de Paragem: "
+                                    text = stringResource(id = R.string.stateDevice)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = "Última Posição: "
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.powerDevice)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.overTempDevice)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.positionBlind)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.temperatureOfLight)
                                 )
                             }
                         }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.stateDevice)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = "Última Posição: "
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.powerDevice)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.overTempDevice)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.positionBlind)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.temperatureOfLight)
-                            )
-                        }
-                    }
 
-                    Column() {
+                        Column() {
 
-                        if (refreshed) {
-                            blindsStatusViewModel.getBlindStatus()
+                            if (refreshed) {
+                                blindsStatusViewModel.getBlindStatus()
 
-                            if (blindStatusContent.value != null) {
-                                blindStatusContent.value?.rollers?.forEach {
-                                    if (p.value != null) {
-                                        posAtualizada = p.value.toString()
+                                if (blindStatusContent.value != null) {
+                                    blindStatusContent.value?.rollers?.forEach {
+                                        if (p.value != null) {
+                                            posAtualizada = p.value.toString()
+                                        }
                                     }
                                 }
+                                refreshed = false
                             }
-                            refreshed = false
-                        }
 
 
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 7.dp, end = 20.dp),
-                                text = ssid
-                            )
-                        }
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Black,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp, end = 20.dp),
+                                    text = ssid
+                                )
+                            }
 
-                        if (stopReason != "normal") {
+                            if (stopReason != "normal") {
+                                Spacer(Modifier.padding(10.dp))
+                                Row(Modifier.height(80.dp)) {
+                                    PersonalText(
+                                        color = Color.Black,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp, end = 20.dp),
+                                        text = stopReason
+                                    )
+                                }
+                            }
+
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                if (!choose_state) {
+                                    Text(
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = letterSpacing,
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontSize = 17.sp,
+                                        fontStyle = FontStyle.Italic,
+                                        color = Color.Black,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp, end = 20.dp)
+                                            .clickable(onClick = {
+                                                choose_state = true
+                                            }), text = selected_state,
+                                        style = TextStyle(textDecoration = TextDecoration.Underline)
+                                    )
+                                } else {
+                                    selected_state = DropDownMenuOutlined(
+                                        modifier1 = Modifier
+                                            .fillMaxWidth()
+                                            .padding(end = 20.dp),
+                                        modifier2 = Modifier.padding(top = 50.dp),
+                                        arrayOf("close", "open", "stop", "to_pos")
+                                    )
+                                }
+                            }
+
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
                                     color = Color.Black,
                                     modifier = Modifier
                                         .padding(top = 7.dp, end = 20.dp),
-                                    text = stopReason
+                                    text = lastDirection
                                 )
                             }
-                        }
 
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            if (!choose_state) {
-                                Text(
-                                    fontWeight = FontWeight.Bold,
-                                    letterSpacing = letterSpacing,
-                                    fontFamily = FontFamily.SansSerif,
-                                    fontSize = 17.sp,
-                                    fontStyle = FontStyle.Italic,
-                                    color = Color.Black,
-                                    modifier = Modifier
-                                        .padding(top = 7.dp, end = 20.dp)
-                                        .clickable(onClick = {
-                                            choose_state = true
-                                        }), text = selected_state,
-                                    style = TextStyle(textDecoration = TextDecoration.Underline)
-                                )
-                            } else {
-                                selected_state = DropDownMenuOutlined(
-                                    modifier1 = Modifier
-                                        .fillMaxWidth()
-                                        .padding(end = 20.dp),
-                                    modifier2 = Modifier.padding(top = 50.dp),
-                                    arrayOf("close", "open", "stop", "to_pos")
-                                )
-                            }
-                        }
-
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 7.dp, end = 20.dp),
-                                text = lastDirection
-                            )
-                        }
-
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 7.dp, end = 20.dp),
-                                text = power + " W"
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            if (rollerOverTemp.toString().equals("false")) {
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
                                 PersonalText(
                                     color = Color.Black,
                                     modifier = Modifier
                                         .padding(top = 7.dp, end = 20.dp),
-                                    text = "Não"
-                                )
-                            } else {
-                                PersonalText(
-                                    color = Color.Black,
-                                    modifier = Modifier
-                                        .padding(top = 7.dp, end = 20.dp),
-                                    text = "Sim"
+                                    text = power + " W"
                                 )
                             }
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            if (!selected_state.equals("to_pos")) {
-                                PersonalText(
-                                    color = Color.Black,
-                                    modifier = Modifier
-                                        .padding(top = 7.dp, end = 20.dp),
-                                    text = pos
-                                )
-                            } else {
-                                currentPos = SimpleNumberTextField(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(end = 20.dp),
-                                    placeholder = "Insira a Posição",
-                                    label = pos
-                                )
-                            }
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 7.dp, end = 20.dp),
-                                text = temp + " ºC"
-                            )
-                        }
-
-                        if (saveBtnClicked) {
-                            when (selected_state) {
-                                "close" ->
-                                    blindsViewModel.getBlindActions("close", null)
-
-                                "open" -> blindsViewModel.getBlindActions("open", null)
-
-                                "stop" -> blindsViewModel.getBlindActions("stop", null)
-
-                                "to_pos" -> {
-                                    if (currentPos.isNotEmpty()) {
-                                        blindsViewModel.getBlindActions(
-                                            "to_pos",
-                                            currentPos.toInt()
-                                        )
-                                    } else {
-                                        blindsViewModel.getBlindActions(
-                                            "to_pos",
-                                            0
-                                        )
-                                    }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                if (rollerOverTemp.toString().equals("false")) {
+                                    PersonalText(
+                                        color = Color.Black,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp, end = 20.dp),
+                                        text = "Não"
+                                    )
+                                } else {
+                                    PersonalText(
+                                        color = Color.Black,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp, end = 20.dp),
+                                        text = "Sim"
+                                    )
                                 }
                             }
-                            saveBtnClicked = false
-                            Toast.makeText(
-                                LocalContext.current,
-                                "Operação " + selected_state + " executada.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                if (!selected_state.equals("to_pos")) {
+                                    PersonalText(
+                                        color = Color.Black,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp, end = 20.dp),
+                                        text = pos
+                                    )
+                                } else {
+                                    currentPos = SimpleNumberTextField(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(end = 20.dp),
+                                        placeholder = "Insira a Posição",
+                                        label = pos
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Black,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp, end = 20.dp),
+                                    text = temp + " ºC"
+                                )
+                            }
+
+                            if (saveBtnClicked) {
+                                when (selected_state) {
+                                    "close" ->
+                                        blindsViewModel.getBlindActions("close", null)
+
+                                    "open" -> blindsViewModel.getBlindActions("open", null)
+
+                                    "stop" -> blindsViewModel.getBlindActions("stop", null)
+
+                                    "to_pos" -> {
+                                        if (currentPos.isNotEmpty()) {
+                                            blindsViewModel.getBlindActions(
+                                                "to_pos",
+                                                currentPos.toInt()
+                                            )
+                                        } else {
+                                            blindsViewModel.getBlindActions(
+                                                "to_pos",
+                                                0
+                                            )
+                                        }
+                                    }
+                                }
+                                saveBtnClicked = false
+                                Toast.makeText(
+                                    LocalContext.current,
+                                    "Operação " + selected_state + " executada.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Preview()
 @Composable
 fun PreviewBlindScreen() {
-    BlindScreen(navController = NavController(LocalContext.current))
+    BlindScreen(navController = NavController(LocalContext.current), 1)
 }

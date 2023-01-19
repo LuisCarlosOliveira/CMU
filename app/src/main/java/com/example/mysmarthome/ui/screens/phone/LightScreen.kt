@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
 import com.example.mysmarthome.ui.components.*
@@ -38,7 +39,10 @@ import java.time.ZoneId
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun LightScreen(navController: NavController) {
+fun LightScreen(navController: NavController, id: Int) {
+
+    val devicesViewModel: DevicesViewModel = viewModel(LocalContext.current as MainActivity)
+    val device = devicesViewModel.getOneDevice(id).observeAsState()
 
     var ison by remember {
         mutableStateOf(false)
@@ -166,431 +170,439 @@ fun LightScreen(navController: NavController) {
         overtemp = lightContent.value?.overtemperature!!
     }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopBarBackForward(
-                title = stringResource(id = R.string.nameDevice),
-                actionBtns = {
-                    IconButton(onClick = { dialogInfo = true }) {
-                        Icon(Icons.Rounded.Info, "", tint = Color.Black)
-                    }
+    if( device.value != null) {
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopBarBackForward(
+                    title = device.value!!.nome,
+                    actionBtns = {
+                        IconButton(onClick = { dialogInfo = true }) {
+                            Icon(Icons.Rounded.Info, "", tint = Color.Black)
+                        }
 
-                    IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
-                        Icon(Icons.Rounded.Star, "", tint = Color.Black)
-                    }
+                        IconButton(onClick = { navController.navigate("PersonalConfigsScreen") }) {
+                            Icon(Icons.Rounded.Star, "", tint = Color.Black)
+                        }
 
-                    IconButton(onClick = { saveBtnClicked = true }) {
-                        Icon(Icons.Rounded.Save, "", tint = Color.Black)
-                    }
-                },
-                navController = navController
-            )
-
-            if (dialogInfo) {
-                lightsStatusViewModel.getLightStatus()
-
-                if (lightStatusContent.value != null) {
-                    lightStatusContent.value?.lights?.forEach {
-                        beginTimerAtualizado = it.timer_started.toString()
-                        remainingTimerAtualizado = it.timer_remaining.toString()
-                        durationTimerAtualizado = it.timer_duration.toString()
-                    }
-                }
-                AlertPopup(
-                    state = dialogInfo,
-                    btn1Text = "Ok",
-                    btn2Text = "Cancelar",
-                    content = {
-
-                        Column(
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            val dt = Instant.ofEpochSecond(((beginTimerAtualizado.toLong())))
-                                .atZone(ZoneId.of("Portugal"))
-                                .toLocalDateTime()
-                            PersonalText(Color.Red, null, "Início Temporizador: ")
-                            PersonalText(Color.Black, null, dt.toString())
-
-                            PersonalText(Color.Red, null, "Duração Temporizador: ")
-                            PersonalText(
-                                Color.Black,
-                                null,
-                                durationTimerAtualizado + " seg"
-                            )
-
-                            PersonalText(Color.Red, null, "Tempo Restante: ")
-                            PersonalText(Color.Black, null, remainingTimerAtualizado + " seg")
+                        IconButton(onClick = { saveBtnClicked = true }) {
+                            Icon(Icons.Rounded.Save, "", tint = Color.Black)
                         }
                     },
-                    actionBtn = { dialogInfo = false },
-                    actionBtn2 = { dialogInfo = false })
-            }
+                    navController = navController
+                )
 
-        },
-        content = {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize()
-                    .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
-            ) {
+                if (dialogInfo) {
+                    lightsStatusViewModel.getLightStatus()
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Column() {
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.ssidDevice)
-                            )
+                    if (lightStatusContent.value != null) {
+                        lightStatusContent.value?.lights?.forEach {
+                            beginTimerAtualizado = it.timer_started.toString()
+                            remainingTimerAtualizado = it.timer_remaining.toString()
+                            durationTimerAtualizado = it.timer_duration.toString()
                         }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.onOff)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.modeOfLight)
-                            )
-                        }
-
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.colorOfLight)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            if (mode.equals("color")) {
-                                PersonalText(
-                                    color = Color.Red,
-                                    modifier = Modifier
-                                        .padding(top = 7.dp)
-                                        .width(screenWidth / 2),
-                                    text = "Intensidade:"
-                                )
-                            } else {
-                                PersonalText(
-                                    color = Color.Red,
-                                    modifier = Modifier
-                                        .padding(top = 7.dp)
-                                        .width(screenWidth / 2),
-                                    text = "Brilho:"
-                                )
-                            }
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.temperatureOfLight)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.timerOfLight)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
                     }
+                    AlertPopup(
+                        state = dialogInfo,
+                        btn1Text = "Ok",
+                        btn2Text = "Cancelar",
+                        content = {
 
-                    Column() {
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 7.dp),
-                                text = ssid
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            if (!onoffSelected) {
-                                Text(
-                                    fontWeight = FontWeight.Bold,
-                                    letterSpacing = letterSpacing,
-                                    fontFamily = FontFamily.SansSerif,
-                                    fontSize = 17.sp,
-                                    fontStyle = FontStyle.Italic,
-                                    color = Color.Black,
-                                    modifier = Modifier.clickable(onClick = {
-                                        onoffSelected = true
-                                    }), text = turn,
-                                    style = TextStyle(textDecoration = TextDecoration.Underline)
-                                )
-                            } else {
-                                turn = DropDownMenuOutlined(
-                                    modifier1 = Modifier
-                                        .fillMaxWidth()
-                                        .padding(end = 20.dp),
-                                    modifier2 = Modifier.padding(top = 50.dp),
-                                    arrayOf("on", "off", "toggle")
-                                )
-                            }
+                            Column(
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                val dt = Instant.ofEpochSecond(((beginTimerAtualizado.toLong())))
+                                    .atZone(ZoneId.of("Portugal"))
+                                    .toLocalDateTime()
+                                PersonalText(Color.Red, null, "Início Temporizador: ")
+                                PersonalText(Color.Black, null, dt.toString())
 
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.Start,
-                            modifier = Modifier.height(80.dp)
-                        ) {
-                            if (!modeSelected) {
-                                Text(
-                                    fontWeight = FontWeight.Bold,
-                                    letterSpacing = letterSpacing,
-                                    fontFamily = FontFamily.SansSerif,
-                                    fontSize = 17.sp,
-                                    fontStyle = FontStyle.Italic,
-                                    color = Color.Black,
-                                    modifier = Modifier.clickable(onClick = {
-                                        modeSelected = true
-                                    }), text = mode,
-                                    style = TextStyle(textDecoration = TextDecoration.Underline)
+                                PersonalText(Color.Red, null, "Duração Temporizador: ")
+                                PersonalText(
+                                    Color.Black,
+                                    null,
+                                    durationTimerAtualizado + " seg"
                                 )
-                            } else {
-                                mode = DropDownMenuOutlined(
-                                    modifier1 = Modifier
-                                        .fillMaxWidth()
-                                        .padding(end = 20.dp),
-                                    modifier2 = Modifier.padding(top = 50.dp),
-                                    arrayOf("color", "white")
-                                )
+
+                                PersonalText(Color.Red, null, "Tempo Restante: ")
+                                PersonalText(Color.Black, null, remainingTimerAtualizado + " seg")
                             }
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            if (mode.equals("color")) {
-                                Box(
+                        },
+                        actionBtn = { dialogInfo = false },
+                        actionBtn2 = { dialogInfo = false })
+                }
+
+            },
+            content = {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .fillMaxSize()
+                        .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
+                ) {
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Column() {
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
                                     modifier = Modifier
-                                        .padding(start = 5.dp)
-                                        .height(35.dp)
-                                        .width(35.dp)
-                                        .border(BorderStroke(1.dp, Color.Black))
-                                        .clickable(onClick = { dialogSelectColor = true })
-                                        .background(Color(cor[0], cor[1], cor[2], cor[3]))
-                                ) { }
-                                if (dialogSelectColor) {
-                                    AlertDialog(
-                                        onDismissRequest = { dialogSelectColor = false },
-                                        buttons = {
-                                            Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(bottom = 5.dp),
-                                                horizontalArrangement = Arrangement.SpaceEvenly
-                                            ) {
-                                                Button(colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = Color.Blue
-                                                ),
-                                                    onClick = {
-                                                        dialogSelectColor = false
-                                                    }) {
-                                                    Text(color = Color.White, text = "Selecionar")
-                                                }
-                                                Button(colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = Color.Blue
-                                                ),
-                                                    onClick = { dialogSelectColor = false }) {
-                                                    Text(color = Color.White, text = "Cancelar")
-                                                }
-                                            }
-                                        },
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.ssidDevice)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.onOff)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.modeOfLight)
+                                )
+                            }
 
-                                        title = { },
-
-                                        text = {
-                                            Column(
-                                                Modifier
-                                                    .fillMaxWidth()
-                                                    .fillMaxHeight()
-                                            ) {
-                                                cor = ColorPicker(navController = navController)
-                                            }
-                                        },
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.colorOfLight)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                if (mode.equals("color")) {
+                                    PersonalText(
+                                        color = Color.Red,
                                         modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(400.dp)
-                                            .padding(2.dp),
-                                        shape = RoundedCornerShape(10.dp),
-                                        backgroundColor = Color.White,
-                                        properties = DialogProperties(
-                                            dismissOnBackPress = true,
-                                            dismissOnClickOutside = true
-                                        )
+                                            .padding(top = 7.dp)
+                                            .width(screenWidth / 2),
+                                        text = "Intensidade:"
+                                    )
+                                } else {
+                                    PersonalText(
+                                        color = Color.Red,
+                                        modifier = Modifier
+                                            .padding(top = 7.dp)
+                                            .width(screenWidth / 2),
+                                        text = "Brilho:"
                                     )
                                 }
-                            } else {
-                                cor.removeAll { true }
-                                cor.add(0, 255)
-                                cor.add(1, 255)
-                                cor.add(2, 255)
-                                cor.add(3, 255)
-                                Box(
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
                                     modifier = Modifier
-                                        .padding(start = 5.dp)
-                                        .height(35.dp)
-                                        .width(35.dp)
-                                        .border(BorderStroke(1.dp, Color.Black))
-                                        .background(Color(255, 255, 255, 255))
-                                ) { }
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.temperatureOfLight)
+                                )
                             }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Red,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp)
+                                        .width(screenWidth / 2),
+                                    text = stringResource(id = R.string.timerOfLight)
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
                         }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            if (mode.equals("color")) {
-                                Column {
-                                    if (!sliderIntensity.equals("")) {
-                                        Text(text = ((sliderIntensity.toFloat()) * 100).toString())
-                                        sliderIntensity = SliderInput(
+
+                        Column() {
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Black,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp),
+                                    text = ssid
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                if (!onoffSelected) {
+                                    Text(
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = letterSpacing,
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontSize = 17.sp,
+                                        fontStyle = FontStyle.Italic,
+                                        color = Color.Black,
+                                        modifier = Modifier.clickable(onClick = {
+                                            onoffSelected = true
+                                        }), text = turn,
+                                        style = TextStyle(textDecoration = TextDecoration.Underline)
+                                    )
+                                } else {
+                                    turn = DropDownMenuOutlined(
+                                        modifier1 = Modifier
+                                            .fillMaxWidth()
+                                            .padding(end = 20.dp),
+                                        modifier2 = Modifier.padding(top = 50.dp),
+                                        arrayOf("on", "off", "toggle")
+                                    )
+                                }
+
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(
+                                horizontalArrangement = Arrangement.Start,
+                                modifier = Modifier.height(80.dp)
+                            ) {
+                                if (!modeSelected) {
+                                    Text(
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = letterSpacing,
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontSize = 17.sp,
+                                        fontStyle = FontStyle.Italic,
+                                        color = Color.Black,
+                                        modifier = Modifier.clickable(onClick = {
+                                            modeSelected = true
+                                        }), text = mode,
+                                        style = TextStyle(textDecoration = TextDecoration.Underline)
+                                    )
+                                } else {
+                                    mode = DropDownMenuOutlined(
+                                        modifier1 = Modifier
+                                            .fillMaxWidth()
+                                            .padding(end = 20.dp),
+                                        modifier2 = Modifier.padding(top = 50.dp),
+                                        arrayOf("color", "white")
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                if (mode.equals("color")) {
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(start = 5.dp)
+                                            .height(35.dp)
+                                            .width(35.dp)
+                                            .border(BorderStroke(1.dp, Color.Black))
+                                            .clickable(onClick = { dialogSelectColor = true })
+                                            .background(Color(cor[0], cor[1], cor[2], cor[3]))
+                                    ) { }
+                                    if (dialogSelectColor) {
+                                        AlertDialog(
+                                            onDismissRequest = { dialogSelectColor = false },
+                                            buttons = {
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(bottom = 5.dp),
+                                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                                ) {
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = {
+                                                            dialogSelectColor = false
+                                                        }) {
+                                                        Text(
+                                                            color = Color.White,
+                                                            text = "Selecionar"
+                                                        )
+                                                    }
+                                                    Button(colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = Color.Blue
+                                                    ),
+                                                        onClick = { dialogSelectColor = false }) {
+                                                        Text(color = Color.White, text = "Cancelar")
+                                                    }
+                                                }
+                                            },
+
+                                            title = { },
+
+                                            text = {
+                                                Column(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .fillMaxHeight()
+                                                ) {
+                                                    cor = ColorPicker(navController = navController)
+                                                }
+                                            },
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(end = 20.dp)
+                                                .height(400.dp)
+                                                .padding(2.dp),
+                                            shape = RoundedCornerShape(10.dp),
+                                            backgroundColor = Color.White,
+                                            properties = DialogProperties(
+                                                dismissOnBackPress = true,
+                                                dismissOnClickOutside = true
+                                            )
                                         )
                                     }
+                                } else {
+                                    cor.removeAll { true }
+                                    cor.add(0, 255)
+                                    cor.add(1, 255)
+                                    cor.add(2, 255)
+                                    cor.add(3, 255)
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(start = 5.dp)
+                                            .height(35.dp)
+                                            .width(35.dp)
+                                            .border(BorderStroke(1.dp, Color.Black))
+                                            .background(Color(255, 255, 255, 255))
+                                    ) { }
                                 }
-                            } else {
-                                Column {
-                                    if (!sliderBrilho.equals("")) {
-                                        Text(text = ((sliderBrilho.toFloat()) * 100).toString())
-                                        sliderBrilho = SliderInput(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(end = 20.dp)
-                                        )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                if (mode.equals("color")) {
+                                    Column {
+                                        if (!sliderIntensity.equals("")) {
+                                            Text(text = ((sliderIntensity.toFloat()) * 100).toString())
+                                            sliderIntensity = SliderInput(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(end = 20.dp)
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    Column {
+                                        if (!sliderBrilho.equals("")) {
+                                            Text(text = ((sliderBrilho.toFloat()) * 100).toString())
+                                            sliderBrilho = SliderInput(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(end = 20.dp)
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .padding(top = 7.dp),
-                                text = temp + " ºC"
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            durationTimer = SimpleNumberTextField(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(end = 20.dp),
-                                placeholder = "Insira a Duracao",
-                                label = duration
-                            )
-                        }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                PersonalText(
+                                    color = Color.Black,
+                                    modifier = Modifier
+                                        .padding(top = 7.dp),
+                                    text = temp + " ºC"
+                                )
+                            }
+                            Spacer(Modifier.padding(10.dp))
+                            Row(Modifier.height(80.dp)) {
+                                durationTimer = SimpleNumberTextField(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(end = 20.dp),
+                                    placeholder = "Insira a Duracao",
+                                    label = duration
+                                )
+                            }
 
-                        if (saveBtnClicked) {
-                            when (turn) {
-                                "on" ->
-                                    if (mode.equals("color")) {
-                                        if (durationTimer.isNotEmpty()) {
-                                            lightsViewModel.getLightActionsColorMode(
-                                                turn,
-                                                mode,
-                                                cor,
-                                                sliderIntensity.toFloat(),
-                                                durationTimer.toInt()
-                                            )
+                            if (saveBtnClicked) {
+                                when (turn) {
+                                    "on" ->
+                                        if (mode.equals("color")) {
+                                            if (durationTimer.isNotEmpty()) {
+                                                lightsViewModel.getLightActionsColorMode(
+                                                    turn,
+                                                    mode,
+                                                    cor,
+                                                    sliderIntensity.toFloat(),
+                                                    durationTimer.toInt()
+                                                )
+                                            } else {
+                                                lightsViewModel.getLightActionsColorMode(
+                                                    turn,
+                                                    mode,
+                                                    cor,
+                                                    sliderIntensity.toFloat(),
+                                                    null
+                                                )
+                                            }
                                         } else {
-                                            lightsViewModel.getLightActionsColorMode(
-                                                turn,
-                                                mode,
-                                                cor,
-                                                sliderIntensity.toFloat(),
-                                                null
-                                            )
+                                            if (durationTimer.isNotEmpty()) {
+                                                lightsViewModel.getLightActionsWhiteMode(
+                                                    turn,
+                                                    mode,
+                                                    cor,
+                                                    sliderBrilho.toFloat(),
+                                                    durationTimer.toInt()
+                                                )
+                                            } else {
+                                                lightsViewModel.getLightActionsWhiteMode(
+                                                    turn,
+                                                    mode,
+                                                    cor,
+                                                    sliderBrilho.toFloat(),
+                                                    null
+                                                )
+                                            }
                                         }
-                                    } else {
-                                        if (durationTimer.isNotEmpty()) {
-                                            lightsViewModel.getLightActionsWhiteMode(
-                                                turn,
-                                                mode,
-                                                cor,
-                                                sliderBrilho.toFloat(),
-                                                durationTimer.toInt()
-                                            )
-                                        } else {
-                                            lightsViewModel.getLightActionsWhiteMode(
-                                                turn,
-                                                mode,
-                                                cor,
-                                                sliderBrilho.toFloat(),
-                                                null
-                                            )
-                                        }
-                                    }
 
-                                "off" ->
-                                    if (durationTimer.isNotEmpty()) {
-                                        lightsViewModel.getLightTimer("off", durationTimer.toInt())
-                                    } else {
-                                        lightsViewModel.getLightTimer("off", null)
-                                    }
-
-                                "toggle" ->
-                                    if (ison) {
+                                    "off" ->
                                         if (durationTimer.isNotEmpty()) {
                                             lightsViewModel.getLightTimer(
-                                                "on",
+                                                "off",
                                                 durationTimer.toInt()
                                             )
                                         } else {
-                                            lightsViewModel.getLightTimer("on", null)
+                                            lightsViewModel.getLightTimer("off", null)
                                         }
-                                    } else {
-                                        lightsViewModel.getLightTimer("off", null)
-                                    }
+
+                                    "toggle" ->
+                                        if (ison) {
+                                            if (durationTimer.isNotEmpty()) {
+                                                lightsViewModel.getLightTimer(
+                                                    "on",
+                                                    durationTimer.toInt()
+                                                )
+                                            } else {
+                                                lightsViewModel.getLightTimer("on", null)
+                                            }
+                                        } else {
+                                            lightsViewModel.getLightTimer("off", null)
+                                        }
+                                }
+                                saveBtnClicked = false
+                                Toast.makeText(
+                                    LocalContext.current,
+                                    "Operação " + turn + " executada.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                            saveBtnClicked = false
-                            Toast.makeText(
-                                LocalContext.current,
-                                "Operação " + turn + " executada.",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview()
 @Composable
 fun PreviewDeviceScreen() {
-    LightScreen(navController = NavController(LocalContext.current))
+    LightScreen(navController = NavController(LocalContext.current),1)
 }

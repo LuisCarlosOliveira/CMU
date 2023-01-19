@@ -29,7 +29,8 @@ import androidx.navigation.NavController
 fun CollapsableLazyColumn(
     navController: NavController,
     sections: List<CollapsableSection>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    devicesIds: MutableMap<String, String>
 ) {
 
     val collapsedState = remember(sections) {
@@ -73,23 +74,28 @@ fun CollapsableLazyColumn(
             }
             if (!collapsed) {
                 items(dataItem.rows) { row ->
-                    Row(modifier = Modifier.clickable(
-                        onClick = {
-                            if (dataItem.title.equals("Luzes")) {
-                                navController.navigate("LightScreen")
-                            } else if (dataItem.title.equals("Estoros")) {
-                                navController.navigate("BlindScreen")
-                            } else {
-                                navController.navigate("PlugScreen")
+                    if(row.isNotEmpty()) {
+                        Row(modifier = Modifier.clickable(
+                            onClick = {
+                                val deviceId = devicesIds[row]
+                                if (deviceId != null) {
+                                    if (dataItem.title.equals("Luzes")) {
+                                        navController.navigate("LightScreen/"+deviceId)
+                                    } else if (dataItem.title.equals("Estoros")) {
+                                        navController.navigate("BlindScreen/"+deviceId)
+                                    } else {
+                                        navController.navigate("PlugScreen/"+deviceId)
+                                    }
+                                }
                             }
+                        )) {
+                            Spacer(modifier = Modifier.size(MaterialIconDimension.dp))
+                            Text(
+                                row,
+                                modifier = Modifier
+                                    .padding(vertical = 10.dp)
+                            )
                         }
-                    )) {
-                        Spacer(modifier = Modifier.size(MaterialIconDimension.dp))
-                        Text(
-                            row,
-                            modifier = Modifier
-                                .padding(vertical = 10.dp)
-                        )
                     }
                     Divider()
                 }

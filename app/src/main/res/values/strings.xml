@@ -96,6 +96,7 @@
     <!-- PROFILE -->
     <string name="admin"> - Administrador</string>
     <string-array name="profile">
+        <item>Alterar Email</item>
         <item>Alterar Password</item>
         <item>Pedidos de Adesão</item>
         <item>Configurações Pessoais</item>

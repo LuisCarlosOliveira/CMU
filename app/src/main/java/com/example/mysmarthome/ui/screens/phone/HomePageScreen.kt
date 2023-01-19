@@ -53,14 +53,11 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
             val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
             val home = homesViewModel.home.observeAsState()
 
-            println("User ---- " + user.value)
+            LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
 
-            println("Home ---- " + home.value)
-
-
-
-            val divisionsViewModel: DivisionsViewModel = viewModel()
-            val divisions = divisionsViewModel.getDivisions().observeAsState()
+            val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
+            divisionsViewModel.getDivisions()
+            val divisions = divisionsViewModel.allDivisions.observeAsState()
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
@@ -85,6 +82,29 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
             var description by rememberSaveable {
                 mutableStateOf("")
             }
+
+            /*
+            val db = Firebase.firestore
+            val homex = Home("Home 1", Address("Street 1", "City 1", "sd", "fdas"))
+            val divisionx = Division(homex.idHome, "Division 1", "image1.png")
+            val devicex = Device(divisionx.idDivision, 1, "Device 1", "Type 1")
+
+            val homeRef = db.collection("homes").document()
+            val divisionRef = homeRef.collection("divisions").document()
+            val deviceRef = divisionRef.collection("devices").document()
+
+            homeRef.set(homex)
+                .addOnSuccessListener { Log.d(TAG, "Home added with ID: ${homeRef.id}") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error adding home", e) }
+            divisionRef.set(divisionx)
+                .addOnSuccessListener { Log.d(TAG, "Division added with ID: ${divisionRef.id}") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error adding division", e) }
+            deviceRef.set(devicex)
+                .addOnSuccessListener { Log.d(TAG, "Device added with ID: ${deviceRef.id}") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error adding device", e) }
+
+*/
+
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
@@ -178,8 +198,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                             .aspectRatio(1f)
                                             .padding(5.dp)
                                             .clickable(onClick = {
-                                                navController.navigate("DivisionDetailsScreen")
-                                            })
+                                                divisionsViewModel.getOneDivision(divisions.value!!.get(l).idDivision)
+                                                navController.navigate("DivisionDetailsScreen/"+ divisions.value!!.get(l).idDivision)})
                                     ) {
                                         Text(
                                             fontFamily = FontFamily.SansSerif,

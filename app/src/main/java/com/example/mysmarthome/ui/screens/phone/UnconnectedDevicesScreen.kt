@@ -38,7 +38,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     val divisionsViewModel: DivisionsViewModel = viewModel()
-    val divisions = divisionsViewModel.getDivisions().observeAsState()
+    val divisions = divisionsViewModel.allDivisions.observeAsState()
     var i = divisions.value!!.size
     Log.d("TAMANHO DE DIVISOES", i.toString())
     var division by remember {
