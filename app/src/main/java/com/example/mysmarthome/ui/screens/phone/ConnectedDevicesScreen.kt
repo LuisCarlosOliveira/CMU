@@ -23,19 +23,26 @@ import com.example.mysmarthome.ui.components.*
 @Composable
 fun ConnectedDevicesScreen(navController: NavController) {
 
-    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+   val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+
     val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
     val divisions = divisionsViewModel.allDivisions.observeAsState()
-
+    var division by rememberSaveable {
+        mutableStateOf("")
+    }
     var divisionNames: Array<String> = arrayOf("Todos")
     var divisionIds = mutableMapOf<String, String>()
+    val devicesViewModel: DevicesViewModel = viewModel(LocalContext.current as MainActivity)
+    var devicesDWD: State<DivisionWithDevices?>? = null
+    var devicesD: State<List<Device>?>? = null
 
-    if(divisions.value != null) {
+    if (divisions.value != null) {
         divisions.value!!.forEach {
             divisionNames += it.name
             divisionIds[it.name] = it.idDivision.toString()
         }
     }
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -62,28 +69,60 @@ fun ConnectedDevicesScreen(navController: NavController) {
 
                 )
                 Column(Modifier.padding(5.dp)) {
-                    DropDownMenu(
+                    division = DropDownMenu(
                         arrayOf(*divisionNames),
                         stringResource(id = R.string.selectedOptionDivision)
                     )
                 }
+
             }
+            val divisionId = divisionIds[division]
+            if (divisionId != null) {
+                devicesDWD = devicesViewModel.getConectedDevicesByDivision(divisionId.toInt())
+                    .observeAsState()
 
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(top = 20.dp, bottom = 15.dp)
-            ) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(top = 20.dp, bottom = 15.dp)
+                ) {
 
-                Spacer(modifier = Modifier.height(50.dp))
+                    Spacer(modifier = Modifier.height(50.dp))
+                    var device: List<Device> = emptyList()
+                    if (devicesDWD!!.value != null) {
+                        device = devicesDWD!!.value!!.devices
+                    }
+                    LazyColumn {
+                        items(device.size) { l ->
+                            ListRowWithIcon(
+                                title = device.get(l).nome,
+                                icon = Icons.Rounded.Delete,
+                                action = { }
+                            )
+                        }
+                    }
+                }
+            } else {
+                devicesD = devicesViewModel.getConnectedDevices().observeAsState()
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(top = 20.dp, bottom = 15.dp)
+                ) {
 
-                LazyColumn {
-                    items(15) {
-                        ListRowWithIcon(
-                            title = stringResource(id = R.string.titleRow),
-                            icon = Icons.Rounded.Delete,
-                            action = { }
-                        )
+                    Spacer(modifier = Modifier.height(50.dp))
+                    var device: List<Device> = emptyList()
+                    if (devicesD!!.value != null) {
+                        device = devicesD!!.value!!
+                    }
+                    LazyColumn {
+                        items(device.size) { l ->
+                            ListRowWithIcon(
+                                title = device.get(l).nome,
+                                icon = Icons.Rounded.Delete,
+                                action = { }
+                            )
+                        }
                     }
                 }
             }
@@ -91,7 +130,7 @@ fun ConnectedDevicesScreen(navController: NavController) {
 
         floatingActionButton = {
             FloatingButton(
-                icon= Icons.Rounded.Add,
+                icon = Icons.Rounded.Add,
                 title = stringResource(id = R.string.addConnectedDevice),
                 action = { navController.navigate("NewDeviceScreen") }
             )
