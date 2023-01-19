@@ -237,7 +237,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
+                        //color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = "Light: "
@@ -245,7 +245,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Black,
+                        //color = Color.Black,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = totalLight.toString() + " Watt/Min"
@@ -255,7 +255,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
+                        //color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = "Plug: "
@@ -263,7 +263,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Black,
+                        //color = Color.Black,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = totalPlug.toString() + " Watt/Min"
@@ -273,7 +273,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
+                        //color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = "Blind: "
@@ -281,7 +281,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Black,
+                        //color = Color.Black,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = (totalBlindOpen + totalBlindClose).toString() + " Watt/Min"
@@ -294,7 +294,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
+                        //color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = "Light: "
@@ -302,7 +302,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Black,
+                        //color = Color.Black,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = powerLight.toString() + " Watt"
@@ -312,7 +312,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
+                        //color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = "Plug: "
@@ -320,7 +320,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Black,
+                        //color = Color.Black,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = powerPlug.toString() + " Watt"
@@ -330,7 +330,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
+                        //color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = "Blind: "
@@ -338,7 +338,7 @@ fun PieChart(optionSelected: String) {
                     Text(
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Black,
+                        //color = Color.Black,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 15.sp,
                         text = (powerBlindOpen + powerBlindClose).toString() + " Watt"

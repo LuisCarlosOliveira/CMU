@@ -164,6 +164,10 @@
     <string name="overTempDevice">Sobreaquecimento: </string>
     <string name="overPowerDevice">Sobrepotência: </string>
     <string name="positionBlind">Posição: </string>
+    <string name="lastPosition">Última Posição: </string>
+    <string name="reasonStop">Motivo de Paragem: </string>
+    <string name="brightness">Brilho: </string>
+    <string name="gain">Intensidade: </string>
     <string name="temperatureOfLight">Temperatura: </string>
     <string name="timerOfLight">Temporizador </string>
     <string name="saveLight">Guardar</string>

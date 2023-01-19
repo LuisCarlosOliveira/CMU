@@ -101,7 +101,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
                             Text(
                                 fontFamily = FontFamily.SansSerif,
                                 fontWeight = FontWeight.Medium,
-                                color = Color.Black,
+                                //color = Color.Black,
                                 fontSize = 16.sp,
                                 letterSpacing = 1.sp,
                                 text = "Escolha a Divisão: "
@@ -123,7 +123,7 @@ fun UnconnectedDevicesScreen(mainActivity: MainActivity, navController: NavContr
                         .height(200.dp)
                         .padding(2.dp),
                     shape = RoundedCornerShape(10.dp),
-                    backgroundColor = Color.White,
+                    //backgroundColor = Color.White,
                     properties = DialogProperties(
                         dismissOnBackPress = true,
                         dismissOnClickOutside = true

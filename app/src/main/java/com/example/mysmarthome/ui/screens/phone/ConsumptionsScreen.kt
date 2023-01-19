@@ -61,7 +61,7 @@ fun ConsumptionsScreen(mainActivity: MainActivity, navController: NavController)
                         fontWeight = FontWeight.Medium,
                         letterSpacing = letterSpacing,
                         fontFamily = FontFamily.SansSerif,
-                        color = Color.Red,
+                        //color = Color.Red,
                         modifier = Modifier.padding(top = 20.dp),
                         fontSize = 17.sp,
                         text = stringResource(id = R.string.devicesThat)

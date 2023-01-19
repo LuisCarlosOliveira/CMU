@@ -136,7 +136,7 @@ fun PlugScreen(navController: NavController, id: Int) {
     if (plugsContent.value != null) {
         ssid = plugsContent.value?.wifi_sta!!.ssid
         plugsContent.value?.relays?.forEach {
-            ison = it.is_on
+            ison = it.ison
             if (ison) {
                 turn = "on"
             } else {
@@ -197,18 +197,18 @@ fun PlugScreen(navController: NavController, id: Int) {
                                 val dt = Instant.ofEpochSecond(((beginTimerAtualizado.toLong())))
                                     .atZone(ZoneId.of("Portugal"))
                                     .toLocalDateTime()
-                                PersonalText(Color.Red, null, "Início Temporizador: ")
-                                PersonalText(Color.Black, null, dt.toString())
+                                PersonalText(FontWeight.Normal, null, "Início Temporizador: ")
+                                PersonalText(FontWeight.Normal, null, dt.toString())
 
-                                PersonalText(Color.Red, null, "Duração Temporizador: ")
+                                PersonalText(FontWeight.Normal, null, "Duração Temporizador: ")
                                 PersonalText(
-                                    Color.Black,
+                                    FontWeight.Normal,
                                     null,
                                     durationTimerAtualizado + " seg"
                                 )
 
-                                PersonalText(Color.Red, null, "Tempo Restante: ")
-                                PersonalText(Color.Black, null, remainingTimerAtualizado + " seg")
+                                PersonalText(FontWeight.Normal, null, "Tempo Restante: ")
+                                PersonalText(FontWeight.Normal, null, remainingTimerAtualizado + " seg")
                             }
                         },
                         actionBtn = { dialogInfo = false },
@@ -230,7 +230,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                         Column() {
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -240,7 +240,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -251,7 +251,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -261,7 +261,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -272,7 +272,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -282,7 +282,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -294,7 +294,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                         Column() {
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp),
                                     text = ssid
@@ -309,7 +309,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                                         fontFamily = FontFamily.SansSerif,
                                         fontSize = 17.sp,
                                         fontStyle = FontStyle.Italic,
-                                        color = Color.Black,
+                                        //color = Color.Black,
                                         modifier = Modifier.clickable(onClick = {
                                             onoffSelected = true
                                         }), text = turn,
@@ -328,7 +328,7 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp),
                                     text = temp + " ºC"
@@ -350,14 +350,14 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Row(Modifier.height(80.dp)) {
                                 if (overtemp.toString().equals("false")) {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp),
                                         text = "Não"
                                     )
                                 } else {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp),
                                         text = "Sim"
@@ -368,14 +368,14 @@ fun PlugScreen(navController: NavController, id: Int) {
                             Row(Modifier.height(80.dp)) {
                                 if (overPower.toString().equals("false")) {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp),
                                         text = "Não"
                                     )
                                 } else {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp),
                                         text = "Sim"
