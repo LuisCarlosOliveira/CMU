@@ -37,7 +37,7 @@ fun ListRowWithCheckbox(title: String) {
             fontWeight = FontWeight.Medium,
             letterSpacing = letterSpacing,
             fontFamily = FontFamily.Serif,
-            color = Color.Black,
+            //color = Color.Black,
             modifier = Modifier
                 .padding(top = 15.dp, start = 20.dp),
             fontSize = 18.sp,
@@ -69,7 +69,7 @@ fun ListRowWithIcon(title: String, icon: ImageVector, action: ()-> Unit) {
             fontWeight = FontWeight.Medium,
             letterSpacing = letterSpacing,
             fontFamily = FontFamily.Serif,
-            color = Color.Black,
+            //color = Color.Black,
             modifier = Modifier
                 .padding(top = 15.dp, start = 20.dp),
             fontSize = 18.sp,
@@ -82,7 +82,7 @@ fun ListRowWithIcon(title: String, icon: ImageVector, action: ()-> Unit) {
         ) {
             Icon(
                 icon, "",
-                tint = Color.Black,
+                //tint = Color.Black,
                 modifier = Modifier
                     .width(50.dp)
                     .padding(top = 15.dp, end = 20.dp),

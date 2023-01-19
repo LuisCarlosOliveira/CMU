@@ -113,7 +113,7 @@ fun ProfileScreen(navController: NavController) {
                                         fontWeight = FontWeight.Medium,
                                         letterSpacing = letterSpacing,
                                         fontFamily = FontFamily.SansSerif,
-                                        color = Color.Black,
+                                        //color = Color.Black,
                                         modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                                         fontSize = 18.sp,
                                         text = opt
@@ -172,7 +172,7 @@ fun ProfileScreen(navController: NavController) {
                                                 .height(250.dp)
                                                 .padding(2.dp),
                                             shape = RoundedCornerShape(10.dp),
-                                            backgroundColor = Color.White,
+                                            //backgroundColor = Color.White,
                                             properties = DialogProperties(
                                                 dismissOnBackPress = true,
                                                 dismissOnClickOutside = true
@@ -184,7 +184,7 @@ fun ProfileScreen(navController: NavController) {
                                     ) {
                                         Icon(
                                             Icons.Rounded.Email, "",
-                                            tint = Color.Black,
+                                            //tint = Color.Black,
                                             modifier = Modifier
                                                 .size(50.dp)
                                                 .padding(end = 15.dp),
@@ -210,7 +210,7 @@ fun ProfileScreen(navController: NavController) {
                                         fontWeight = FontWeight.Medium,
                                         letterSpacing = letterSpacing,
                                         fontFamily = FontFamily.SansSerif,
-                                        color = Color.Black,
+                                        //color = Color.Black,
                                         modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                                         fontSize = 18.sp,
                                         text = opt
@@ -338,7 +338,7 @@ fun ProfileScreen(navController: NavController) {
                                                 .height(250.dp)
                                                 .padding(2.dp),
                                             shape = RoundedCornerShape(10.dp),
-                                            backgroundColor = Color.White,
+                                            //backgroundColor = Color.White,
                                             properties = DialogProperties(
                                                 dismissOnBackPress = true,
                                                 dismissOnClickOutside = true
@@ -351,7 +351,7 @@ fun ProfileScreen(navController: NavController) {
                                     ) {
                                         Icon(
                                             Icons.Rounded.Password, "",
-                                            tint = Color.Black,
+                                            //tint = Color.Black,
                                             modifier = Modifier
                                                 .size(50.dp)
                                                 .padding(end = 15.dp),
@@ -388,7 +388,7 @@ fun ProfileScreen(navController: NavController) {
                                         fontWeight = FontWeight.Medium,
                                         letterSpacing = letterSpacing,
                                         fontFamily = FontFamily.SansSerif,
-                                        color = Color.Black,
+                                        //color = Color.Black,
                                         modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                                         fontSize = 18.sp,
                                         text = opt
@@ -399,7 +399,7 @@ fun ProfileScreen(navController: NavController) {
                                         ) {
                                             Icon(
                                                 Icons.Rounded.Star, "",
-                                                tint = Color.Black,
+                                                //tint = Color.Black,
                                                 modifier = Modifier
                                                     .size(50.dp)
                                                     .padding(end = 15.dp),
@@ -411,7 +411,7 @@ fun ProfileScreen(navController: NavController) {
                                         ) {
                                             Icon(
                                                 Icons.Rounded.Group, "",
-                                                tint = Color.Black,
+                                                //tint = Color.Black,
                                                 modifier = Modifier
                                                     .size(50.dp)
                                                     .padding(end = 15.dp),

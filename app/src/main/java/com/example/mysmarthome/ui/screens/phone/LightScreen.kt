@@ -171,7 +171,7 @@ fun LightScreen(navController: NavController, id: Int) {
         overtemp = lightContent.value?.overtemperature!!
     }
 
-    if( device.value != null) {
+    if (device.value != null) {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
@@ -215,18 +215,22 @@ fun LightScreen(navController: NavController, id: Int) {
                                 val dt = Instant.ofEpochSecond(((beginTimerAtualizado.toLong())))
                                     .atZone(ZoneId.of("Portugal"))
                                     .toLocalDateTime()
-                                PersonalText(Color.Red, null, "Início Temporizador: ")
-                                PersonalText(Color.Black, null, dt.toString())
+                                PersonalText(FontWeight.Normal, null, "Início Temporizador: ")
+                                PersonalText(FontWeight.Normal, null, dt.toString())
 
-                                PersonalText(Color.Red, null, "Duração Temporizador: ")
+                                PersonalText(FontWeight.Normal, null, "Duração Temporizador: ")
                                 PersonalText(
-                                    Color.Black,
+                                    FontWeight.Normal,
                                     null,
                                     durationTimerAtualizado + " seg"
                                 )
 
-                                PersonalText(Color.Red, null, "Tempo Restante: ")
-                                PersonalText(Color.Black, null, remainingTimerAtualizado + " seg")
+                                PersonalText(FontWeight.Normal, null, "Tempo Restante: ")
+                                PersonalText(
+                                    FontWeight.Normal,
+                                    null,
+                                    remainingTimerAtualizado + " seg"
+                                )
                             }
                         },
                         actionBtn = { dialogInfo = false },
@@ -249,7 +253,7 @@ fun LightScreen(navController: NavController, id: Int) {
                         Column() {
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -259,7 +263,7 @@ fun LightScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -269,7 +273,7 @@ fun LightScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -280,7 +284,7 @@ fun LightScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -291,26 +295,26 @@ fun LightScreen(navController: NavController, id: Int) {
                             Row(Modifier.height(80.dp)) {
                                 if (mode.equals("color")) {
                                     PersonalText(
-                                        color = Color.Red,
+                                        FontWeight.Bold,
                                         modifier = Modifier
                                             .padding(top = 7.dp)
                                             .width(screenWidth / 2),
-                                        text = "Intensidade:"
+                                        text = stringResource(id = R.string.gain)
                                     )
                                 } else {
                                     PersonalText(
-                                        color = Color.Red,
+                                        FontWeight.Bold,
                                         modifier = Modifier
                                             .padding(top = 7.dp)
                                             .width(screenWidth / 2),
-                                        text = "Brilho:"
+                                        text = stringResource(id = R.string.brightness)
                                     )
                                 }
                             }
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -320,7 +324,7 @@ fun LightScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -333,7 +337,7 @@ fun LightScreen(navController: NavController, id: Int) {
                         Column() {
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp),
                                     text = ssid
@@ -348,7 +352,6 @@ fun LightScreen(navController: NavController, id: Int) {
                                         fontFamily = FontFamily.SansSerif,
                                         fontSize = 17.sp,
                                         fontStyle = FontStyle.Italic,
-                                        color = Color.Black,
                                         modifier = Modifier.clickable(onClick = {
                                             onoffSelected = true
                                         }), text = turn,
@@ -377,7 +380,6 @@ fun LightScreen(navController: NavController, id: Int) {
                                         fontFamily = FontFamily.SansSerif,
                                         fontSize = 17.sp,
                                         fontStyle = FontStyle.Italic,
-                                        color = Color.Black,
                                         modifier = Modifier.clickable(onClick = {
                                             modeSelected = true
                                         }), text = mode,
@@ -451,7 +453,7 @@ fun LightScreen(navController: NavController, id: Int) {
                                                 .height(400.dp)
                                                 .padding(2.dp),
                                             shape = RoundedCornerShape(10.dp),
-                                            backgroundColor = Color.White,
+                                            //backgroundColor = Color.White,
                                             properties = DialogProperties(
                                                 dismissOnBackPress = true,
                                                 dismissOnClickOutside = true
@@ -504,7 +506,7 @@ fun LightScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp),
                                     text = temp + " ºC"
@@ -606,5 +608,5 @@ fun LightScreen(navController: NavController, id: Int) {
 @Preview()
 @Composable
 fun PreviewDeviceScreen() {
-    LightScreen(navController = NavController(LocalContext.current),1)
+    LightScreen(navController = NavController(LocalContext.current), 1)
 }

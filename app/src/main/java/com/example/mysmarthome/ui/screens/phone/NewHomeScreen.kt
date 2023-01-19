@@ -89,7 +89,7 @@ fun NewHomeScreen(navController: NavController) {
                     Column(
                         modifier = Modifier
                             .padding(start = 20.dp, end = 20.dp)
-                            .background(Color.LightGray)
+                            //.background(Color.LightGray)
                     ) {
 
                         street = SimpleTextField(

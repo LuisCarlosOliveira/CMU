@@ -1,5 +1,7 @@
 package com.example.mysmarthome.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,10 +11,13 @@ import androidx.navigation.navArgument
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.ui.screens.phone.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation(mainActivity: MainActivity) {
 
     val navController = rememberNavController()
+    var dataStoreUtil = mainActivity.dataStoreUtil
+    var themeViewModel = mainActivity.themeViewModel
 
     NavHost(navController = navController, startDestination = "LoginScreen") {
         composable("LoginScreen") {
@@ -32,7 +37,7 @@ fun Navigation(mainActivity: MainActivity) {
             ConsumptionsScreen(mainActivity, navController=  navController)
         }
         composable("DefinitionsScreen") {
-            DefinitionsScreen( navController=  navController)
+            DefinitionsScreen( navController=  navController, dataStoreUtil, themeViewModel)
         }
         composable("NewAccountScreen") {
             NewAccountScreen( navController=  navController)

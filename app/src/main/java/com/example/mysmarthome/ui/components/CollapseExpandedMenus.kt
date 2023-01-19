@@ -43,7 +43,7 @@ fun CollapsableLazyColumn(
                         .clickable {
                             collapsedState[i] = !collapsed
                         }
-                        .background(Color.LightGray)
+                        //.background(Color.LightGray)
                 ) {
                     Icon(
                         Icons.Default.run {

@@ -184,7 +184,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                         Column() {
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -195,18 +195,18 @@ fun BlindScreen(navController: NavController, id: Int) {
                                 Spacer(Modifier.padding(10.dp))
                                 Row(Modifier.height(80.dp)) {
                                     PersonalText(
-                                        color = Color.Red,
+                                        FontWeight.Bold,
                                         modifier = Modifier
                                             .padding(top = 7.dp)
                                             .width(screenWidth / 2),
-                                        text = "Motivo de Paragem: "
+                                        text = stringResource(id = R.string.reasonStop)
                                     )
                                 }
                             }
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -216,17 +216,17 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
-                                    text = "Última Posição: "
+                                    text = stringResource(id = R.string.lastPosition)
                                 )
                             }
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -236,7 +236,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -246,7 +246,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
@@ -256,63 +256,13 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Red,
+                                    FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(top = 7.dp)
                                         .width(screenWidth / 2),
                                     text = stringResource(id = R.string.temperatureOfLight)
                                 )
                             }
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.stateDevice)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = "Última Posição: "
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.powerDevice)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.overTempDevice)
-                            )
-                        }
-                        Spacer(Modifier.padding(10.dp))
-                        Row(Modifier.height(80.dp)) {
-                            PersonalText(
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(top = 7.dp)
-                                    .width(screenWidth / 2),
-                                text = stringResource(id = R.string.positionBlind)
-                            )
                         }
 
                         Column() {
@@ -333,7 +283,7 @@ fun BlindScreen(navController: NavController, id: Int) {
 
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp, end = 20.dp),
                                     text = ssid
@@ -344,7 +294,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                                 Spacer(Modifier.padding(10.dp))
                                 Row(Modifier.height(80.dp)) {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp, end = 20.dp),
                                         text = stopReason
@@ -361,7 +311,6 @@ fun BlindScreen(navController: NavController, id: Int) {
                                         fontFamily = FontFamily.SansSerif,
                                         fontSize = 17.sp,
                                         fontStyle = FontStyle.Italic,
-                                        color = Color.Black,
                                         modifier = Modifier
                                             .padding(top = 7.dp, end = 20.dp)
                                             .clickable(onClick = {
@@ -383,7 +332,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp, end = 20.dp),
                                     text = lastDirection
@@ -393,7 +342,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp, end = 20.dp),
                                     text = power + " W"
@@ -403,14 +352,14 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Row(Modifier.height(80.dp)) {
                                 if (rollerOverTemp.toString().equals("false")) {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp, end = 20.dp),
                                         text = "Não"
                                     )
                                 } else {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp, end = 20.dp),
                                         text = "Sim"
@@ -421,7 +370,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Row(Modifier.height(80.dp)) {
                                 if (!selected_state.equals("to_pos")) {
                                     PersonalText(
-                                        color = Color.Black,
+                                        FontWeight.Normal,
                                         modifier = Modifier
                                             .padding(top = 7.dp, end = 20.dp),
                                         text = pos
@@ -439,7 +388,7 @@ fun BlindScreen(navController: NavController, id: Int) {
                             Spacer(Modifier.padding(10.dp))
                             Row(Modifier.height(80.dp)) {
                                 PersonalText(
-                                    color = Color.Black,
+                                    FontWeight.Normal,
                                     modifier = Modifier
                                         .padding(top = 7.dp, end = 20.dp),
                                     text = temp + " ºC"

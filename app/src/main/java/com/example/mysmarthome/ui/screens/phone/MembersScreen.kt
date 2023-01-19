@@ -91,7 +91,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                         fontWeight = FontWeight.Medium,
                                         letterSpacing = letterSpacing,
                                         fontFamily = FontFamily.Serif,
-                                        color = Color.Black,
+                                        //color = Color.Black,
                                         modifier = Modifier
                                             .padding(top = 7.dp, start = 10.dp)
                                             .width(screenWidth / 3),
@@ -105,7 +105,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                         Icon(
                                             Icons.Rounded.Edit,
                                             "",
-                                            tint = Color.Black,
+                                            //tint = Color.Black,
                                         )
                                     }
 
@@ -158,7 +158,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                                 .height(200.dp)
                                                 .padding(2.dp),
                                             shape = RoundedCornerShape(10.dp),
-                                            backgroundColor = Color.White,
+                                            //backgroundColor = Color.White,
                                             properties = DialogProperties(
                                                 dismissOnBackPress = true,
                                                 dismissOnClickOutside = true
@@ -227,7 +227,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                                     Text(
                                                         fontFamily = FontFamily.SansSerif,
                                                         fontWeight = FontWeight.Medium,
-                                                        color = Color.Black,
+                                                        //color = Color.Black,
                                                         fontSize = 16.sp,
                                                         letterSpacing = 1.sp,
                                                         text = "Inserir Mensagem: "
@@ -259,7 +259,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                                 .height(200.dp)
                                                 .padding(2.dp),
                                             shape = RoundedCornerShape(10.dp),
-                                            backgroundColor = Color.White,
+                                            //backgroundColor = Color.White,
                                             properties = DialogProperties(
                                                 dismissOnBackPress = true,
                                                 dismissOnClickOutside = true
@@ -272,7 +272,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                     ) {
                                         Icon(
                                             Icons.Rounded.Sms, "",
-                                            tint = Color.Black,
+                                            //tint = Color.Black,
                                         )
                                     }
                                     IconButton(
@@ -281,7 +281,7 @@ fun MembersScreen(mainActivity: MainActivity, navController: NavController) {
                                         ) {
                                         Icon(
                                             Icons.Rounded.DeleteForever, "",
-                                            tint = Color.Black,
+                                            //tint = Color.Black,
                                         )
                                     }
                                 }

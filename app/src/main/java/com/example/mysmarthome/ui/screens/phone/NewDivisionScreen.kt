@@ -109,7 +109,7 @@ fun NewDivisionScreen(navController: NavController) {
                             fontWeight = FontWeight.Medium,
                             letterSpacing = letterSpacing,
                             fontFamily = FontFamily.Serif,
-                            color = Color.Black,
+                            //color = Color.Black,
                             modifier = Modifier.padding(top = 10.dp),
                             fontSize = 16.sp,
                             text = "Imagem da Divisão: "
@@ -122,7 +122,7 @@ fun NewDivisionScreen(navController: NavController) {
                         ) {
                             Icon(
                                 Icons.Rounded.AddAPhoto, "",
-                                tint = Color.Black,
+                                //tint = Color.Black,
                                 modifier = Modifier
                                     .size(30.dp),
                             )
@@ -135,7 +135,7 @@ fun NewDivisionScreen(navController: NavController) {
                         ) {
                             Icon(
                                 Icons.Rounded.ImageSearch, "",
-                                tint = Color.Black,
+                                //tint = Color.Black,
                                 modifier = Modifier
                                     .size(30.dp),
                             )

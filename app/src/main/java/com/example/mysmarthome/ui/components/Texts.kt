@@ -9,24 +9,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PersonalText(color: Color, modifier: Modifier?, text: String) {
+fun PersonalText(fontWeight: FontWeight, modifier: Modifier?, text: String) {
+
     var letterSpacing by remember { mutableStateOf(1.sp) }
+
     if (modifier != null) {
         Text(
-            fontWeight = FontWeight.Medium,
+            fontWeight = fontWeight,
             letterSpacing = letterSpacing,
             fontFamily = FontFamily.SansSerif,
-            color = color,
             modifier = modifier,
-            fontSize = 17.sp, text = text
+            fontSize = 17.sp,
+            text = text
         )
-    }else{
+
+    } else {
         Text(
-            fontWeight = FontWeight.Medium,
+            fontWeight = fontWeight,
             letterSpacing = letterSpacing,
             fontFamily = FontFamily.SansSerif,
-            color = color,
-            fontSize = 17.sp, text = text
+            fontSize = 17.sp,
+            text = text
         )
     }
+
 }
