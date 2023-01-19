@@ -24,7 +24,18 @@ import com.example.mysmarthome.ui.components.*
 fun ConnectedDevicesScreen(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
+    val divisions = divisionsViewModel.allDivisions.observeAsState()
 
+    var divisionNames: Array<String> = arrayOf("Todos")
+    var divisionIds = mutableMapOf<String, String>()
+
+    if(divisions.value != null) {
+        divisions.value!!.forEach {
+            divisionNames += it.name
+            divisionIds[it.name] = it.idDivision.toString()
+        }
+    }
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -52,7 +63,7 @@ fun ConnectedDevicesScreen(navController: NavController) {
                 )
                 Column(Modifier.padding(5.dp)) {
                     DropDownMenu(
-                        stringArrayResource(id = R.array.home_divisions),
+                        arrayOf(*divisionNames),
                         stringResource(id = R.string.selectedOptionDivision)
                     )
                 }
