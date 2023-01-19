@@ -159,7 +159,7 @@ fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController)
                                 ) {
                                     Icon(
                                         Icons.Filled.UploadFile, "",
-                                        tint = Color.Black,
+                                        //tint = Color.Black,
                                         modifier = Modifier
                                             .width(50.dp)
                                     )
@@ -179,7 +179,7 @@ fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController)
                             .height(400.dp)
                             .padding(2.dp),
                         shape = RoundedCornerShape(10.dp),
-                        backgroundColor = Color.White,
+                        //backgroundColor = Color.White,
                         properties = DialogProperties(
                             dismissOnBackPress = true,
                             dismissOnClickOutside = true

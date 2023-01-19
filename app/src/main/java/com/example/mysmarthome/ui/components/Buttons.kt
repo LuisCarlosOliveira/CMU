@@ -20,7 +20,7 @@ import androidx.navigation.NavController
 @Composable
 fun ChooseButton(title: String, action: () -> Unit) {
     Button(
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+        //colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
         border = BorderStroke(1.dp, Color.Blue),
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
@@ -94,7 +94,7 @@ fun FloatingButton(icon: ImageVector?, title: String?, action: () -> Unit) {
                 Text(title, fontSize = 18.sp)
             }
         },
-        backgroundColor = Color.LightGray,
+        //backgroundColor = Color.LightGray,
         onClick = {
             action()
         },

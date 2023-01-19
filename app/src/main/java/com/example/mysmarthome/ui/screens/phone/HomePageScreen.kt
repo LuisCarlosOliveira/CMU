@@ -46,6 +46,7 @@ import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.FloatingButton
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
@@ -69,6 +70,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
             val divisions = divisionsViewModel.allDivisions.observeAsState()
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+            val scope = rememberCoroutineScope()
 
             var dialogOpenAlarm by remember { mutableStateOf(false) }
             var dialogOpenAgenda by remember { mutableStateOf(false) }
@@ -122,7 +124,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                     Spacer(modifier = Modifier.padding(start = 5.dp))
                     IconButton(
                         onClick = {
-
+                            scope.launch {
+                                scaffoldState.drawerState.open()
+                            }
                         },
                         modifier = Modifier
                             .width(50.dp)
@@ -130,7 +134,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                     ) {
                         Icon(
                             Icons.Filled.Menu, "",
-                            tint = Color.Black,
+                            //tint = Color.Black,
 
                             )
                     }
@@ -148,7 +152,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                     ) {
                         Icon(
                             Icons.Filled.Logout, "",
-                            tint = Color.Black,
+                            //tint = Color.Black,
                         )
                     }
                 }
@@ -167,7 +171,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                         Text(
                             fontFamily = FontFamily.SansSerif,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color.Black,
+                            //color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontSize = 24.sp,
                             letterSpacing = 1.sp,
@@ -233,7 +237,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                 drawerContent = {
                     Column(
                         modifier = Modifier
-                            .background(Color.LightGray)
+                            //.background(Color.LightGray)
                             .fillMaxHeight()
                     ) {
 
@@ -356,7 +360,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                             .height(400.dp)
                                             .padding(2.dp),
                                         shape = RoundedCornerShape(10.dp),
-                                        backgroundColor = Color.White,
+                                        //backgroundColor = Color.White,
                                         properties = DialogProperties(
                                             dismissOnBackPress = true,
                                             dismissOnClickOutside = true
@@ -368,7 +372,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 ) {
                                     Icon(
                                         Icons.Rounded.Timer, "",
-                                        tint = Color.Black,
+                                        //tint = Color.Black,
                                         modifier = Modifier
                                             .width(50.dp)
                                             .padding(bottom = 25.dp)
@@ -378,7 +382,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 Text(
                                     fontFamily = FontFamily.SansSerif,
                                     fontWeight = FontWeight.Medium,
-                                    color = Color.Black,
+                                    //color = Color.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = 1.sp,
                                     text = stringResource(id = R.string.createAlarm)
@@ -488,7 +492,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                             .height(400.dp)
                                             .padding(2.dp),
                                         shape = RoundedCornerShape(10.dp),
-                                        backgroundColor = Color.White,
+                                        //backgroundColor = Color.White,
                                         properties = DialogProperties(
                                             dismissOnBackPress = true,
                                             dismissOnClickOutside = true
@@ -500,7 +504,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 ) {
                                     Icon(
                                         Icons.Rounded.CalendarToday, "",
-                                        tint = Color.Black,
+                                        //tint = Color.Black,
                                         modifier = Modifier
                                             .width(50.dp)
                                             .padding(bottom = 25.dp),
@@ -510,7 +514,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 Text(
                                     fontFamily = FontFamily.SansSerif,
                                     fontWeight = FontWeight.Medium,
-                                    color = Color.Black,
+                                    //color = Color.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = 1.sp,
                                     text = stringResource(id = R.string.addEvent)
@@ -533,7 +537,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 ) {
                                     Icon(
                                         Icons.Rounded.PinDrop, "",
-                                        tint = Color.Black,
+                                        //tint = Color.Black,
                                         modifier = Modifier
                                             .width(50.dp)
                                             .padding(bottom = 25.dp),
@@ -543,7 +547,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 Text(
                                     fontFamily = FontFamily.SansSerif,
                                     fontWeight = FontWeight.Medium,
-                                    color = Color.Black,
+                                    //color = Color.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = 1.sp,
                                     text = stringResource(id = R.string.homeLocation)
