@@ -24,17 +24,30 @@ import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
 import com.example.mysmarthome.database.view_models.HomesViewModel
+import com.example.mysmarthome.database.view_models.ThemeViewModel
+import com.example.mysmarthome.preferences.DataStoreUtil
 import com.example.mysmarthome.ui.components.AlertPopup
 import com.example.mysmarthome.ui.components.TopBarBack
+import kotlinx.coroutines.launch
 
 @Composable
-fun DefinitionsScreen(navController: NavController) {
+fun DefinitionsScreen(
+    navController: NavController,
+    dataStoreUtil: DataStoreUtil,
+    themeViewModel: ThemeViewModel
+) {
 
     val ctx = LocalContext.current
 
-    val nocturnMode = remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
-    val savingEnergyMode = remember { mutableStateOf(false) }
+    val nocturnMode by remember { mutableStateOf(themeViewModel.isDarkThemeEnabled) }
+
+    val nocMode = dataStoreUtil.getThemeState().collectAsState(initial = false)
+
+    val savingEnergyMode by remember { mutableStateOf(themeViewModel.isSaveEnergyEnabled) }
+
+    val saveEnergy = dataStoreUtil.getSaveEnergy().collectAsState(initial = false)
 
     val turn by remember {
         mutableStateOf("on")
@@ -56,11 +69,11 @@ fun DefinitionsScreen(navController: NavController) {
     val corSavingMode = mutableListOf<Int>(255, 255, 255, 255)
 
     val gain by remember {
-        mutableStateOf(85f)
+        mutableStateOf(85F)
     }
 
     val brightness by remember {
-        mutableStateOf(15f)
+        mutableStateOf(15F)
     }
 
     val pos by remember {
@@ -126,14 +139,21 @@ fun DefinitionsScreen(navController: NavController) {
                                 fontSize = 18.sp,
                                 text = definition
                             )
+
                             Switch(
-                                checked = nocturnMode.value,
-                                onCheckedChange = { nocturnMode.value = it },
+                                checked = nocMode.value!!, //nocturnMode.value,
+                                onCheckedChange = {
+                                    nocturnMode.value = it
+                                    coroutineScope.launch {
+                                        dataStoreUtil.saveTheme(it)
+                                    }
+                                },
                                 modifier = Modifier.padding(end = 20.dp)
                             )
 
                             if (nocturnMode.value) {
-                                if (savingEnergyMode.value == false) {
+                                if (!savingEnergyMode.value) {
+
                                     val lightsViewModel: DevicesViewModel = viewModel()
 
                                     val blindsViewModel: DevicesViewModel = viewModel()
@@ -162,6 +182,7 @@ fun DefinitionsScreen(navController: NavController) {
                                     ).show()
                                 }
                             }
+
                         }
 
                     } else if (definition.equals("Modo Poupar Energia")) {
@@ -183,14 +204,22 @@ fun DefinitionsScreen(navController: NavController) {
                                 fontSize = 18.sp,
                                 text = definition
                             )
+
                             Switch(
-                                checked = savingEnergyMode.value,
-                                onCheckedChange = { savingEnergyMode.value = it },
+                                checked = saveEnergy.value!!, //savingEnergyMode.value,
+                                onCheckedChange = {
+                                    savingEnergyMode.value = it
+
+                                    coroutineScope.launch {
+                                        dataStoreUtil.save_SaveEnergy(it)
+                                    }
+                                },
                                 modifier = Modifier.padding(end = 20.dp)
                             )
 
                             if (savingEnergyMode.value) {
-                                if (nocturnMode.value == false) {
+                                if (!nocturnMode.value) {
+
                                     val lightsViewModel: DevicesViewModel = viewModel()
 
                                     val plugsViewModel: DevicesViewModel = viewModel()
@@ -270,7 +299,7 @@ fun DefinitionsScreen(navController: NavController) {
                                 fontWeight = FontWeight.Medium,
                                 letterSpacing = letterSpacing,
                                 fontFamily = FontFamily.SansSerif,
-                                color = Color.Black,
+                                //color = Color.Black,
                                 modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                                 fontSize = 18.sp,
                                 text = definition
@@ -286,5 +315,9 @@ fun DefinitionsScreen(navController: NavController) {
 @Preview()
 @Composable
 fun PreviewDefinitionsScreen() {
-    DefinitionsScreen(navController = NavController(LocalContext.current))
+    DefinitionsScreen(
+        navController = NavController(LocalContext.current),
+        dataStoreUtil = DataStoreUtil(LocalContext.current),
+        themeViewModel = ThemeViewModel()
+    )
 }

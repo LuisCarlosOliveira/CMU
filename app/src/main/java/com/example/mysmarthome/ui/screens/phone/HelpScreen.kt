@@ -55,7 +55,7 @@ fun HelpScreen(navController: NavController) {
                             fontWeight = FontWeight.Bold,
                             letterSpacing = letterSpacing,
                             fontFamily = FontFamily.Serif,
-                            color = Color.Black,
+                            //color = Color.Black,
                             modifier = Modifier.padding(top = 20.dp, end = 20.dp, start = 20.dp),
                             fontSize = 14.sp,
                             text = stringResource(id = R.string.descriptionHelp)

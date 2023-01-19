@@ -75,7 +75,7 @@ fun AlertPopup(
                 .height(300.dp)
                 .padding(2.dp),
             shape = RoundedCornerShape(10.dp),
-            backgroundColor = Color.White,
+            //backgroundColor = Color.White,
             properties = DialogProperties(
                 dismissOnBackPress = true,
                 dismissOnClickOutside = true

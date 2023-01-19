@@ -75,7 +75,7 @@ fun AboutScreen(navController: NavController) {
                 Text(
                     letterSpacing = letterSpacing,
                     fontFamily = FontFamily.SansSerif,
-                    color = Color.Black,
+                    //color = Color.Black,
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
                         .padding(top = 10.dp, start = 15.dp, bottom = 15.dp),
