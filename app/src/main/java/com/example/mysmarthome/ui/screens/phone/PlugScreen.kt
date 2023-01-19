@@ -108,16 +108,6 @@ fun PlugScreen(navController: NavController, id: Int) {
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
-    if(device.value != null) {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = {
-                TopBarBackForward(
-                    title = device.value!!.nome,
-                    actionBtns = {
-                        IconButton(onClick = { dialogInfo = true }) {
-                            Icon(Icons.Rounded.Info, "", tint = Color.Black)
-                        }
 
     val plugsStatusViewModel: DevicesViewModel = viewModel()
 
