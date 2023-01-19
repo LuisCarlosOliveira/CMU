@@ -28,22 +28,24 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
+import com.example.mysmarthome.retrofit.helper.RetrofitHelper
+import com.example.mysmarthome.retrofit.shelly_api.plug.PlugAPI
 import com.example.mysmarthome.ui.components.*
 import java.time.Instant
 import java.time.ZoneId
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PlugScreen(navController: NavController, id:Int) {
+fun PlugScreen(navController: NavController, id: Int) {
 
     val devicesViewModel: DevicesViewModel = viewModel(LocalContext.current as MainActivity)
     val device = devicesViewModel.getOneDevice(id).observeAsState()
-
     var ssid by remember {
         mutableStateOf("")
     }
@@ -106,6 +108,16 @@ fun PlugScreen(navController: NavController, id:Int) {
     var letterSpacing by remember {
         mutableStateOf(1.sp)
     }
+    if(device.value != null) {
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopBarBackForward(
+                    title = device.value!!.nome,
+                    actionBtns = {
+                        IconButton(onClick = { dialogInfo = true }) {
+                            Icon(Icons.Rounded.Info, "", tint = Color.Black)
+                        }
 
     val plugsStatusViewModel: DevicesViewModel = viewModel()
 

@@ -246,8 +246,9 @@ fun DefinitionsScreen(navController: NavController) {
                             actionBtn = {
                                 homesViewModel.removeHome()
                                 navController.navigate("NewHomeScreen")
-                            }, actionBtn2 = { dialogOpen = false })
-
+                            },
+                            actionBtn2 = { dialogOpen = false }
+                        )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

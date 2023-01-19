@@ -10,10 +10,10 @@ interface DivisionsDAO {
 
 
         @Query("select * from Division where idDivision = :idDivision")
-        fun getOneDivision(idDivision:Int): Division
+        suspend fun getOneDivision(idDivision:Int): Division
 
         @Query("select * from Division")
-        fun getDivisions():List<Division>
+        suspend fun getDivisions():List<Division>
 
         @Transaction
         @Query("select * from Home where idHome = :idHome ")

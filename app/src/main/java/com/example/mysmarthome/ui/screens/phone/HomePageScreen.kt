@@ -1,6 +1,9 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,11 +35,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.entities.Address
+import com.example.mysmarthome.database.entities.Device
+import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.database.view_models.UsersViewModel
 import com.example.mysmarthome.ui.components.BottombarWithoutHome
 import com.example.mysmarthome.ui.components.FloatingButton
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
@@ -50,9 +59,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
         ) {
             val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
             val user = usersViewModel.user.observeAsState()
+
             val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
             val home = homesViewModel.home.observeAsState()
-
             LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
 
             val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
@@ -83,7 +92,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                 mutableStateOf("")
             }
 
-            /*
+/*
             val db = Firebase.firestore
             val homex = Home("Home 1", Address("Street 1", "City 1", "sd", "fdas"))
             val divisionx = Division(homex.idHome, "Division 1", "image1.png")
@@ -199,7 +208,8 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                             .padding(5.dp)
                                             .clickable(onClick = {
                                                 divisionsViewModel.getOneDivision(divisions.value!!.get(l).idDivision)
-                                                navController.navigate("DivisionDetailsScreen/"+ divisions.value!!.get(l).idDivision)})
+                                                navController.navigate("DivisionDetailsScreen/"+ divisions.value!!.get(l).idDivision)
+                                            })
                                     ) {
                                         Text(
                                             fontFamily = FontFamily.SansSerif,

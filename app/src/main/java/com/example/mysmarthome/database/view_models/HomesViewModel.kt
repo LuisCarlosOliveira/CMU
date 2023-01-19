@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.entities.User
+import com.example.mysmarthome.database.repositories.DivisionRepository
 import com.example.mysmarthome.database.repositories.HomeRepository
 import com.example.mysmarthome.database.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers

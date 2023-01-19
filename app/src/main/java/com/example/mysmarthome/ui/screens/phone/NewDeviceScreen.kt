@@ -29,7 +29,6 @@ import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun NewDeviceScreen(navController: NavController) {
-
     val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
     divisionsViewModel.getDivisions()
     val divisions = divisionsViewModel.allDivisions.observeAsState()
@@ -60,7 +59,6 @@ fun NewDeviceScreen(navController: NavController) {
     } else {
         divisionNames = arrayOf("")
     }
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -136,7 +134,9 @@ fun NewDeviceScreen(navController: NavController) {
                         modifier2 = Modifier.padding(top = 50.dp),
                         arrayOf(*divisionNames)
                     )
+
                 }
+
             }
         },
         bottomBar = {

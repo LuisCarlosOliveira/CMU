@@ -30,6 +30,8 @@ import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DevicesViewModel
+import com.example.mysmarthome.retrofit.helper.RetrofitHelper
+import com.example.mysmarthome.retrofit.shelly_api.blind.BlindAPI
 import com.example.mysmarthome.ui.components.*
 
 @Composable
@@ -262,6 +264,56 @@ fun BlindScreen(navController: NavController, id: Int) {
                                 )
                             }
                         }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.stateDevice)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = "Última Posição: "
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.powerDevice)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.overTempDevice)
+                            )
+                        }
+                        Spacer(Modifier.padding(10.dp))
+                        Row(Modifier.height(80.dp)) {
+                            PersonalText(
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(top = 7.dp)
+                                    .width(screenWidth / 2),
+                                text = stringResource(id = R.string.positionBlind)
+                            )
+                        }
 
                         Column() {
 
@@ -435,5 +487,5 @@ fun BlindScreen(navController: NavController, id: Int) {
 @Preview()
 @Composable
 fun PreviewBlindScreen() {
-    BlindScreen(navController = NavController(LocalContext.current), 1)
+    BlindScreen(navController = NavController(LocalContext.current),1)
 }

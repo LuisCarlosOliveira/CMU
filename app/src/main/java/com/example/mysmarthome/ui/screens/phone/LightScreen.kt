@@ -138,6 +138,7 @@ fun LightScreen(navController: NavController, id: Int) {
 
     val lightsViewModel: DevicesViewModel = viewModel()
 
+
     val lightContent = lightsViewModel.getLight.observeAsState()
 
     val lightActionsColorModeContent = lightsViewModel.getLightActionsColorMode.observeAsState()
@@ -599,6 +600,7 @@ fun LightScreen(navController: NavController, id: Int) {
         )
     }
 }
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview()

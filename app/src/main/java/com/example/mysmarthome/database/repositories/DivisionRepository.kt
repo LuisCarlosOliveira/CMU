@@ -48,5 +48,4 @@ class DivisionRepository(val divisionDao: DivisionsDAO) {
             divisionDao.delete(division)
         }
     }
-
 }

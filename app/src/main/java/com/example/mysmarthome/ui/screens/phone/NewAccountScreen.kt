@@ -69,10 +69,7 @@ fun NewAccountScreen(navController: NavController) {
                 TopBarBackForward(
                     title = stringResource(id = com.example.mysmarthome.R.string.newAccountTitle),
                     actionBtns = {
-                        IconButton(onClick = {
-                            selectedTab = 1
-                        })
-                        {
+                        IconButton(onClick = { selectedTab = 1 }) {
                             Icon(Icons.Rounded.ArrowForward, "", tint = Color.Black)
                         }
                     },

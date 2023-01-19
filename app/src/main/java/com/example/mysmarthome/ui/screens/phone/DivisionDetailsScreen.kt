@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,8 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,9 +34,6 @@ fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-
-        val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-
         val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
         divisionsViewModel.getOneDivision(idDivision)
 
@@ -62,19 +58,18 @@ fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
             var devicesIds = mutableMapOf<String, String>()
 
             devices.forEach {
-                if (it.type.equals("Estoros")) {
-                    estoros += it.nome
-                    devicesIds[it.nome] = it.idDevice.toString()
-                } else if (it.type.equals("Luzes")) {
-                    luzes += it.nome
-                    devicesIds[it.nome] = it.idDevice.toString()
-                } else {
-                    tomadas += it.nome
-                    devicesIds[it.nome] = it.idDevice.toString()
-                }
+                    if (it.type.equals("Estoros")) {
+                        estoros += it.nome
+                        devicesIds[it.nome] = it.idDevice.toString()
+                    } else if (it.type.equals("Luzes")) {
+                        luzes += it.nome
+                        devicesIds[it.nome] = it.idDevice.toString()
+                    } else {
+                        tomadas += it.nome
+                        devicesIds[it.nome] = it.idDevice.toString()
+                    }
 
             }
-
             var letterSpacing by remember {
                 mutableStateOf(1.sp)
             }
@@ -91,8 +86,10 @@ fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
 
                             IconButton(onClick = {
                                 divisionsViewModel.removeDivision(division.value!!)
-                                navController.navigate("HomePageScreen")}) {
+                                navController.navigate("HomePageScreen")
+                            }) {
                                 Icon(Icons.Rounded.Delete, "", tint = Color.Black)
+
                             }
                         },
                         navController = navController
@@ -172,6 +169,7 @@ fun DivisionDetailsScreen(navController: NavController, idDivision: Int) {
     }
 }
 
+
 @Preview()
 @Composable
 fun PreviewDivisionDetailsScreen() {
@@ -179,3 +177,4 @@ fun PreviewDivisionDetailsScreen() {
         navController = NavController(LocalContext.current), 1
     )
 }
+

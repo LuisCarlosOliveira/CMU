@@ -46,7 +46,7 @@ fun NewDivisionScreen(navController: NavController) {
         color = MaterialTheme.colors.background
     ) {
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-        val divisionsViewModel: DivisionsViewModel = viewModel()
+        val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
 
         val localCtx = LocalContext.current
 
@@ -163,6 +163,7 @@ fun NewDivisionScreen(navController: NavController) {
                     action = {
                         if (divisionName.isNotEmpty() && (hasImg != null || imgUri != null)) {
                             divisionsViewModel.insertDivision(Division(1, divisionName, "imagem"))
+                            divisionsViewModel.getDivisions()
                             navController.navigate("NewDeviceScreen")
                         } else {
                             Toast.makeText(
