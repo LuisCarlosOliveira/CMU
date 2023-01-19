@@ -7,23 +7,30 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+import com.example.mysmarthome.database.entities.Device
+import com.example.mysmarthome.database.entities.relations.device_division.DivisionWithDevices
+import com.example.mysmarthome.database.view_models.DevicesViewModel
+import com.example.mysmarthome.database.view_models.DivisionsViewModel
 import com.example.mysmarthome.ui.components.*
 
 @Composable
 fun ConnectedDevicesScreen(navController: NavController) {
 
-   val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
     val divisions = divisionsViewModel.allDivisions.observeAsState()
