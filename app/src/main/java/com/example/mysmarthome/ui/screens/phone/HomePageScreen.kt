@@ -65,8 +65,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
             val home = homesViewModel.home.observeAsState()
             LaunchedEffect(Unit) { homesViewModel.getFirstHome() }
 
-            val divisionsViewModel: DivisionsViewModel =
-                viewModel(LocalContext.current as MainActivity)
+            val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
             divisionsViewModel.getDivisions()
             val divisions = divisionsViewModel.allDivisions.observeAsState()
 
@@ -136,7 +135,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                     }
                 }
             }
-            if (home.value != null) {
+            if (home.value != null ) {
                 Scaffold(
                     scaffoldState = scaffoldState,
                     modifier = Modifier.fillMaxWidth(),
@@ -192,14 +191,10 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                             .padding(5.dp)
                                             .clickable(onClick = {
                                                 divisionsViewModel.getOneDivision(
-                                                    divisions.value!!.get(
-                                                        l
-                                                    ).idDivision
+                                                    divisions.value!!.get(l).idDivision
                                                 )
                                                 navController.navigate(
-                                                    "DivisionDetailsScreen/" + divisions.value!!.get(
-                                                        l
-                                                    ).idDivision
+                                                    "DivisionDetailsScreen/" + divisions.value!!.get(l).idDivision
                                                 )
                                             })
                                     ) {
@@ -217,8 +212,9 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                 }
                             }
 
-                        } else {
-                            Text(text = "Ainda não tem divisoes")
+                        }
+                        else{
+                            Text(text = "A carregar dados ....")
                         }
                     },
 

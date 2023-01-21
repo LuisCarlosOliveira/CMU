@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Home(
-    val idF: String,
+    @Embedded val address: Address?,
     val name: String,
-    @Embedded val address: Address?
+    val idF: String,
 ){
     @PrimaryKey (autoGenerate = true)
     var idHome: Int=0

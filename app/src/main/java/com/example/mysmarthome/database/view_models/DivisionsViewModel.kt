@@ -55,7 +55,12 @@ class DivisionsViewModel(application: Application) : AndroidViewModel(applicatio
                     )
                 }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding division", e) }
-                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding home", e) }
+        }
+    }
+
+    fun insertDivisionFromFirestore(division: Division) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(division)
         }
     }
 
@@ -71,9 +76,9 @@ class DivisionsViewModel(application: Application) : AndroidViewModel(applicatio
     }
     fun getDivisions() {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("Lista de divis천es 1", "Obtendo lista de divis천es")
+            Log.d("Lista de divisões 1", "Obtendo lista de divisões")
             allDivisions.postValue( repository.getDivisions())
-            Log.d("Lista de divis천es 1", "Lista de divis천es obtida: ${allDivisions.value}")
+            Log.d("Lista de divisões 1", "Lista de divisões obtida: ${allDivisions.value}")
         }
     }
 

@@ -133,7 +133,7 @@ fun NewHomeScreen(navController: NavController) {
                                         && city.isNotEmpty() && country.isNotEmpty() &&
                                         nome.isNotEmpty()&& idSecret.isNotEmpty() && idSecret.length > 6) {
                                         val address = Address(street, postalcode, city, country)
-                                        homesViewModel.insertHome(Home(idSecret,nome, address))
+                                        homesViewModel.insertHome(Home(address,nome, idSecret))
                                         navController.navigate("NewDivisionScreen")
                                     } else {
                                         Toast.makeText(localCtx,"Preencha todos os campos!\nTenha em atenção que o Id deve ter mais que 6 caracteres",Toast.LENGTH_SHORT).show()

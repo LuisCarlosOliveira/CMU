@@ -57,7 +57,7 @@ fun AssociateHouseScreen(navController: NavController) {
                         action = {
                             homesViewModel.getAllFiestore(nome)
                             navController.navigate("HomePageScreen")
-                        },
+                            },
                         title = "ir p esta casa"
                     )
                     Spacer(modifier = Modifier.padding(bottom = 10.dp))

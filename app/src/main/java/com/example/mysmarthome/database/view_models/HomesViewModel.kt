@@ -47,8 +47,13 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
             homeRef.set(tempHome)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Home added with ID: ${homeRef.id}") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding home", e) }
-
         }
+    }
+    fun insertHomeFromFirestore(tempHome: Home) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(tempHome)
+            home.postValue(tempHome)
+           }
     }
 
     fun removeHome() {
@@ -101,7 +106,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                 var currentHome = getHomes()
                 home.postValue(currentHome.get(0))
             } catch (e: Exception) {
-                Log.d("Alerta", "Ainda nÃ£o tem casa criada")
+                Log.d("Alerta", "Ainda não tem casa criada")
             }
         }
     }
@@ -118,14 +123,32 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                     Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
                     val addressMap = document.data["address"] as Map<String, String>
                     val address = Address(
-                        street = addressMap["street"] ?: "",
+                        street = addressMap["streAet"] ?: "",
                         postalCode = addressMap["postalCode"] ?: "",
                         city = addressMap["city"] ?: "",
                         country = addressMap["country"] ?: ""
                     )
-                    val home = Home(address = address, name = document.data["name"] as String, idF = document.data["idF"] as String)
-                    insertHome(home)
+                    val home = Home(idF = document.data["idF"] as String, name = document.data["name"] as String,address = address )
+                    insertHomeFromFirestore(home)
                     Log.d("CASAAAAAAAAAAAAAAAA", home.toString())
+
+                    val divisionsRef = dbF.collection("homes").document(home.idF).collection("divisions")
+                    divisionsRef.get().addOnSuccessListener { divisionsResult ->
+                        for (divisionDoc in divisionsResult) {
+                            val divisionData = divisionDoc.data
+                            val division = Division(
+                                idF = divisionData["idF"] as String,
+                                idDivisionHome = (divisionData["idDivisionHome"] as Long).toInt(),
+                                name = divisionData["name"] as String,
+                                image = divisionData["image"] as String
+                            )
+                            divisionViewModal.insertDivisionFromFirestore(division)
+                            Log.d("DIVISAO", division.toString())
+                        }
+                        divisionViewModal.getDivisions()
+                    }.addOnFailureListener { exception ->
+                        Log.w(ContentValues.TAG, "Error getting divisions", exception)
+                    }
                 }
             }
                 .addOnFailureListener { exception ->
