@@ -4,17 +4,17 @@ import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.provider.CalendarContract
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -30,14 +30,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.example.mysmarthome.Location.LocationService
 import com.example.mysmarthome.database.view_models.ThemeViewModel
 import com.example.mysmarthome.preferences.DataStoreUtil
 import com.example.mysmarthome.ui.components.Navigation
 import com.example.mysmarthome.ui.theme.MySmartHomeTheme
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
-class MainActivity : ComponentActivity() {
+
+class MainActivity : ComponentActivity()  {
 
     val themeViewModel: ThemeViewModel by viewModels()
     lateinit var dataStoreUtil: DataStoreUtil
@@ -232,6 +232,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /*
     fun notification_member_request() {
         val CHANNEL_ID = "007"
         // Create an explicit intent for an Activity in your app
@@ -267,7 +268,70 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+     */
+
+
+
+    fun notification_temperature() {
+        val CHANNEL_ID = "007"
+
+
+        var textNotificationTemperature = ""
+
+        val sensorManager: SensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null){
+            var temp = Sensor.TYPE_AMBIENT_TEMPERATURE
+            if(temp < 15){
+                textNotificationTemperature = "Está frio. Dica: ligar aquecedor e/ou AC"
+            }else if (temp > 25){
+                textNotificationTemperature = "Está calor. Dica: baixar as persianas e ligar AC."
+            }
+            var builder = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Temperatura Ambiente:  $temp ºC")
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(
+                            textNotificationTemperature
+                        )
+                )
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = "Canal"
+                val descriptionText = "Canal para fazer notificacao"
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                    description = descriptionText
+                }
+                // Register the channel with the system
+                val notificationManager: NotificationManager =
+                    getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channel)
+
+                //Mostrar
+                with(NotificationManagerCompat.from(this)) {
+                    // notificationId is a unique int for each notification that you must define
+                    val notificationId = 222
+                    notify(notificationId, builder.build())
+                }
+            }
+        }
+
+    }
+
+    fun intentLocationService(){
+
+        Intent(applicationContext, LocationService::class.java).apply {
+            action = LocationService.ACTION_START
+            startService(this)
+        }
+    }
+
 }
+
 
 @Preview(showBackground = true)
 @Composable

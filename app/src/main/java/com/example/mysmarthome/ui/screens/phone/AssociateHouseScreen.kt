@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.Manifest
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -7,18 +8,32 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+<<<<<<< app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
 import androidx.lifecycle.viewmodel.compose.viewModel
+=======
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+>>>>>>> app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
+<<<<<<< app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.FormStringTextField
+=======
+import com.example.mysmarthome.qrCode.BarCodeAnalyser
+>>>>>>> app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
 import com.example.mysmarthome.ui.components.NormalButton
 import com.example.mysmarthome.ui.components.TopBarBack
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 
+
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun AssociateHouseScreen(navController: NavController) {
     Surface(
@@ -46,9 +61,9 @@ fun AssociateHouseScreen(navController: NavController) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     nome = FormStringTextField(
-                        title = "Nome",
-                        placeholder = "Insira o Nome",
-                        label = "Nome"
+                        title = "Id da Casa",
+                        placeholder = "Insira o Id da Casa",
+                        label = "Id da Casa"
                     )
                     Spacer(modifier = Modifier.padding(bottom = 10.dp))
                     NormalButton(modifier = Modifier
@@ -58,26 +73,27 @@ fun AssociateHouseScreen(navController: NavController) {
                             homesViewModel.getAllFiestore(nome)
                             navController.navigate("HomePageScreen")
                             },
-                        title = "ir p esta casa"
+                        title = "Importar esta casa"
                     )
                     Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
-                    NormalButton(modifier = Modifier
-                        .width(250.dp)
-                        .height(80.dp),
-                        action = {},
+                    val cameraPermissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
+                    NormalButton(
+                        modifier = Modifier
+                            .width(250.dp)
+                            .height(80.dp),
+                        action = {
+                            cameraPermissionState.launchPermissionRequest()
+                            navController.navigate("CameraPreviewScreen")
+                        },
                         title = stringResource(id = R.string.readQRCode)
                     )
-
-
                 }
             }
         )
-
     }
-
-
 }
+
 
 @Preview()
 @Composable

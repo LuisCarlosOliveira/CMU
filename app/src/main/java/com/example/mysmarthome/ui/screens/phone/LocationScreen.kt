@@ -1,5 +1,8 @@
 package com.example.mysmarthome.ui.screens.phone
 
+import android.annotation.SuppressLint
+import android.location.Location
+import android.os.Looper
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -7,20 +10,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.mysmarthome.Location.DefaultLocationClient
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.DropDownMenu
 import com.example.mysmarthome.ui.components.TopBarBack
+import com.example.mysmarthome.interfaces.LocationUser
+
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun LocationScreen(navController: NavController) {
+fun LocationScreen(navController: NavController/*, location: Location?*/) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val park = LatLng(40.888277915243826, -8.485999037385369)

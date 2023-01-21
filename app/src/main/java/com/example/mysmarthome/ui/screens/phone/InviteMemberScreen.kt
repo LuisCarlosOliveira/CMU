@@ -28,6 +28,9 @@ import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.ui.components.AddImage
 import com.example.mysmarthome.ui.components.TopBarBackForward
+import com.simonsickle.compose.barcodes.Barcode
+import com.simonsickle.compose.barcodes.BarcodeType
+
 
 @Composable
 fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController) {
@@ -194,10 +197,24 @@ fun InviteMemberScreen(mainActivity: MainActivity, navController: NavController)
                         .fillMaxSize()
                         .padding(top = 20.dp, bottom = 50.dp)
                 ) {
-                    AddImage(
-                        modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(R.drawable.ic_baseline_qr_code_2_24)
-                    )
+                    val URL = "Mostrar ao Rafa"
+                    // Make sure the value is valid for the type of barcode selected. The library will
+                    // just show an infinite spinner in place of a barcode if the data is not valid.
+                    if (BarcodeType.QR_CODE.isValueValid(URL)) {
+                        Barcode(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .width(400.dp)
+                                .height(400.dp),
+                            resolutionFactor = 20, // Optionally, increase the resolution of the generated image
+                            type = BarcodeType.QR_CODE, // pick the type of barcode you want to render
+                            value = URL // The textual representation of this code
+                        )
+                    }
+                    // You must handle invalid data yourself
+                    if (!BarcodeType.CODE_128.isValueValid(URL)) {
+                        Text("this is not code 128 compatible")
+                    }
                 }
             }
         )

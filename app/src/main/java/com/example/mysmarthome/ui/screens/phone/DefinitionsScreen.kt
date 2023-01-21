@@ -134,7 +134,7 @@ fun DefinitionsScreen(
                                 fontWeight = FontWeight.Medium,
                                 letterSpacing = letterSpacing,
                                 fontFamily = FontFamily.SansSerif,
-                                color = Color.Black,
+                                //color = Color.Black,
                                 modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                                 fontSize = 18.sp,
                                 text = definition
@@ -199,7 +199,7 @@ fun DefinitionsScreen(
                                 fontWeight = FontWeight.Medium,
                                 letterSpacing = letterSpacing,
                                 fontFamily = FontFamily.SansSerif,
-                                color = Color.Black,
+                               // color = Color.Black,
                                 modifier = Modifier.padding(top = 7.dp, start = 20.dp),
                                 fontSize = 18.sp,
                                 text = definition
@@ -238,7 +238,7 @@ fun DefinitionsScreen(
                                     Toast.makeText(
                                         ctx,
                                         "Modo Poupança Energia Ativado. \n " +
-                                                "Luzes-> Estado Atual: ${turn} | Modo:  ${modeSavingMode} | Cor: ${corSavingMode} | Brilho: ${brightness} \n " +
+                                                "Luzes-> Estado Atual: ${turn} | Modo:  ${modeSavingMode} | Cor: ${corSavingMode} | Brilho: ${brightness} | Temporizador: ${timerSavingMode} seg \n " +
                                                 "Tomadas-> Estado Atual: ${turn} | Temporizador: ${timerSavingMode} seg \n ",
                                         Toast.LENGTH_LONG
                                     ).show()
@@ -267,7 +267,7 @@ fun DefinitionsScreen(
                                         fontWeight = FontWeight.Bold,
                                         fontFamily = FontFamily.SansSerif,
                                         fontSize = 20.sp,
-                                        color = Color.Black,
+                                        //color = Color.Black,
                                         text = "Pretende Verdadeiramente Eliminar esta Casa?\n\n\nAo eliminar a casa irá ser redirecionado para a pagina de criar uma nova casa."
                                     )
                                 }

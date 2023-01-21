@@ -148,6 +148,8 @@ fun NewAccountScreen(navController: NavController) {
     }
 }
 
+
+
 @Preview()
 @Composable
 fun PreviewNewAccountScreen() {
