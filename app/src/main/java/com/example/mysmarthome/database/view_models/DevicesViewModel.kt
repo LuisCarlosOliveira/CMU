@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.view_models
 
 import android.app.Application
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -23,6 +24,9 @@ import com.example.mysmarthome.retrofit.helper.RetrofitHelper
 import com.example.mysmarthome.retrofit.shelly_api.blind.BlindAPI
 import com.example.mysmarthome.retrofit.shelly_api.light.LightAPI
 import com.example.mysmarthome.retrofit.shelly_api.plug.PlugAPI
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -31,7 +35,7 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
     val repository: DeviceRepository
 
     val allDevices: LiveData<List<Device>>
-    val firestoreViewModel: FirestoreViewModel
+    val dbF : FirebaseFirestore
 
     val divisionViewModal: DivisionsViewModel
     // Blind
@@ -67,7 +71,7 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         divisionViewModal = DivisionsViewModel(application)
         repository = DeviceRepository(db.getDeviceDao(), restAPILight, restAPIPlug, restAPIBlind)
         allDevices = repository.getDevices()
-        firestoreViewModel = FirestoreViewModel()
+        dbF = Firebase.firestore
 
         posit = MutableLiveData<Int>(null)
 
@@ -464,7 +468,13 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(device)
             val div = divisionViewModal.getOneDivisionF(divisionID)
-            firestoreViewModel.insertDeviceFirestore(device,home.idF ,div.idF )
+            val homeRef = dbF.collection("homes").document(home.idF)
+            val divisionRef = homeRef.collection("divisions").document(div.idF)
+            val deviceRef = divisionRef.collection("devices").document()
+            deviceRef.set(device)
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Device added with ID: ${deviceRef.id}") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding device", e) }
+
         }
     }
 

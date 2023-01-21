@@ -274,7 +274,7 @@ fun DefinitionsScreen(
                             },
                             actionBtn = {
                                 homesViewModel.removeHome()
-                                navController.navigate("NewHomeScreen")
+                                navController.navigate("ChooseTypeHomeScreen")
                             },
                             actionBtn2 = { dialogOpen = false }
                         )

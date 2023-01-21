@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.view_models
 
 import android.app.Application
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -27,7 +28,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
     val userRepo: UserRepository
     val divisionViewModal: DivisionsViewModel
     val home: MutableLiveData<Home>
-    val firestoreViewModel: FirestoreViewModel
+    val dbF : FirebaseFirestore
 
     init {
         val db = MySmartHomeDatabase.getDatabase(application)
@@ -35,15 +36,19 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         userRepo = UserRepository(db.getUsersDao())
         divisionViewModal = DivisionsViewModel(application)
         home = MutableLiveData<Home>(null)
-        firestoreViewModel = FirestoreViewModel()
+        dbF = Firebase.firestore
     }
 
     fun insertHome(tempHome: Home) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(tempHome)
             home.postValue(tempHome)
-            firestoreViewModel.insertHomeFirestore(tempHome)
-           }
+            val homeRef = dbF.collection("homes").document(tempHome.idF)
+            homeRef.set(tempHome)
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Home added with ID: ${homeRef.id}") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding home", e) }
+
+        }
     }
 
     fun removeHome() {
@@ -96,7 +101,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                 var currentHome = getHomes()
                 home.postValue(currentHome.get(0))
             } catch (e: Exception) {
-                Log.d("Alerta", "Ainda não tem casa criada")
+                Log.d("Alerta", "Ainda nÃ£o tem casa criada")
             }
         }
     }
@@ -105,4 +110,29 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getHomes()
     }
 
+    fun getAllFiestore(idF: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val homesRef = dbF.collection("homes").whereEqualTo("idF", idF)
+            homesRef.get().addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val addressMap = document.data["address"] as Map<String, String>
+                    val address = Address(
+                        street = addressMap["street"] ?: "",
+                        postalCode = addressMap["postalCode"] ?: "",
+                        city = addressMap["city"] ?: "",
+                        country = addressMap["country"] ?: ""
+                    )
+                    val home = Home(address = address, name = document.data["name"] as String, idF = document.data["idF"] as String)
+                    insertHome(home)
+                    Log.d("CASAAAAAAAAAAAAAAAA", home.toString())
+                }
+            }
+                .addOnFailureListener { exception ->
+                    Log.w(ContentValues.TAG, "Error getting homes", exception)
+                }
+
+
+        }
+    }
 }
