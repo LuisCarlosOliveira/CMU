@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.view_models
 
 import android.app.Application
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -8,11 +9,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
+import com.example.mysmarthome.database.entities.Address
+import com.example.mysmarthome.database.entities.Division
 import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.entities.User
 import com.example.mysmarthome.database.repositories.DivisionRepository
 import com.example.mysmarthome.database.repositories.HomeRepository
 import com.example.mysmarthome.database.repositories.UserRepository
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,6 +28,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
     val userRepo: UserRepository
     val divisionViewModal: DivisionsViewModel
     val home: MutableLiveData<Home>
+    val dbF : FirebaseFirestore
 
     init {
         val db = MySmartHomeDatabase.getDatabase(application)
@@ -29,13 +36,24 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         userRepo = UserRepository(db.getUsersDao())
         divisionViewModal = DivisionsViewModel(application)
         home = MutableLiveData<Home>(null)
+        dbF = Firebase.firestore
     }
 
     fun insertHome(tempHome: Home) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(tempHome)
             home.postValue(tempHome)
+            val homeRef = dbF.collection("homes").document(tempHome.idF)
+            homeRef.set(tempHome)
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Home added with ID: ${homeRef.id}") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding home", e) }
         }
+    }
+    fun insertHomeFromFirestore(tempHome: Home) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(tempHome)
+            home.postValue(tempHome)
+           }
     }
 
     fun removeHome() {
@@ -50,6 +68,14 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                 Log.d("aiaiai", "apagar casa")
             }
         }
+    }
+
+    fun getOneHomeF(home_id: Int):Home {
+        var home: Home? =null
+        viewModelScope.launch(Dispatchers.IO) {
+            home= repository.getHome(home_id)
+        }
+        return home!!
     }
 
     fun getOneHome(home_id: Int) {
@@ -89,4 +115,47 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getHomes()
     }
 
+    fun getAllFiestore(idF: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val homesRef = dbF.collection("homes").whereEqualTo("idF", idF)
+            homesRef.get().addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    val addressMap = document.data["address"] as Map<String, String>
+                    val address = Address(
+                        street = addressMap["streAet"] ?: "",
+                        postalCode = addressMap["postalCode"] ?: "",
+                        city = addressMap["city"] ?: "",
+                        country = addressMap["country"] ?: ""
+                    )
+                    val home = Home(idF = document.data["idF"] as String, name = document.data["name"] as String,address = address )
+                    insertHomeFromFirestore(home)
+                    Log.d("CASAAAAAAAAAAAAAAAA", home.toString())
+
+                    val divisionsRef = dbF.collection("homes").document(home.idF).collection("divisions")
+                    divisionsRef.get().addOnSuccessListener { divisionsResult ->
+                        for (divisionDoc in divisionsResult) {
+                            val divisionData = divisionDoc.data
+                            val division = Division(
+                                idF = divisionData["idF"] as String,
+                                idDivisionHome = (divisionData["idDivisionHome"] as Long).toInt(),
+                                name = divisionData["name"] as String,
+                                image = divisionData["image"] as String
+                            )
+                            divisionViewModal.insertDivisionFromFirestore(division)
+                            Log.d("DIVISAO", division.toString())
+                        }
+                        divisionViewModal.getDivisions()
+                    }.addOnFailureListener { exception ->
+                        Log.w(ContentValues.TAG, "Error getting divisions", exception)
+                    }
+                }
+            }
+                .addOnFailureListener { exception ->
+                    Log.w(ContentValues.TAG, "Error getting homes", exception)
+                }
+
+
+        }
+    }
 }

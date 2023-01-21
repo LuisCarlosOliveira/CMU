@@ -27,7 +27,7 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
 
     val repository: UserRepository
     val allUsers: LiveData<List<User>>
-    val user: MutableLiveData<User>
+    val user: MutableLiveData<User?>
     val authState: MutableLiveData<AuthStatus>
     val fAuth: FirebaseAuth
 
@@ -36,7 +36,7 @@ class UsersViewModel(application: Application) : AndroidViewModel(application) {
         val db = MySmartHomeDatabase.getDatabase(application)
         repository = UserRepository(db.getUsersDao())
         allUsers = repository.getUsers()
-        user = MutableLiveData<User>(null)
+        user = MutableLiveData<User?>(null)
         authState = MutableLiveData(AuthStatus.NOLOGGIN)
         fAuth = Firebase.auth
 

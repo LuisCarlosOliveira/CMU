@@ -94,6 +94,12 @@ fun LoginScreen(navController: NavController) {
                         } else {
                             navController.navigate("ChooseTypeHomeScreen")
                         }
+                    }else{
+                        Toast.makeText(
+                            localCtx,
+                            "Ocorreu algum erro ao autenticar!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             )

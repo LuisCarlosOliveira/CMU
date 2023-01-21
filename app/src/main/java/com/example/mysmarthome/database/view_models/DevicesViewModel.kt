@@ -1,6 +1,7 @@
 package com.example.mysmarthome.database.view_models
 
 import android.app.Application
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -8,6 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Device
+import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.entities.relations.device_division.DivisionWithDevices
 import com.example.mysmarthome.database.repositories.DeviceRepository
 import com.example.mysmarthome.enums.TypeDevice
@@ -21,6 +24,9 @@ import com.example.mysmarthome.retrofit.helper.RetrofitHelper
 import com.example.mysmarthome.retrofit.shelly_api.blind.BlindAPI
 import com.example.mysmarthome.retrofit.shelly_api.light.LightAPI
 import com.example.mysmarthome.retrofit.shelly_api.plug.PlugAPI
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -29,7 +35,9 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
     val repository: DeviceRepository
 
     val allDevices: LiveData<List<Device>>
+    val dbF : FirebaseFirestore
 
+    val divisionViewModal: DivisionsViewModel
     // Blind
     var posit: MutableLiveData<Int>
 
@@ -60,8 +68,10 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         val restAPIPlug = RetrofitHelper.getInstance(3001).create(PlugAPI::class.java)
         val restAPIBlind = RetrofitHelper.getInstance(3000).create(BlindAPI::class.java)
 
+        divisionViewModal = DivisionsViewModel(application)
         repository = DeviceRepository(db.getDeviceDao(), restAPILight, restAPIPlug, restAPIBlind)
         allDevices = repository.getDevices()
+        dbF = Firebase.firestore
 
         posit = MutableLiveData<Int>(null)
 
@@ -454,9 +464,17 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
-    fun insertDevice(device: Device) {
+    fun insertDevice(device: Device, divisionID: Int, home: Home) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(device)
+            val div = divisionViewModal.getOneDivisionF(divisionID)
+            val homeRef = dbF.collection("homes").document(home.idF)
+            val divisionRef = homeRef.collection("divisions").document(div.idF)
+            val deviceRef = divisionRef.collection("devices").document()
+            deviceRef.set(device)
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Device added with ID: ${deviceRef.id}") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding device", e) }
+
         }
     }
 

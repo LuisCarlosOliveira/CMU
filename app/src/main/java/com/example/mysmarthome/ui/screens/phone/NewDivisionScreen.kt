@@ -36,8 +36,11 @@ import com.example.mysmarthome.database.entities.Division
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.FloatingButton
+import com.example.mysmarthome.ui.components.FormStringTextField
 import com.example.mysmarthome.ui.components.SimpleTextField
 import com.example.mysmarthome.ui.components.TopBarBack
+import java.util.*
+import kotlin.random.Random
 
 @Composable
 fun NewDivisionScreen(navController: NavController) {
@@ -47,7 +50,9 @@ fun NewDivisionScreen(navController: NavController) {
     ) {
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
         val divisionsViewModel: DivisionsViewModel = viewModel(LocalContext.current as MainActivity)
-
+        val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+        val home = homesViewModel.home.observeAsState()
+        LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
         val localCtx = LocalContext.current
 
         var divisionName by rememberSaveable {
@@ -68,6 +73,8 @@ fun NewDivisionScreen(navController: NavController) {
                 hasImg = uri != null
                 imgUri = uri
             })
+
+        val randomString = UUID.randomUUID().toString().take(5)
 
         var letterSpacing by remember {
             mutableStateOf(1.sp)
@@ -94,6 +101,7 @@ fun NewDivisionScreen(navController: NavController) {
                             .padding(top = 20.dp, bottom = 20.dp, start = 20.dp, end = 20.dp),
                         "Inserir Nova Divisão", "Divisão"
                     )
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -162,7 +170,7 @@ fun NewDivisionScreen(navController: NavController) {
                     title = stringResource(id = R.string.associateDevicesBtn),
                     action = {
                         if (divisionName.isNotEmpty() && (hasImg != null || imgUri != null)) {
-                            divisionsViewModel.insertDivision(Division(1, divisionName, "imagem"))
+                            divisionsViewModel.insertDivision(Division((divisionName+"_"+randomString ),1, divisionName, "imagem"), home.value!!)
                             divisionsViewModel.getDivisions()
                             navController.navigate("NewDeviceScreen")
                         } else {
