@@ -8,11 +8,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
+import com.example.mysmarthome.database.entities.Address
+import com.example.mysmarthome.database.entities.Division
 import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.entities.User
 import com.example.mysmarthome.database.repositories.DivisionRepository
 import com.example.mysmarthome.database.repositories.HomeRepository
 import com.example.mysmarthome.database.repositories.UserRepository
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,6 +27,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
     val userRepo: UserRepository
     val divisionViewModal: DivisionsViewModel
     val home: MutableLiveData<Home>
+    val firestoreViewModel: FirestoreViewModel
 
     init {
         val db = MySmartHomeDatabase.getDatabase(application)
@@ -29,13 +35,15 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
         userRepo = UserRepository(db.getUsersDao())
         divisionViewModal = DivisionsViewModel(application)
         home = MutableLiveData<Home>(null)
+        firestoreViewModel = FirestoreViewModel()
     }
 
     fun insertHome(tempHome: Home) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(tempHome)
             home.postValue(tempHome)
-        }
+            firestoreViewModel.insertHomeFirestore(tempHome)
+           }
     }
 
     fun removeHome() {
@@ -50,6 +58,14 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                 Log.d("aiaiai", "apagar casa")
             }
         }
+    }
+
+    fun getOneHomeF(home_id: Int):Home {
+        var home: Home? =null
+        viewModelScope.launch(Dispatchers.IO) {
+            home= repository.getHome(home_id)
+        }
+        return home!!
     }
 
     fun getOneHome(home_id: Int) {

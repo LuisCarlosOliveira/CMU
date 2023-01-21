@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Home(
+    val idF: String,
     val name: String,
     @Embedded val address: Address?
 ){

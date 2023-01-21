@@ -36,10 +36,6 @@ fun NewHomeScreen(navController: NavController) {
     ) {
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
         val homesViewModel: HomesViewModel = viewModel()
-        val home = homesViewModel.home.observeAsState()
-
-        val usersViewModel: UsersViewModel = viewModel(LocalContext.current as MainActivity)
-        val user = usersViewModel.user.observeAsState()
 
         val localCtx = LocalContext.current
         var nome by rememberSaveable {
@@ -61,6 +57,10 @@ fun NewHomeScreen(navController: NavController) {
         var country by rememberSaveable {
             mutableStateOf("")
         }
+        var idSecret by rememberSaveable {
+            mutableStateOf("")
+        }
+
 
         Scaffold(
             scaffoldState = scaffoldState,
@@ -77,6 +77,10 @@ fun NewHomeScreen(navController: NavController) {
                         .fillMaxSize()
                 ) {
                     nome = FormStringTextField("Nome", "Insira o Nome da Casa", "Nome da Casa")
+
+                    Spacer(modifier = Modifier.padding(bottom = 10.dp))
+
+                    idSecret = FormStringTextField("ID ", "Insira o id para interligar com a firestore", "Id da Casa para interligar com a firestore")
 
                     Text(
                         modifier = Modifier.padding(start = 20.dp, top = 20.dp),
@@ -125,12 +129,14 @@ fun NewHomeScreen(navController: NavController) {
                                 icon = Icons.Rounded.ArrowForward,
                                 title = stringResource(id = R.string.continueBtn),
                                 action = {
-                                    if (street.isNotEmpty() && postalcode.isNotEmpty() && city.isNotEmpty() && country.isNotEmpty() && nome.isNotEmpty()) {
+                                    if (street.isNotEmpty() && postalcode.isNotEmpty()
+                                        && city.isNotEmpty() && country.isNotEmpty() &&
+                                        nome.isNotEmpty()&& idSecret.isNotEmpty() && idSecret.length > 6) {
                                         val address = Address(street, postalcode, city, country)
-                                        homesViewModel.insertHome(Home(nome, address))
+                                        homesViewModel.insertHome(Home(idSecret,nome, address))
                                         navController.navigate("NewDivisionScreen")
                                     } else {
-                                        Toast.makeText(localCtx,"Preencha todos os campos!",Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(localCtx,"Preencha todos os campos!\nTenha em atenção que o Id deve ter mais que 6 caracteres",Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             )

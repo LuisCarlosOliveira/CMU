@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mysmarthome.database.database.MySmartHomeDatabase
 import com.example.mysmarthome.database.entities.Device
+import com.example.mysmarthome.database.entities.Division
+import com.example.mysmarthome.database.entities.Home
 import com.example.mysmarthome.database.entities.relations.device_division.DivisionWithDevices
 import com.example.mysmarthome.database.repositories.DeviceRepository
 import com.example.mysmarthome.enums.TypeDevice
@@ -29,7 +31,9 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
     val repository: DeviceRepository
 
     val allDevices: LiveData<List<Device>>
+    val firestoreViewModel: FirestoreViewModel
 
+    val divisionViewModal: DivisionsViewModel
     // Blind
     var posit: MutableLiveData<Int>
 
@@ -60,8 +64,10 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
         val restAPIPlug = RetrofitHelper.getInstance(3001).create(PlugAPI::class.java)
         val restAPIBlind = RetrofitHelper.getInstance(3000).create(BlindAPI::class.java)
 
+        divisionViewModal = DivisionsViewModel(application)
         repository = DeviceRepository(db.getDeviceDao(), restAPILight, restAPIPlug, restAPIBlind)
         allDevices = repository.getDevices()
+        firestoreViewModel = FirestoreViewModel()
 
         posit = MutableLiveData<Int>(null)
 
@@ -454,9 +460,11 @@ class DevicesViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
-    fun insertDevice(device: Device) {
+    fun insertDevice(device: Device, divisionID: Int, home: Home) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(device)
+            val div = divisionViewModal.getOneDivisionF(divisionID)
+            firestoreViewModel.insertDeviceFirestore(device,home.idF ,div.idF )
         }
     }
 

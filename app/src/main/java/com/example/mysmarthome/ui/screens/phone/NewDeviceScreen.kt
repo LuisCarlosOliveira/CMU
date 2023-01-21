@@ -25,6 +25,7 @@ import com.example.mysmarthome.R
 import com.example.mysmarthome.database.entities.Device
 import com.example.mysmarthome.database.view_models.DevicesViewModel
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
+import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.*
 
 @Composable
@@ -33,7 +34,9 @@ fun NewDeviceScreen(navController: NavController) {
     divisionsViewModel.getDivisions()
     val divisions = divisionsViewModel.allDivisions.observeAsState()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-
+    val homesViewModel: HomesViewModel = viewModel(LocalContext.current as MainActivity)
+    val home = homesViewModel.home.observeAsState()
+    LaunchedEffect(Unit ){ homesViewModel.getFirstHome()}
     val devicesViewModel: DevicesViewModel = viewModel(LocalContext.current as MainActivity)
 
     var name by remember {
@@ -45,7 +48,7 @@ fun NewDeviceScreen(navController: NavController) {
     var port by remember {
         mutableStateOf("")
     }
-    var division by remember {
+    var divisionN by remember {
         mutableStateOf("")
     }
     var divisionNames: Array<String> = arrayOf("")
@@ -66,8 +69,8 @@ fun NewDeviceScreen(navController: NavController) {
                 title = stringResource(id = R.string.newDeviceTitle),
                 actionBtns = {
                     IconButton(onClick = {
-                        if (division != null) {
-                            val divisionId = divisionIds[division]
+                        if (divisionN != null) {
+                            val divisionId = divisionIds[divisionN]
                             if (divisionId != null) {
                                 Log.d("DIVISAOOO", divisionId)
                                 devicesViewModel.insertDevice(
@@ -76,7 +79,7 @@ fun NewDeviceScreen(navController: NavController) {
                                         port.toInt(),
                                         name,
                                         type
-                                    )
+                                    ), divisionId.toInt(), home.value!!
                                 )
                                 navController.navigate("HomePageScreen")
                             } else {
@@ -127,7 +130,7 @@ fun NewDeviceScreen(navController: NavController) {
                     text = "Divisão"
                 )
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    division = DropDownMenuOutlined(
+                    divisionN = DropDownMenuOutlined(
                         modifier1 = Modifier
                             .fillMaxWidth()
                             .padding(start = 20.dp, end = 20.dp, top = 20.dp),

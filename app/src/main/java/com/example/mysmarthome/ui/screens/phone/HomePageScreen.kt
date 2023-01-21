@@ -94,28 +94,6 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                 mutableStateOf("")
             }
 
-/*
-            val db = Firebase.firestore
-            val homex = Home("Home 1", Address("Street 1", "City 1", "sd", "fdas"))
-            val divisionx = Division(homex.idHome, "Division 1", "image1.png")
-            val devicex = Device(divisionx.idDivision, 1, "Device 1", "Type 1")
-
-            val homeRef = db.collection("homes").document()
-            val divisionRef = homeRef.collection("divisions").document()
-            val deviceRef = divisionRef.collection("devices").document()
-
-            homeRef.set(homex)
-                .addOnSuccessListener { Log.d(TAG, "Home added with ID: ${homeRef.id}") }
-                .addOnFailureListener { e -> Log.w(TAG, "Error adding home", e) }
-            divisionRef.set(divisionx)
-                .addOnSuccessListener { Log.d(TAG, "Division added with ID: ${divisionRef.id}") }
-                .addOnFailureListener { e -> Log.w(TAG, "Error adding division", e) }
-            deviceRef.set(devicex)
-                .addOnSuccessListener { Log.d(TAG, "Device added with ID: ${deviceRef.id}") }
-                .addOnFailureListener { e -> Log.w(TAG, "Error adding device", e) }
-
-*/
-
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
