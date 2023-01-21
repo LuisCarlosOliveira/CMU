@@ -1,6 +1,7 @@
 package com.example.mysmarthome.ui.screens.phone
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -39,6 +40,7 @@ import com.example.mysmarthome.ui.components.FloatingButton
 import com.example.mysmarthome.ui.components.FormStringTextField
 import com.example.mysmarthome.ui.components.SimpleTextField
 import com.example.mysmarthome.ui.components.TopBarBack
+import java.io.File
 import java.util.*
 import kotlin.random.Random
 
@@ -66,6 +68,7 @@ fun NewDivisionScreen(navController: NavController) {
 
         var hasImg by remember { mutableStateOf(false) }
         var imgUri by remember { mutableStateOf<Uri?>(null) }
+        var sourceFileName by remember { mutableStateOf("") }
 
         val imgPicker = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.GetContent(),
@@ -79,6 +82,45 @@ fun NewDivisionScreen(navController: NavController) {
         var letterSpacing by remember {
             mutableStateOf(1.sp)
         }
+
+        /*
+        val imgPicker = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                if(uri != null){
+                    imgUri = uri
+                    val sourceFile = File(uri.path)
+                    if(sourceFile.exists()){
+                        val destinationFile = File(localCtx.filesDir, sourceFile.name)
+                        if(!destinationFile.exists()){
+                            try{
+                                if(isImageFile(sourceFile)){
+                                    if(sourceFile.canRead()){
+                                        sourceFile.copyTo(destinationFile)
+                                        if(destinationFile.exists()){
+                                            sourceFileName = sourceFile.name
+                                            hasImg = true
+                                        }else{
+                                            Log.e("Error", "Failed to copy file")
+                                        }
+                                    }else{
+                                        Log.e("Error", "No permission to read file")
+                                    }
+                                }else{
+                                    Log.e("Error", "File is not an image")
+                                }
+                            }catch(e: Exception){
+                                Log.e("Error", "Failed to copy file: $e")
+                            }
+                        }else{
+                            Log.e("Error", "Destination file already exists")
+                        }
+                    }else{
+                        Log.e("Error", "Source file not found")
+                    }
+                }
+            })
+            */
 
         Scaffold(
             scaffoldState = scaffoldState,
@@ -159,7 +201,8 @@ fun NewDivisionScreen(navController: NavController) {
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(top = 20.dp, start = 20.dp, bottom = 90.dp, end = 20.dp),
-                            contentScale = ContentScale.FillWidth, contentDescription = ""
+                            contentScale = ContentScale.FillWidth,
+                            contentDescription = ""
                         )
                     }
                 }
@@ -170,7 +213,7 @@ fun NewDivisionScreen(navController: NavController) {
                     title = stringResource(id = R.string.associateDevicesBtn),
                     action = {
                         if (divisionName.isNotEmpty() && (hasImg != null || imgUri != null)) {
-                            divisionsViewModel.insertDivision(Division((divisionName+"_"+randomString ),1, divisionName, "imagem"), home.value!!)
+                            divisionsViewModel.insertDivision(Division((divisionName+"_"+randomString ),1, divisionName, imgUri.toString()), home.value!!)
                             divisionsViewModel.getDivisions()
                             navController.navigate("NewDeviceScreen")
                         } else {
@@ -200,6 +243,20 @@ fun addImage(imageBitmap: ImageBitmap?) {
         )
     }
 }
+
+private fun isImageFile(file: File): Boolean {
+    return try {
+        if (file.isFile() && file.exists()) {
+            BitmapFactory.decodeFile(file.absolutePath)
+            true
+        } else {
+            false
+        }
+    } catch (e: Exception) {
+        false
+    }
+}
+
 
 @Preview()
 @Composable
