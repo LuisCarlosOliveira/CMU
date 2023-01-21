@@ -123,7 +123,7 @@ class HomesViewModel(application: Application) : AndroidViewModel(application) {
                         city = addressMap["city"] ?: "",
                         country = addressMap["country"] ?: ""
                     )
-                    val home = Home(address = address, name = document.data["name"] as String, idF = document.data["idF"] as String)
+                    val home = Home(idF = document.data["idF"] as String, name = document.data["name"] as String, address = address)
                     insertHome(home)
                     Log.d("CASAAAAAAAAAAAAAAAA", home.toString())
                 }
