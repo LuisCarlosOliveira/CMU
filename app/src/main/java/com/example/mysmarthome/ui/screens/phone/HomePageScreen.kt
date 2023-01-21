@@ -6,6 +6,7 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.hardware.TriggerEvent
 import android.hardware.TriggerEventListener
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
 import com.example.mysmarthome.database.view_models.DivisionsViewModel
@@ -169,7 +172,7 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                             Text(
                                 fontFamily = FontFamily.SansSerif,
                                 fontWeight = FontWeight.ExtraBold,
-                                color = Color.Black,
+                                //color = Color.Black,
                                 textAlign = TextAlign.Center,
                                 fontSize = 24.sp,
                                 letterSpacing = 1.sp,
@@ -201,20 +204,47 @@ fun HomePageScreen(mainActivity: MainActivity, navController: NavController) {
                                                 )
                                             })
                                     ) {
-                                        Text(
-                                            fontFamily = FontFamily.SansSerif,
-                                            fontWeight = FontWeight.ExtraBold,
-                                            color = Color.White,
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier.padding(top = 50.dp),
-                                            fontSize = 20.sp,
-                                            letterSpacing = 1.sp,
-                                            text = divisions.value!!.get(l).name
-                                        )
+                                        Box{
+
+                                            AsyncImage(
+                                                model = Uri.parse(divisions.value!!.get(l).image),
+                                                modifier = Modifier
+                                                    .fillMaxSize(),
+                                                contentScale = ContentScale.FillWidth,
+                                                contentDescription = ""
+                                            )
+
+                                            Text(
+                                                fontFamily = FontFamily.SansSerif,
+                                                fontWeight = FontWeight.ExtraBold,
+                                                color = Color.Gray,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(top = 50.dp, start = 10.dp),
+                                                fontSize = 20.sp,
+                                                letterSpacing = 1.sp,
+                                                text = divisions.value!!.get(l).name
+                                            )
+
+                                        }
+
+                                        /*
+
+                                        val file =
+                                            File(localCtx.filesDir, divisions.value!!.get(l).image)
+                                        if (file.exists()) {
+                                            val bitmap = BitmapFactory.decodeFile(file.path)
+                                            if (bitmap != null) {
+                                                Image(bitmap.asImageBitmap(), "")
+                                            }
+                                        } else {
+                                            Log.d("Ficheiro Não Existe", file.path)
+                                        }
+
+                                         */
+
                                     }
                                 }
                             }
-
                         }
                         else{
                             Text(text = "A carregar dados ....")
