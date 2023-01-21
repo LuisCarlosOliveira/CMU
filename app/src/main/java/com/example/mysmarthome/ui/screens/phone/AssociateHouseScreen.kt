@@ -12,26 +12,19 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-<<<<<<< app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
-import androidx.lifecycle.viewmodel.compose.viewModel
-=======
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
->>>>>>> app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mysmarthome.MainActivity
 import com.example.mysmarthome.R
-<<<<<<< app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
 import com.example.mysmarthome.database.view_models.HomesViewModel
 import com.example.mysmarthome.ui.components.FormStringTextField
-=======
 import com.example.mysmarthome.qrCode.BarCodeAnalyser
->>>>>>> app/src/main/java/com/example/mysmarthome/ui/screens/phone/AssociateHouseScreen.kt
 import com.example.mysmarthome.ui.components.NormalButton
 import com.example.mysmarthome.ui.components.TopBarBack
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
-
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
