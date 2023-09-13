@@ -5,7 +5,7 @@
 - [Project Purpose](#project-purpose)
 - [Tools Used](#tools-used)
 - [Contributors](#contributors)
-- 
+  
 ## Project Scope
 
 This project emerged from a group decision (Group 13) in the "Mobile and Ubiquitous Computing" course and focuses on designing an Android application capable of managing a Smart Home. Given the rapid advancement of technology, Smart Homes are becoming increasingly sought after, not just in Portugal, but around the world. This interest extends beyond tech enthusiasts to those who aim to have smarter, more sustainable homes. Such homes facilitate the monitoring of various devices, promoting sustainability, security, inhabitants' well-being, consumption optimization, waste reduction, personalized device settings, and many other benefits.
