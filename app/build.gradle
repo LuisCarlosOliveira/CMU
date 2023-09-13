@@ -50,7 +50,7 @@ android {
 
 dependencies {
 
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
     def nav_version = "2.5.2"
     def room_version = "2.4.3"
 
@@ -85,8 +85,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
 
     //Google Maps
-    implementation 'com.google.maps.android:maps-compose:1.0.0'
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.maps.android:maps-compose:2.8.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     //Coil
     implementation("io.coil-kt:coil-compose:2.2.2")

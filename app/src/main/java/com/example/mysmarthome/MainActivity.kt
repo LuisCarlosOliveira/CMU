@@ -230,7 +230,9 @@ class MainActivity : ComponentActivity()  {
             }
 
         }
+
     }
+
 
     /*
     fun notification_member_request() {

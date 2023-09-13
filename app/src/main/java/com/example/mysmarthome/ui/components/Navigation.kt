@@ -1,5 +1,6 @@
 package com.example.mysmarthome.ui.components
 
+import CameraPreviewScreen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -107,6 +108,9 @@ fun Navigation(mainActivity: MainActivity) {
         }
         composable("AssociateHouseScreen") {
             AssociateHouseScreen( navController=  navController)
+        }
+        composable("CameraPreviewScreen") {
+            CameraPreviewScreen( navController=  navController)
         }
     }
 }
