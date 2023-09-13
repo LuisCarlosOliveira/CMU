@@ -21,7 +21,7 @@ The project conception encompasses mechanisms discussed in Android lectures, ran
 
 ## Tools Used
 
-For this project, the group decided to utilize ESTG's Gitlab for version control, storing the produced code, and facilitating the organized access to our application in real-time. The Android Studio, recommended by the course instructor, was used for code implementation, with Kotlin as the chosen programming language. Jetpack Compose was also incorporated into the development. Additionally, the instructor provided APIs that supplied valuable information aiding in project development.
+For this project, the group decided to utilize ESTG's Gitlab for version control, storing the produced code, and facilitating the organized access to our application in real-time. The Android Studio, recommended by the professor, was used for code implementation, with Kotlin as the chosen programming language. Jetpack Compose was also incorporated into the development. Additionally, the professor provided APIs that supplied valuable information aiding in project development.
 
 ## Contributors
 - Luís Oliveira – Nº 8190370; 
