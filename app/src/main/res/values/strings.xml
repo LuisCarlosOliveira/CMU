@@ -105,7 +105,7 @@
 
     <!-- LOCATION -->
     <string name="locationTitle">Localização</string>
-    <string name="googleMapsKey">AIzaSyDlrrTOTHLR0nvFTB-4uTIMW6kUHavWjY4</string>
+    <string name="googleMapsKey">INSERT API KEY</string>
     <string-array name="memberLocation">
         <item>Joãozinho</item>
         <item>Mariana</item>
